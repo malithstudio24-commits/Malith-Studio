@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voice Typing Tool (සිංහල/English/தமிழ்)</title>
-    
+    <title>Voice Typing Tool</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #111827;
+            background: linear-gradient(135deg, #1e3a8a, #312e81);
             color: #f9fafb;
             display: flex;
             align-items: center;
@@ -18,241 +17,335 @@
             margin: 0;
             padding: 1rem;
         }
+        .back-btn {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px; /* pill shape */
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background-color: rgba(55, 65, 81, 0.9);
+            color: white;
+        }
+        .back-btn svg {
+            width: 1rem;
+            height: 1rem;
+        }
         .container {
             width: 100%;
-            max-width: 56rem;
-            background-color: #1f2937;
+            max-width: 48rem; /* max-w-2xl */
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
             border-radius: 1rem;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
         }
-        .header h1 { font-size: 2.25rem; font-weight: 700; color: #60a5fa; margin: 0; }
-        .header p { color: #9ca3af; margin-top: 0.5rem; }
+        .language-switcher {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+        }
+        #langSelect {
+            background-color: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.7rem center;
+            background-size: 1em;
+            padding-right: 2.5rem;
+        }
+         .header { text-align: center; margin-bottom: 2rem; }
+        .header h1 { font-size: 2.25rem; font-weight: 700; color: #93c5fd; }
+        .header p { color: #d1d5db; margin-top: 0.5rem; }
         #transcript {
             width: 100%;
+            min-height: 200px;
             background-color: #111827;
-            border: 2px solid #374151;
+            border: 1px solid #4b5563;
             border-radius: 0.75rem;
             padding: 1rem;
             color: #f9fafb;
             font-size: 1.125rem;
-            transition: all 0.3s;
+            line-height: 1.6;
+            resize: vertical;
             box-sizing: border-box;
             margin-bottom: 1.5rem;
         }
-        #transcript:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 2px #3b82f6; }
-        #transcript.english-font { font-family: 'Times New Roman', Times, serif; font-size: 16px; }
-        #transcript.glowing-border { border-color: #3b82f6; animation: pulse-glow 2s infinite alternate; }
-        @keyframes pulse-glow { from { box-shadow: 0 0 0 2px #3b82f6, 0 0 10px #3b82f6; } to { box-shadow: 0 0 0 3px #60a5fa, 0 0 20px #60a5fa; } }
-        .controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 1rem; }
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        @media(min-width: 640px) {
+            .controls {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
         .btn {
-            display: flex; align-items: center; justify-content: center;
-            gap: 0.75rem; color: white; font-weight: 700;
-            padding: 0.75rem 1.5rem; border-radius: 0.75rem;
-            border: none; cursor: pointer;
-            transition: transform 0.3s, background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
         }
-        .btn:hover:not(:disabled) { transform: scale(1.05); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .btn svg { width: 1.25rem; height: 1.25rem; }
-        #startButton { background-color: #2563eb; } #startButton:hover:not(:disabled) { background-color: #1d4ed8; }
-        #stopButton { background-color: #dc2626; } #stopButton:hover:not(:disabled) { background-color: #b91c1c; }
-        #copyButton { background-color: #4b5563; } #copyButton:hover:not(:disabled) { background-color: #374151; }
-        #undoButton { background-color: #ca8a04; } #undoButton:hover:not(:disabled) { background-color: #a16207; }
-        #clearButton { background-color: #f59e0b; } #clearButton:hover:not(:disabled) { background-color: #d97706; }
-        #langSelector {
-            background-color: #16a34a;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            padding-right: 2.5rem;
-            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
-            background-repeat: no-repeat;
-            background-position: right .7em top 50%;
-            background-size: .65em auto;
+        .btn:hover:not(:disabled) {
+             transform: translateY(-2px);
+             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
-        #langSelector:hover:not(:disabled) { background-color: #15803d; }
-        #langSelector option { background-color: #1f2937; color: white; }
-        #status { text-align: center; color: #9ca3af; height: 1.5rem; transition: opacity 0.3s; margin-top: 1.5rem; width: 100%; }
-        @media (min-width: 640px) { .btn { width: auto; } }
-        .pulse { animation: pulse-animation 2s infinite; }
-        @keyframes pulse-animation { 0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(59, 130, 246, 0); } 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); } }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        #startButton { background: linear-gradient(to right, #2563eb, #3b82f6); }
+        #stopButton { background: linear-gradient(to right, #dc2626, #ef4444); }
+        #copyButton { background: linear-gradient(to right, #4b5563, #6b7280); }
+        #undoButton { background: linear-gradient(to right, #ca8a04, #eab308); }
+        
+        .status-container {
+            text-align: center;
+            margin-top: 1.5rem;
+            height: 1.5rem;
+        }
+        #status {
+            color: #9ca3af;
+        }
+        .glowing-border {
+            border-radius: 0.75rem;
+            padding: 2px;
+            animation: glow 4s linear infinite;
+            background: conic-gradient(from var(--angle), #6366f1, #a855f7, #ec4899, #f59e0b, #6366f1);
+        }
+        @keyframes glow {
+            0% { --angle: 0deg; }
+            100% { --angle: 360deg; }
+        }
     </style>
 </head>
 <body>
-
+    <a href="index.html" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+        <span data-key="backToHome">Back to Home</span>
+    </a>
     <div class="container">
-        <div class="header" style="text-align: center; margin-bottom: 1.5rem;">
-            <h1 id="main-title">Voice Typing Tool</h1>
-            <p id="subtitle"></p>
-        </div>
-
-        <textarea id="transcript" rows="10"></textarea>
-        <div id="counter" style="font-size: 0.875rem; text-align: right; color: #9ca3af; margin-bottom: 1.5rem; padding-right: 0.5rem;"></div>
-
-        <div class="controls">
-            <button id="startButton" class="btn">
-                <svg fill="currentColor" viewBox="0 0 384 512"><path d="M192 0C139 0 96 43 96 96V256c0 53 43 96 96 96s96-43 96-96V96c0-53-43-96-96-96zM64 216c0-21.9-16.1-39.7-36.7-41.6C12.3 172.6 0 185.6 0 200V256c0 88.4 71.6 160 160 160v32c0 17.7 14.3 32 32 32s32-14.3 32-32V416c88.4 0 160-71.6 160-160V200c0-14.4-12.3-27.4-27.3-25.6S320 194.1 320 216v40c0 35.3-28.7 64-64 64s-64-28.7-64-64V216z"/></svg>
-                <span id="startButtonText"></span>
-            </button>
-            <button id="stopButton" class="btn" disabled>
-                <svg fill="currentColor" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM192 192H320V320H192V192z"/></svg>
-                <span id="stopButtonText"></span>
-            </button>
-            <button id="copyButton" class="btn">
-                <svg fill="currentColor" viewBox="0 0 448 512"><path d="M208 0H332.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9V336c0 26.5-21.5 48-48 48H208c-26.5 0-48-21.5-48-48V48c0-26.5 21.5-48 48-48zM48 128h80v64H64V448H256V416h64v48c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V176c0-26.5 21.5-48 48-48z"/></svg>
-                <span id="copyButtonText"></span>
-            </button>
-            <select id="langSelector" class="btn">
-                <option value="si">සිංහල</option>
+        <div class="language-switcher">
+            <select id="langSelect">
                 <option value="en">English</option>
+                <option value="si">සිංහල</option>
                 <option value="ta">தமிழ்</option>
             </select>
-            <button id="undoButton" class="btn" disabled>
-                <svg fill="currentColor" viewBox="0 0 512 512"><path d="M125.7 160H176c17.7 0 32-14.3 32-32s-14.3-32-32-32H48c-17.7 0-32 14.3-32 32v128c0 17.7 14.3 32 32 32s32-14.3 32-32V188.3C116.5 214.6 128 245.3 128 276c0 61.2-30.1 114.2-76.3 147.4C44.3 429.1 32 444.1 32 460.3c0 16 6.8 30.8 17.3 40.5C62.3 512 80 512 96 512c27.1 0 50.8-14.5 64-36.2C192.1 427.2 256 356.3 256 276c0-95.9-58.3-178.4-140.3-212.3c-5.5-2.3-11.5-3.7-17.7-3.7H80c-17.7 0-32 14.3-32 32s14.3 32 32 32h45.7z"/></svg>
-                <span id="undoButtonText"></span>
-            </button>
-            <button id="clearButton" class="btn" disabled>
-                <svg fill="currentColor" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
-                <span id="clearButtonText"></span>
-            </button>
+        </div>
+        <div class="header">
+            <h1 data-key="title">Voice Typing Tool</h1>
+            <p data-key="subtitle">Type in Sinhala, English or Tamil by just speaking.</p>
+        </div>
+
+        <div id="transcript-wrapper">
+            <textarea id="transcript" placeholder="Your speech will be transcribed here..."></textarea>
+        </div>
+
+        <div class="controls">
+            <button id="startButton" class="btn"><span data-key="start">Start Listening</span></button>
+            <button id="stopButton" class="btn" disabled><span data-key="stop">Stop</span></button>
+            <button id="copyButton" class="btn"><span data-key="copy">Copy Text</span></button>
+            <button id="undoButton" class="btn"><span data-key="undo">Undo</span></button>
         </div>
         
-        <div id="status" style="text-align: center; color: #9ca3af; height: 1.5rem; transition: opacity 0.3s; margin-top: 1.5rem;"></div>
+        <div class="status-container">
+            <div id="status"></div>
+        </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const dom = {
-                subtitle: document.getElementById('subtitle'),
-                startButtonText: document.getElementById('startButtonText'),
-                stopButtonText: document.getElementById('stopButtonText'),
-                copyButtonText: document.getElementById('copyButtonText'),
-                undoButtonText: document.getElementById('undoButtonText'),
-                clearButtonText: document.getElementById('clearButtonText'),
-                transcriptArea: document.getElementById('transcript'),
-                counter: document.getElementById('counter'),
-                statusDiv: document.getElementById('status'),
-                startButton: document.getElementById('startButton'),
-                stopButton: document.getElementById('stopButton'),
-                copyButton: document.getElementById('copyButton'),
-                langSelector: document.getElementById('langSelector'),
-                undoButton: document.getElementById('undoButton'),
-                clearButton: document.getElementById('clearButton'),
-            };
+        const translations = {
+            backToHome: { en: 'Back to Home', si: 'මුල් පිටුවට', ta: 'முகப்புக்குச் செல்' },
+            title: { en: 'Voice Typing Tool', si: 'කටහඬින් ටයිප් කිරීමේ මෙවලම', ta: 'குரல் தட்டச்சு கருவி' },
+            subtitle: { en: 'Type in Sinhala, English or Tamil by just speaking.', si: 'මයික්‍රෆෝනය ඔබා කතා කිරීමෙන් සිංහල, ඉංග්‍රීසි හෝ දෙමළෙන් ටයිප් කරන්න.', ta: 'பேசுவதன் மூலம் சிங்களம், ஆங்கிலம் அல்லது தமிழில் தட்டச்சு செய்யவும்.' },
+            start: { en: 'Start Listening', si: 'සවන් දීම අරඹන්න', ta: 'கேட்கத் தொடங்கு' },
+            stop: { en: 'Stop', si: 'නවතින්න', ta: 'நிறுத்து' },
+            copy: { en: 'Copy Text', si: 'පෙළ පිටපත් කරන්න', ta: 'உரையை நகலெடு' },
+            undo: { en: 'Undo', si: 'අහෝසි කරන්න', ta: 'செயல்தவிர்' },
+            placeholder: { en: 'Your speech will be transcribed here...', si: 'ඔබ කතා කරන දේ මෙතැන සටහන් වේවි...', ta: 'உங்கள் பேச்சு இங்கே படியெடுக்கப்படும்...' },
+            statusListening: { en: 'Listening...', si: 'සවන් දෙමින්...', ta: 'கேட்கிறது...' },
+            statusStopped: { en: 'Stopped. Press Start to begin again.', si: 'නැවතුනා. නැවත ආරම්භ කිරීමට බොත්තම ඔබන්න.', ta: 'நிறுத்தப்பட்டது. மீண்டும் தொடங்க தொடங்கு என்பதை அழுத்தவும்.' },
+            statusCopied: { en: 'Copied to clipboard!', si: 'පසුරු පුවරුවට පිටපත් කලා!', ta: 'கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது!' },
+            statusNothingToCopy: { en: 'There is nothing to copy.', si: 'පිටපත් කිරීමට කිසිවක් නැත.', ta: 'நகலெடுக்க எதுவும் இல்லை.'},
+            errorNetwork: { en: 'Network error. Please check your connection.', si: 'ජාල දෝෂයකි. කරුණාකර ඔබගේ සම්බන්ධතාවය පරීක්ෂා කරන්න.', ta: 'நெட்வொர்க் பிழை. உங்கள் இணைப்பைச் சரிபார்க்கவும்.'},
+            errorNoSpeech: { en: 'No speech detected. Please try again.', si: 'කථනයක් හඳුනාගත නොහැකි විය. කරුණාකර නැවත උත්සාහ කරන්න.', ta: 'பேச்சு எதுவும் கண்டறியப்படவில்லை. மீண்டும் முயல்க.'},
+            errorNotAllowed: { en: 'Microphone access denied. Please check browser settings.', si: 'මයික්‍රෆෝනයට ප්‍රවේශ වීමට අවසර නැත. කරුණාකර බ්‍රව්සර් සැකසුම් පරීක්ෂා කරන්න.', ta: 'மைக்ரோஃபோன் அணுகல் மறுக்கப்பட்டது. உலாவி அமைப்புகளைச் சரிபார்க்கவும்.'},
+            errorDefault: { en: 'An error occurred.', si: 'දෝෂයක් ඇතිවිය.', ta: 'ஒரு பிழை ஏற்பட்டது.'}
+        };
 
-            const translations = {
-                si: {
-                    subtitle: 'මයික්‍රෆෝනය ඔබා කතා කිරීමෙන් සිංහලෙන්, ඉංග්‍රීසියෙන් හෝ දෙමළෙන් ටයිප් කරන්න.',
-                    startButtonText: 'සවන් දීම අරඹන්න', stopButtonText: 'නවතින්න', copyButtonText: 'පිටපත් කරන්න',
-                    copied: 'පිටපත් කලා!', undoButtonText: 'Undo', clearButtonText: 'මකන්න',
-                    placeholder: 'ඔබ කතා කරන දේ මෙතැන සටහන් වේවි...', statusListening: 'සවන් දෙමින්...',
-                    statusStopped: 'නැවතුනා. නැවත ආරම්භ කිරීමට බොත්තම ඔබන්න.',
-                    statusLangSwitch: 'භාෂාව මාරුකලා.', statusNothingToCopy: 'පිටපත් කිරීමට කිසිවක් නැත.',
-                    counterWords: 'වචන', counterChars: 'අකුරු'
-                },
-                en: {
-                    subtitle: 'Press the microphone and start speaking to type in English, Sinhala, or Tamil.',
-                    startButtonText: 'Start Listening', stopButtonText: 'Stop', copyButtonText: 'Copy',
-                    copied: 'Copied!', undoButtonText: 'Undo', clearButtonText: 'Clear',
-                    placeholder: 'What you speak will be noted here...', statusListening: 'Listening...',
-                    statusStopped: 'Stopped. Press the button to start again.',
-                    statusLangSwitch: 'Language switched.', statusNothingToCopy: 'Nothing to copy.',
-                    counterWords: 'Words', counterChars: 'Characters'
-                },
-                ta: {
-                    subtitle: 'மைக்ரோஃபோனை அழுத்தி ஆங்கிலம், சிங்களம் அல்லது தமிழில் தட்டச்சு செய்யத் தொடங்குங்கள்.',
-                    startButtonText: 'கேட்கத் தொடங்கு', stopButtonText: 'நிறுத்து', copyButtonText: 'நகலெடு',
-                    copied: 'நகலெடுக்கப்பட்டது!', undoButtonText: 'Undo', clearButtonText: 'அழி',
-                    placeholder: 'நீங்கள் பேசுவது இங்கே குறிப்பிடப்படும்...', statusListening: 'கேட்கிறது...',
-                    statusStopped: 'நிறுத்தப்பட்டது. மீண்டும் தொடங்க பொத்தானை அழுத்தவும்.',
-                    statusLangSwitch: 'மொழி மாற்றப்பட்டது.', statusNothingToCopy: 'நகலெடுக்க எதுவும் இல்லை.',
-                    counterWords: 'வார்த்தைகள்', counterChars: 'எழுத்துக்கள்'
+        let currentLang = 'en';
+
+        // DOM elements
+        const langSelect = document.getElementById('langSelect');
+        const transcriptWrapper = document.getElementById('transcript-wrapper');
+        const transcriptArea = document.getElementById('transcript');
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+        const copyButton = document.getElementById('copyButton');
+        const undoButton = document.getElementById('undoButton');
+        const statusDiv = document.getElementById('status');
+        
+        // --- Language and UI Update ---
+        function updateUIText(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[key] && translations[key][lang]) {
+                    element.textContent = translations[key][lang];
                 }
+            });
+            transcriptArea.placeholder = translations.placeholder[lang];
+        }
+
+        langSelect.addEventListener('change', (e) => {
+            stopRecognition();
+            updateUIText(e.target.value);
+            recognition.lang = getLangCode(e.target.value);
+        });
+
+        // Get language code from URL parameter
+        function getLangFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const lang = params.get('lang');
+            if (['en', 'si', 'ta'].includes(lang)) {
+                return lang;
+            }
+            return 'en'; // Default
+        }
+
+        function getLangCode(lang) {
+            if (lang === 'si') return 'si-LK';
+            if (lang === 'ta') return 'ta-LK';
+            return 'en-US';
+        }
+        
+        // --- Speech Recognition Logic ---
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition;
+        
+        if (SpeechRecognition) {
+            recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+
+            recognition.onstart = () => {
+                statusDiv.textContent = translations.statusListening[currentLang];
+                startButton.disabled = true;
+                stopButton.disabled = false;
+                transcriptWrapper.classList.add('glowing-border');
+            };
+
+            recognition.onend = () => {
+                statusDiv.textContent = translations.statusStopped[currentLang];
+                startButton.disabled = false;
+                stopButton.disabled = true;
+                transcriptWrapper.classList.remove('glowing-border');
+            };
+
+            recognition.onerror = (event) => {
+                let errorKey = 'errorDefault';
+                if (event.error === 'network') errorKey = 'errorNetwork';
+                if (event.error === 'no-speech') errorKey = 'errorNoSpeech';
+                if (event.error === 'not-allowed' || event.error === 'service-not-allowed') errorKey = 'errorNotAllowed';
+                statusDiv.textContent = translations[errorKey][currentLang];
             };
             
-            let currentLang = 'si';
-            let recognitionLang = 'si-LK';
-
-            function setLanguage(lang) {
-                currentLang = lang;
-                
-                if (lang === 'si') recognitionLang = 'si-LK';
-                else if (lang === 'en') recognitionLang = 'en-US';
-                else if (lang === 'ta') recognitionLang = 'ta-LK';
-                
-                const texts = translations[lang];
-                Object.keys(texts).forEach(key => {
-                    const element = dom[key];
-                    if (element) {
-                        if (key === 'placeholder') element.placeholder = texts[key];
-                        else element.textContent = texts[key];
+            let finalTranscript = '';
+            recognition.onresult = (event) => {
+                let interimTranscript = '';
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        finalTranscript += event.results[i][0].transcript;
+                    } else {
+                        interimTranscript += event.results[i][0].transcript;
                     }
-                });
-                dom.transcriptArea.classList.toggle('english-font', lang === 'en');
-                dom.langSelector.value = lang;
-                updateCounter();
+                }
+                transcriptArea.value = finalTranscript + interimTranscript;
+            };
+
+        } else {
+             // Handle browsers that don't support SpeechRecognition
+            startButton.disabled = true;
+            statusDiv.textContent = "Sorry, your browser doesn't support speech recognition.";
+        }
+
+        function stopRecognition() {
+             if (recognition && startButton.disabled) { // Check if it's running
+                recognition.stop();
             }
-
-            function updateCounter() {
-                const text = dom.transcriptArea.value;
-                const charCount = text.length;
-                const wordCount = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
-                dom.counter.textContent = `${translations[currentLang].counterWords}: ${wordCount} | ${translations[currentLang].counterChars}: ${charCount}`;
-            }
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const langFromUrl = urlParams.get('lang');
-            if (langFromUrl && translations[langFromUrl]) {
-                setLanguage(langFromUrl);
-            } else {
-                setLanguage('si'); // Default language
-            }
-
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            let recognition;
-            let finalTranscriptForSession = '';
-
-            if (SpeechRecognition) {
-                recognition = new SpeechRecognition();
-                recognition.continuous = true;
-                recognition.interimResults = true;
-                
-                recognition.onstart = () => { dom.statusDiv.textContent = translations[currentLang].statusListening; dom.startButton.classList.add('pulse'); dom.transcriptArea.classList.add('glowing-border'); dom.startButton.disabled = true; dom.stopButton.disabled = false; };
-                recognition.onend = () => { dom.statusDiv.textContent = translations[currentLang].statusStopped; dom.startButton.classList.remove('pulse'); dom.transcriptArea.classList.remove('glowing-border'); dom.startButton.disabled = false; dom.stopButton.disabled = true; finalTranscriptForSession = dom.transcriptArea.value; };
-                recognition.onerror = (event) => { dom.statusDiv.textContent = 'Error: ' + event.error; };
-                recognition.onresult = (event) => {
-                    let interimTranscript = '';
-                    for (let i = event.resultIndex; i < event.results.length; ++i) {
-                        if (event.results[i].isFinal) {
-                            finalTranscriptForSession += event.results[i][0].transcript;
-                        } else {
-                            interimTranscript += event.results[i][0].transcript;
-                        }
-                    }
-                    dom.transcriptArea.value = finalTranscriptForSession + interimTranscript;
-                    dom.transcriptArea.dispatchEvent(new Event('input'));
-                };
-
-                dom.startButton.addEventListener('click', () => { if (recognition) { finalTranscriptForSession = dom.transcriptArea.value; if (finalTranscriptForSession.length > 0 && !finalTranscriptForSession.endsWith(' ')) { finalTranscriptForSession += ' '; } try { recognition.lang = recognitionLang; recognition.start(); } catch(e) {} } });
-                dom.stopButton.addEventListener('click', () => { if (recognition) recognition.stop(); });
-                
-                dom.langSelector.addEventListener('change', (event) => {
-                    const newLang = event.target.value;
-                    setLanguage(newLang);
-                    dom.statusDiv.textContent = translations[newLang].statusLangSwitch;
-                });
-
-                dom.undoButton.addEventListener('click', () => { const currentText = dom.transcriptArea.value; if (currentText.length > 0) { const newText = currentText.slice(0, -1); dom.transcriptArea.value = newText; finalTranscriptForSession = newText; } dom.transcriptArea.dispatchEvent(new Event('input')); });
-                dom.clearButton.addEventListener('click', () => { dom.transcriptArea.value = ''; finalTranscriptForSession = ''; dom.transcriptArea.dispatchEvent(new Event('input')); });
-                dom.transcriptArea.addEventListener('input', () => { const isEmpty = dom.transcriptArea.value.length === 0; dom.undoButton.disabled = isEmpty; dom.clearButton.disabled = isEmpty; updateCounter(); });
-                dom.copyButton.addEventListener('click', () => { if (dom.transcriptArea.value) { navigator.clipboard.writeText(dom.transcriptArea.value).then(() => { dom.copyButtonText.textContent = translations[currentLang].copied; setTimeout(() => { dom.copyButtonText.textContent = translations[currentLang].copyButtonText; }, 2000); }); } else { dom.statusDiv.textContent = translations[currentLang].statusNothingToCopy; setTimeout(() => { dom.statusDiv.textContent = ""; }, 2000); } });
-            
-            } else {
-                dom.statusDiv.textContent = "Sorry, your browser does not support voice recognition.";
+        }
+        
+        // --- Button Event Listeners ---
+        startButton.addEventListener('click', () => {
+            if (recognition) {
+                finalTranscript = transcriptArea.value;
+                if (finalTranscript.length > 0 && !finalTranscript.endsWith(' ')) {
+                    finalTranscript += ' ';
+                }
+                recognition.start();
             }
         });
+
+        stopButton.addEventListener('click', stopRecognition);
+
+        copyButton.addEventListener('click', () => {
+            if (transcriptArea.value) {
+                navigator.clipboard.writeText(transcriptArea.value);
+                statusDiv.textContent = translations.statusCopied[currentLang];
+                setTimeout(() => statusDiv.textContent = '', 2000);
+            } else {
+                statusDiv.textContent = translations.statusNothingToCopy[currentLang];
+                setTimeout(() => statusDiv.textContent = '', 2000);
+            }
+        });
+
+        undoButton.addEventListener('click', () => {
+            const currentText = transcriptArea.value;
+            if (currentText.length > 0) {
+                transcriptArea.value = currentText.slice(0, -1);
+            }
+        });
+
+        // Initial setup on page load
+        const initialLang = getLangFromURL();
+        langSelect.value = initialLang;
+        updateUIText(initialLang);
+        if (recognition) {
+            recognition.lang = getLangCode(initialLang);
+        }
+
     </script>
 </body>
 </html>
-

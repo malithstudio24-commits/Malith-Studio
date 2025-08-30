@@ -1,239 +1,358 @@
 <!DOCTYPE html>
-<html lang="si">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Generator</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- QR Code Generation Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <!-- PDF Generation Library -->
+    <title>QR Code Generator Tool</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator/qrcode.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(-45deg, #0f0c29, #1e1b4b, #302b63, #24243e);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background: linear-gradient(135deg, #1e3a8a, #312e81);
+            color: #f9fafb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
         }
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        
-        .glass-card {
-            background: rgba(41, 51, 70, 0.3);
+        .back-btn {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(31, 41, 55, 0.8);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background-color: rgba(55, 65, 81, 0.9);
+            color: white;
+        }
+        .back-btn svg {
+            width: 1rem;
+            height: 1rem;
+        }
+        .container {
+            width: 100%;
+            max-width: 36rem; /* max-w-md */
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            padding: 2.5rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
+        .header { text-align: center; margin-bottom: 2rem; }
+        .header h1 { font-size: 2.25rem; font-weight: 700; color: #93c5fd; }
+        .header p { color: #d1d5db; margin-top: 0.5rem; }
         
-        /* Tab Styles */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            background-color: #111827;
+            border-radius: 0.75rem;
+            padding: 0.5rem;
+        }
         .tab-btn {
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .tab-btn.active {
-            background-color: rgba(96, 165, 250, 0.2); /* bg-blue-400/20 */
-            color: #60a5fa; /* text-blue-400 */
-        }
-        
-        /* Dropdown Styles */
-        .dropdown { position: relative; }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #1f2937; /* bg-gray-800 */
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            border-radius: 0.5rem;
-            margin-bottom: 0.5rem;
-            overflow: hidden;
-        }
-        .dropdown-content button {
-            color: #f9fafb;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            text-align: left;
-            width: 100%;
+            flex: 1;
+            padding: 0.75rem;
             background: none;
             border: none;
+            color: #9ca3af;
+            font-weight: 600;
             cursor: pointer;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
         }
-        .dropdown-content button:hover { background-color: #4b5563; }
-        .dropdown-content.show { display: block; }
+        .tab-btn.active {
+            background-color: #8b5cf6;
+            color: white;
+            box-shadow: 0 2px 10px rgba(139, 92, 246, 0.4);
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        .input-group, .phone-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .phone-group {
+            flex-direction: row;
+        }
+
+        #qr-text, #phone-number {
+            width: 100%;
+            background-color: #111827;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: #f9fafb;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+         #country-code {
+            padding: 0.75rem;
+            background-color: #111827;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            color: #f9fafb;
+        }
+
+        .main-btn {
+            width: 100%;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .main-btn:hover {
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+        }
+        
+        .qr-result {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        #qrcode {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            display: inline-block;
+            line-height: 0;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+        }
+        
+        .download-options {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .download-btn {
+             background-color: #4b5563;
+             border: none;
+             color: white;
+             padding: 0.6rem 1.2rem;
+             border-radius: 0.5rem;
+             font-weight: 500;
+             cursor: pointer;
+        }
+        .download-btn:hover {
+            background-color: #6b7280;
+        }
+
     </style>
 </head>
-<body class="text-gray-200 flex items-center justify-center min-h-screen p-4">
+<body>
 
-    <div class="w-full max-w-md glass-card rounded-2xl shadow-2xl p-6 md:p-8 space-y-6 text-center">
-        <!-- Header -->
-        <div>
-            <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">QR Code Generator</h1>
-            <p class="text-gray-400 mt-2">ඔබේ වෙබ් ලිපිනය, දුරකථන අංකය හෝ ඕනෑම පෙළක් QR කේතයක් බවට පත් කරන්න.</p>
+    <a href="index.html" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+        <span data-key="backToHome">Back to Home</span>
+    </a>
+
+    <div class="container">
+        <div class="header">
+            <h1 data-key="title">QR Code Generator</h1>
+            <p data-key="subtitle">Turn your web address, phone number, or any text into a QR code.</p>
         </div>
 
-        <!-- Tabs -->
-        <div class="flex border border-gray-600 rounded-full p-1">
-            <button id="tab-text" class="tab-btn active w-1/2 rounded-full py-2">Text / URL</button>
-            <button id="tab-phone" class="tab-btn w-1/2 rounded-full py-2">Phone Number</button>
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="text" data-key="tabText">Text / URL</button>
+            <button class="tab-btn" data-tab="phone" data-key="tabPhone">Phone Number</button>
         </div>
 
-        <!-- Input Form -->
-        <form id="qr-form" class="space-y-4">
-            <div id="content-text">
-                <input type="text" id="text-input" placeholder="Enter URL or Text..." class="w-full bg-gray-900/50 border border-gray-600 rounded-full p-3 px-5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <div id="text-tab" class="tab-content active">
+            <div class="input-group">
+                <textarea id="qr-text" rows="4" data-key-placeholder="placeholderText" placeholder="Enter text or URL"></textarea>
             </div>
-            <!-- **UPDATED**: Phone input with country code selector with flags -->
-            <div id="content-phone" class="hidden flex gap-2">
-                <select id="country-code" class="bg-gray-900/50 border border-gray-600 rounded-full p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="+94">🇱🇰 (+94)</option>
-                    <option value="+91">🇮🇳 (+91)</option>
-                    <option value="+1">🇺🇸 (+1)</option>
-                    <option value="+44">🇬🇧 (+44)</option>
-                    <option value="+61">🇦🇺 (+61)</option>
-                    <option value="+81">🇯🇵 (+81)</option>
-                </select>
-                <input type="tel" id="phone-input" placeholder="77 123 4567" class="w-full bg-gray-900/50 border border-gray-600 rounded-full p-3 px-5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-            <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg shadow-blue-500/30">
-                Generate QR Code
-            </button>
-        </form>
+        </div>
 
-        <!-- QR Code Display -->
-        <div id="qrcode-container" class="p-4 bg-white rounded-lg inline-block shadow-lg hidden">
+        <div id="phone-tab" class="tab-content">
+            <div class="phone-group">
+                <select id="country-code"></select>
+                <input type="tel" id="phone-number" data-key-placeholder="placeholderPhone" placeholder="77 123 4567">
+            </div>
+        </div>
+
+        <button id="generate-btn" class="main-btn" data-key="generateBtn">Generate QR Code</button>
+
+        <div class="qr-result" id="qr-result" style="display: none;">
             <div id="qrcode"></div>
-        </div>
-        
-        <!-- Download Button & Dropdown -->
-        <div id="download-container" class="dropdown hidden">
-             <button id="download-btn" class="inline-block bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-full transition-transform transform hover:scale-105">
-                Download
-            </button>
-            <div id="download-dropdown" class="dropdown-content">
-                <button id="download-png">Download as PNG</button>
-                <button id="download-pdf">Download as PDF</button>
+            <div class="download-options">
+                <button id="download-png-btn" class="download-btn" data-key="downloadPng">Download PNG</button>
+                <button id="download-pdf-btn" class="download-btn" data-key="downloadPdf">Download PDF</button>
             </div>
         </div>
     </div>
 
     <script>
-        const qrForm = document.getElementById('qr-form');
-        const textInput = document.getElementById('text-input');
-        const phoneInput = document.getElementById('phone-input');
-        const countryCodeSelect = document.getElementById('country-code');
-        const qrcodeContainer = document.getElementById('qrcode-container');
-        const qrcodeDiv = document.getElementById('qrcode');
-        const downloadContainer = document.getElementById('download-container');
-        const downloadBtn = document.getElementById('download-btn');
-        const downloadDropdown = document.getElementById('download-dropdown');
-        const downloadPngBtn = document.getElementById('download-png');
-        const downloadPdfBtn = document.getElementById('download-pdf');
-        
-        const tabText = document.getElementById('tab-text');
-        const tabPhone = document.getElementById('tab-phone');
-        const contentText = document.getElementById('content-text');
-        const contentPhone = document.getElementById('content-phone');
+        window.jsPDF = window.jspdf.jsPDF;
 
-        let qrcode = null;
-        let activeTab = 'text';
-
-        // Tab switching logic
-        tabText.addEventListener('click', () => {
-            activeTab = 'text';
-            tabText.classList.add('active');
-            tabPhone.classList.remove('active');
-            contentText.classList.remove('hidden');
-            contentPhone.classList.add('hidden');
-        });
-
-        tabPhone.addEventListener('click', () => {
-            activeTab = 'phone';
-            tabPhone.classList.add('active');
-            tabText.classList.remove('active');
-            contentPhone.classList.remove('hidden');
-            contentText.classList.add('hidden');
-        });
-
-        qrForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            let textToEncode = '';
-
-            if (activeTab === 'text') {
-                textToEncode = textInput.value.trim();
-            } else {
-                const countryCode = countryCodeSelect.value;
-                // Remove leading zeros from the phone number to create a valid tel URI
-                const phoneNumber = phoneInput.value.trim().replace(/^0+/, '');
-                if (phoneNumber) {
-                    textToEncode = `tel:${countryCode}${phoneNumber}`;
-                }
-            }
-            
-            if (textToEncode) {
-                generateQRCode(textToEncode);
-            }
-        });
-
-        function generateQRCode(text) {
-            qrcodeDiv.innerHTML = '';
-            qrcode = new QRCode(qrcodeDiv, {
-                text: text,
-                width: 200,
-                height: 200,
-                colorDark : "#000000",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.H
-            });
-            qrcodeContainer.classList.remove('hidden');
-            downloadContainer.classList.remove('hidden');
-        }
-
-        // Download logic
-        downloadBtn.addEventListener('click', () => {
-            downloadDropdown.classList.toggle('show');
-        });
-
-        // Close dropdown if clicked outside
-        window.onclick = (event) => {
-            if (!event.target.matches('#download-btn')) {
-                if (downloadDropdown.classList.contains('show')) {
-                    downloadDropdown.classList.remove('show');
-                }
-            }
+        const translations = {
+            backToHome: { en: 'Back to Home', si: 'මුල් පිටුවට', ta: 'முகப்புக்குச் செல்' },
+            title: { en: 'QR Code Generator', si: 'QR කේත සාදන්නා', ta: 'QR குறியீடு ஜெனரேட்டர்' },
+            subtitle: { en: 'Turn your web address, phone number, or any text into a QR code.', si: 'ඔබේ වෙබ් ලිපිනය, දුරකථන අංකය, හෝ ඕනෑම පෙළක් QR කේතයක් බවට පත් කරන්න.', ta: 'உங்கள் இணைய முகவரி, தொலைபேசி எண் அல்லது எந்த உரையையும் QR குறியீடாக மாற்றவும்.' },
+            tabText: { en: 'Text / URL', si: 'පෙළ / URL', ta: 'உரை / URL' },
+            tabPhone: { en: 'Phone Number', si: 'දුරකථන අංකය', ta: 'தொலைபேசி எண்' },
+            placeholderText: { en: 'Enter text or URL', si: 'පෙළ හෝ URL ඇතුළත් කරන්න', ta: 'உரை அல்லது URL ஐ உள்ளிடவும்' },
+            placeholderPhone: { en: '77 123 4567', si: '77 123 4567', ta: '77 123 4567' },
+            generateBtn: { en: 'Generate QR Code', si: 'QR කේතය සාදන්න', ta: 'QR குறியீட்டை உருவாக்கவும்' },
+            downloadPng: { en: 'Download PNG', si: 'PNG බාගන්න', ta: 'PNG பதிவிறக்கம்' },
+            downloadPdf: { en: 'Download PDF', si: 'PDF බාගන්න', ta: 'PDF பதிவிறக்கம்' }
         };
 
+        let currentLang = 'en';
+
+        // --- UI Elements ---
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const generateBtn = document.getElementById('generate-btn');
+        const qrResultEl = document.getElementById('qr-result');
+        const qrcodeEl = document.getElementById('qrcode');
+        const qrTextEl = document.getElementById('qr-text');
+        const countryCodeEl = document.getElementById('country-code');
+        const phoneNumberEl = document.getElementById('phone-number');
+        const downloadPngBtn = document.getElementById('download-png-btn');
+        const downloadPdfBtn = document.getElementById('download-pdf-btn');
+        let activeTab = 'text';
+        
+        // --- Language and UI Update ---
+        function updateUIText(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[key] && translations[key][lang]) {
+                    element.textContent = translations[key][lang];
+                }
+            });
+            document.querySelectorAll('[data-key-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-key-placeholder');
+                if (translations[key] && translations[key][lang]) {
+                    element.placeholder = translations[key][lang];
+                }
+            });
+        }
+        
+        function getLangFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const lang = params.get('lang');
+            if (['en', 'si', 'ta'].includes(lang)) {
+                return lang;
+            }
+            return 'en';
+        }
+
+        // --- Country Codes ---
+        const countryCodes = [
+            { "name": "Sri Lanka", "code": "LK", "dial_code": "+94" },
+            { "name": "India", "code": "IN", "dial_code": "+91" },
+            { "name": "United States", "code": "US", "dial_code": "+1" },
+            { "name": "United Kingdom", "code": "GB", "dial_code": "+44" },
+            // Add more countries as needed
+        ];
+
+        function populateCountryCodes() {
+            countryCodes.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.dial_code;
+                option.textContent = `\u{1F1F1}\u{1F1F0} ${country.name} (${country.dial_code})`;
+                 // Simple flag emojis based on code - might not be accurate for all
+                option.textContent = `${country.code.toUpperCase().replace(/./g, char => String.fromCodePoint(char.charCodeAt(0) + 127397))} ${country.name} (${country.dial_code})`;
+                countryCodeEl.appendChild(option);
+            });
+        }
+        
+        // --- Event Listeners ---
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeTab = btn.dataset.tab;
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if(content.id === `${activeTab}-tab`) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        generateBtn.addEventListener('click', () => {
+            let dataToEncode = '';
+            if (activeTab === 'text') {
+                dataToEncode = qrTextEl.value.trim();
+            } else {
+                const phone = phoneNumberEl.value.trim().replace(/\s/g, '');
+                if (phone) {
+                    dataToEncode = `tel:${countryCodeEl.value}${phone}`;
+                }
+            }
+
+            if (dataToEncode) {
+                qrcodeEl.innerHTML = '';
+                const qr = qrcode(0, 'M');
+                qr.addData(dataToEncode);
+                qr.make();
+                qrcodeEl.innerHTML = qr.createImgTag(6, 8); // (size, margin)
+                qrResultEl.style.display = 'block';
+            }
+        });
+
         downloadPngBtn.addEventListener('click', () => {
-            const canvas = qrcodeDiv.querySelector('canvas');
-            if (canvas) {
-                const a = document.createElement('a');
-                a.href = canvas.toDataURL("image/png");
-                a.download = "qrcode.png";
-                a.click();
+            const img = qrcodeEl.querySelector('img');
+            if (img) {
+                const link = document.createElement('a');
+                link.href = img.src;
+                link.download = 'qrcode.png';
+                link.click();
             }
         });
 
         downloadPdfBtn.addEventListener('click', () => {
-            const canvas = qrcodeDiv.querySelector('canvas');
-            if (canvas) {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF({
-                    orientation: 'portrait',
-                    unit: 'px',
-                    format: [canvas.width + 20, canvas.height + 20] // Page size based on QR code size
-                });
-                const imgData = canvas.toDataURL('image/png');
-                doc.addImage(imgData, 'PNG', 10, 10, canvas.width, canvas.height);
-                doc.save('qrcode.pdf');
+            const img = qrcodeEl.querySelector('img');
+            if(img) {
+                const pdf = new jsPDF();
+                const imgData = img.src;
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+                const imgWidth = 100;
+                const imgHeight = 100;
+                const x = (pdfWidth - imgWidth) / 2;
+                const y = (pdfHeight - imgHeight) / 2;
+                pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
+                pdf.save('qrcode.pdf');
             }
         });
 
-    </script>
+        // --- Initial Load ---
+        const initialLang = getLangFromURL();
+        updateUIText(initialLang);
+        populateCountryCodes();
 
+    </script>
 </body>
 </html>

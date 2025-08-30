@@ -1,178 +1,290 @@
 <!DOCTYPE html>
-<html lang="si">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Presentation Idea Generator</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(-45deg, #0f0c29, #1e1b4b, #302b63, #24243e);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background: linear-gradient(135deg, #1e3a8a, #312e81);
+            color: #f9fafb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
         }
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        
-        .glass-card {
-            background: rgba(41, 51, 70, 0.3);
+        .back-btn {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(31, 41, 55, 0.8);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background-color: rgba(55, 65, 81, 0.9);
+            color: white;
+        }
+        .back-btn svg {
+            width: 1rem;
+            height: 1rem;
+        }
+        .container {
+            width: 100%;
+            max-width: 48rem; /* max-w-2xl */
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            padding: 2.5rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
+        .header { text-align: center; margin-bottom: 2rem; }
+        .header h1 { font-size: 2.25rem; font-weight: 700; color: #93c5fd; }
+        .header p { color: #d1d5db; margin-top: 0.5rem; }
         
-        /* Custom loader animation */
+        #topic-input {
+            width: 100%;
+            background-color: #111827;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: #f9fafb;
+            font-size: 1rem;
+            box-sizing: border-box;
+            margin-bottom: 1.5rem;
+        }
+        #topic-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
+        }
+
+        .main-btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(to right, #8b5cf6, #ec4899);
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+        .main-btn:hover:not(:disabled) { box-shadow: 0 0 20px rgba(236, 72, 153, 0.5); }
+        .main-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .loader {
-            width: 48px;
-            height: 48px;
-            border: 5px solid #FFF;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fff;
             border-bottom-color: transparent;
             border-radius: 50%;
             display: inline-block;
             box-sizing: border-box;
             animation: rotation 1s linear infinite;
         }
-
         @keyframes rotation {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        
+        #result-container {
+            background-color: #111827;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            min-height: 200px;
+            color: #d1d5db;
+            white-space: pre-wrap;
+            box-sizing: border-box;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+         /* Styling for markdown content */
+        #result-container h2 {
+            font-size: 1.5rem;
+            color: #93c5fd;
+            border-bottom: 1px solid #4b5563;
+            padding-bottom: 0.5rem;
+            margin-top: 1.5rem;
+        }
+         #result-container h3 {
+            font-size: 1.2rem;
+            color: #a5b4fc;
+            margin-top: 1.5rem;
+        }
+        #result-container ul, #result-container ol {
+            padding-left: 1.5rem;
+        }
+        #result-container li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+         #result-container strong {
+            color: #c7d2fe;
+        }
+
+        #status {
+            text-align: center;
+            color: #f87171; /* Red for errors */
+            height: 1.5rem;
+            margin-top: 1rem;
+        }
     </style>
 </head>
-<body class="text-gray-200 flex items-center justify-center min-h-screen p-4">
+<body>
 
-    <div class="w-full max-w-2xl glass-card rounded-2xl shadow-2xl p-6 md:p-8 space-y-6">
-        <!-- Header -->
-        <div class="text-center">
-            <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">AI Presentation Idea Generator</h1>
-            <p class="text-gray-400 mt-2">ඔබේ ඉදිරිපත් කිරීමේ මාතෘකාව ලබා දී අදහස් ජනනය කරගන්න.</p>
+    <a href="index.html" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+        <span data-key="backToHome">Back to Home</span>
+    </a>
+
+    <div class="container">
+        <div class="header">
+            <h1 data-key="title">AI Presentation Idea Generator</h1>
+            <p data-key="subtitle">Give your presentation a topic and generate structured ideas.</p>
         </div>
 
-        <!-- Input Form -->
-        <div class="space-y-4">
-            <input type="text" id="topic-input" placeholder="Enter your presentation topic..." class="w-full bg-gray-900/50 border border-gray-600 rounded-full p-3 px-5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <button id="generate-btn" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg shadow-blue-500/30" disabled>
-                Generate Ideas
-            </button>
-        </div>
+        <input type="text" id="topic-input" data-key-placeholder="placeholderInput" placeholder="e.g., The Future of Renewable Energy">
+        
+        <button id="generate-btn" class="main-btn">
+            <span data-key="generate">Generate Ideas</span>
+            <div id="loader" class="loader" style="display: none;"></div>
+        </button>
 
-        <!-- Status/Loader -->
-        <div id="status-container" class="text-center h-12 flex items-center justify-center">
-            <div id="loader" class="loader hidden"></div>
-            <p id="status-text" class="text-gray-400"></p>
+        <div id="result-container">
         </div>
-
-        <!-- Result -->
-        <div id="result-container" class="space-y-4 hidden">
-            <div id="result-output" class="w-full h-96 overflow-y-auto bg-gray-900/50 border border-gray-600 rounded-md p-4 text-white space-y-4">
-                <!-- Generated ideas will appear here -->
-            </div>
-            <button id="copy-btn" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full transition-transform transform hover:scale-105">
-                Copy Ideas
-            </button>
-        </div>
+        
+        <div id="status"></div>
     </div>
 
     <script>
+        const translations = {
+            backToHome: { en: 'Back to Home', si: 'මුල් පිටුවට', ta: 'முகப்புக்குச் செல்' },
+            title: { en: 'AI Presentation Idea Generator', si: 'AI ඉදිරිපත් කිරීමේ අදහස් සාදන්නා', ta: 'AI விளக்கக்காட்சி யோசனை ஜெனரேட்டர்' },
+            subtitle: { en: 'Give your presentation a topic and generate structured ideas.', si: 'ඔබේ ඉදිරිපත් කිරීමට මාතෘකාවක් ලබා දී ව්‍යුහගත අදහස් ජනනය කරන්න.', ta: 'உங்கள் விளக்கக்காட்சிக்கு ஒரு தலைப்பைக் கொடுத்து கட்டமைக்கப்பட்ட யோசனைகளை உருவாக்கவும்.' },
+            placeholderInput: { en: 'e.g., The Future of Renewable Energy', si: 'උදා: පුනර්ජනනීය බලශක්තියේ අනාගතය', ta: 'எ.கா., புதுப்பிக்கத்தக்க ஆற்றலின் எதிர்காலம்' },
+            generate: { en: 'Generate Ideas', si: 'අදහස් ජනනය කරන්න', ta: 'யோசனைகளை உருவாக்கவும்' },
+            generating: { en: 'Generating...', si: 'ජනනය කරමින්...', ta: 'உருவாக்குகிறது...' },
+            error: { en: 'An error occurred. Please check your API key and try again.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර ඔබගේ API යතුර පරීක්ෂා කර නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. உங்கள் API விசையைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.'}
+        };
+
+        let currentLang = 'en';
+
+        // --- UI Elements ---
         const topicInput = document.getElementById('topic-input');
         const generateBtn = document.getElementById('generate-btn');
+        const generateBtnText = generateBtn.querySelector('span');
         const loader = document.getElementById('loader');
-        const statusText = document.getElementById('status-text');
         const resultContainer = document.getElementById('result-container');
-        const resultOutput = document.getElementById('result-output');
-        const copyBtn = document.getElementById('copy-btn');
+        const statusDiv = document.getElementById('status');
+        
+        // --- Language and UI Update ---
+        function updateUIText(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[key] && translations[key][lang]) {
+                    element.textContent = translations[key][lang];
+                }
+            });
+             document.querySelectorAll('[data-key-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-key-placeholder');
+                if (translations[key] && translations[key][lang]) {
+                    element.placeholder = translations[key][lang];
+                }
+            });
+        }
+        
+        function getLangFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const lang = params.get('lang');
+            if (['en', 'si', 'ta'].includes(lang)) {
+                return lang;
+            }
+            return 'en';
+        }
 
-        // Enable button only when there is text
-        topicInput.addEventListener('input', () => {
-            generateBtn.disabled = topicInput.value.trim().length === 0;
-        });
+        // --- API Logic ---
+        const apiKey = "AIzaSyDk_3fFXF1Jxq7F1rPXTf5q95ssu_HfYt4";
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
 
-        // Generate button click event
         generateBtn.addEventListener('click', async () => {
             const topic = topicInput.value;
-            if (!topic) return;
+            if (!topic.trim()) {
+                statusDiv.textContent = 'Please enter a topic.';
+                return;
+            }
 
-            // Reset UI
-            resultContainer.classList.add('hidden');
             generateBtn.disabled = true;
-            statusText.textContent = 'අදහස් ජනනය කරමින් පවතී, කරුණාකර රැඳී සිටින්න...';
-            loader.classList.remove('hidden');
+            generateBtnText.textContent = translations.generating[currentLang];
+            loader.style.display = 'inline-block';
+            resultContainer.innerHTML = '';
+            statusDiv.textContent = '';
 
+            const prompt = `Generate a structured presentation outline for the topic: "${topic}". Provide a title, an introduction, 3-5 main body points with sub-points, and a conclusion. Format the response using markdown with headings and bullet points.`;
+            
             try {
-                // **UPDATED**: API key is now added
-                const apiKey = "AIzaSyDk_3fFXF1Jxq7F1rPXTf5q95ssu_HfYt4"; 
-                
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-
-                const prompt = `You are an expert presentation consultant. Based on the following topic, generate a structured outline for a compelling presentation in the same language as the topic.
-                Provide a main title for the presentation.
-                Then, for at least 5 slides, provide a slide title and 3-4 bullet points of key content or talking points for that slide.
-                Format the output clearly with headings for titles and bullet points for the content.
-                Topic: "${topic}"`;
-
-                const payload = {
-                    contents: [{ parts: [{ text: prompt }] }]
-                };
-
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }]
+                    })
                 });
 
                 if (!response.ok) {
-                    let errorDetails = `API request failed with status ${response.status}`;
-                    try {
-                        const errorData = await response.json();
-                        errorDetails = errorData.error?.message || errorDetails;
-                    } catch (e) {}
-                    throw new Error(errorDetails);
+                    const errorData = await response.json();
+                    console.error("API Error:", errorData);
+                    throw new Error(`API request failed with status ${response.status}`);
                 }
-
+                
                 const result = await response.json();
                 
-                if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts) {
+                if (result.candidates && result.candidates.length > 0) {
                     const ideas = result.candidates[0].content.parts[0].text;
-                    
-                    const formattedIdeas = ideas
-                        .replace(/\*\*(.*?)\*\*/g, '<h3 class="text-lg font-bold text-blue-400 mt-4">$1</h3>')
-                        .replace(/\* (.*?)\n/g, '<li class="ml-4 list-disc">$1</li>')
-                        .replace(/\n/g, '<br>');
-
-                    resultOutput.innerHTML = formattedIdeas;
-                    resultContainer.classList.remove('hidden');
-                    statusText.textContent = 'අදහස් සාර්ථකව ජනනය විය!';
+                    resultContainer.innerHTML = marked.parse(ideas);
                 } else {
-                    console.error('Invalid response structure from API:', result);
-                    throw new Error('AI එකෙන් වලංගු ප්‍රතිචාරයක් ලබා ගැනීමට නොහැකි විය.');
+                    throw new Error("No content received from API.");
                 }
 
             } catch (error) {
-                console.error('Error:', error);
-                statusText.textContent = error.message;
+                console.error("Error:", error);
+                statusDiv.textContent = translations.error[currentLang];
             } finally {
                 generateBtn.disabled = false;
-                loader.classList.add('hidden');
+                generateBtnText.textContent = translations.generate[currentLang];
+                loader.style.display = 'none';
             }
         });
+        
+        // Initial setup on page load
+        const initialLang = getLangFromURL();
+        updateUIText(initialLang);
 
-        // Copy button click event
-        copyBtn.addEventListener('click', () => {
-            if (resultOutput.innerText) {
-                navigator.clipboard.writeText(resultOutput.innerText).then(() => {
-                    copyBtn.textContent = 'Copied!';
-                    setTimeout(() => {
-                        copyBtn.textContent = 'Copy Ideas';
-                    }, 2000);
-                }).catch(err => {
-                    console.error('Failed to copy text: ', err);
-                });
-            }
-        });
     </script>
-
 </body>
 </html>

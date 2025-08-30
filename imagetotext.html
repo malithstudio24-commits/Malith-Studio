@@ -18,14 +18,40 @@
             margin: 0;
             padding: 1rem;
         }
+        .back-btn {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background-color: rgba(55, 65, 81, 0.9);
+            color: white;
+        }
+        .back-btn svg {
+            width: 1rem;
+            height: 1rem;
+        }
         .container {
             width: 100%;
             max-width: 48rem; /* max-w-2xl */
-            background-color: rgba(31, 41, 55, 0.8); /* bg-gray-800 with opacity */
+            background-color: rgba(31, 41, 55, 0.8);
             backdrop-filter: blur(10px);
-            border-radius: 1rem; /* rounded-2xl */
+            border-radius: 1rem;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
-            padding: 2rem;
+            padding: 2.5rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .header { text-align: center; margin-bottom: 2rem; }
@@ -53,7 +79,7 @@
         .lang-select {
             padding: 0.75rem;
             border-radius: 0.5rem;
-            background-color: #374151; /* bg-gray-700 */
+            background-color: #374151;
             border: 1px solid #4b5563;
             color: white;
             font-weight: 500;
@@ -139,6 +165,13 @@
 </head>
 <body>
 
+    <a href="index.html" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+        <span data-key="backToHome">Back to Home</span>
+    </a>
+
     <div class="container">
         <div class="header">
             <h1 data-key="title">Image to Text (OCR) Tool</h1>
@@ -178,72 +211,21 @@
 
     <script>
         const translations = {
-            title: {
-                eng: 'Image to Text (OCR) Tool',
-                sin: 'Image to Text (OCR) මෙවලම',
-                tam: 'Image to Text (OCR) கருவி'
-            },
-            subtitle: {
-                eng: 'Convert text in an image into an editable string.',
-                sin: 'ඡායාරූපයක ඇති අකුරු පෙළක් බවට පරිවර්තනය කරන්න.',
-                tam: 'படத்தில் உள்ள உரையை திருத்தக்கூடிய சரமாக மாற்றவும்.'
-            },
-            chooseFile: {
-                eng: 'Choose File',
-                sin: 'ගොනුවක් තෝරන්න',
-                tam: 'கோப்பைத் தேர்ந்தெடுக்கவும்'
-            },
-            noFileChosen: {
-                eng: 'No file chosen',
-                sin: 'ගොනුවක් තෝරාගෙන නැත',
-                tam: 'கோப்பு எதுவும் தேர்ந்தெடுக்கப்படவில்லை'
-            },
-            recognize: {
-                eng: 'Recognize Text',
-                sin: 'අකුරු හඳුනාගන්න',
-                tam: 'உரையை அடையாளம் காணவும்'
-            },
-            copy: {
-                eng: 'Copy',
-                sin: 'පිටපත් කරන්න',
-                tam: 'நகலெடு'
-            },
-            copied: {
-                eng: 'Copied!',
-                sin: 'පිටපත් කලා!',
-                tam: 'நகலெடுக்கப்பட்டது!'
-            },
+            backToHome: { en: 'Back to Home', si: 'මුල් පිටුවට', ta: 'முகப்புக்குச் செல்' },
+            title: { eng: 'Image to Text (OCR) Tool', sin: 'Image to Text (OCR) මෙවලම', tam: 'Image to Text (OCR) கருவி' },
+            subtitle: { eng: 'Convert text in an image into an editable string.', sin: 'ඡායාරූපයක ඇති අකුරු පෙළක් බවට පරිවර්තනය කරන්න.', tam: 'படத்தில் உள்ள உரையை திருத்தக்கூடிய சரமாக மாற்றவும்.' },
+            chooseFile: { eng: 'Choose File', sin: 'ගොනුවක් තෝරන්න', tam: 'கோப்பைத் தேர்ந்தெடுக்கவும்' },
+            noFileChosen: { eng: 'No file chosen', sin: 'ගොනුවක් තෝරාගෙන නැත', tam: 'கோப்பு எதுவும் தேர்ந்தெடுக்கப்படவில்லை' },
+            recognize: { eng: 'Recognize Text', sin: 'අකුරු හඳුනාගන්න', tam: 'உரையை அடையாளம் காணவும்' },
+            copy: { eng: 'Copy', sin: 'පිටපත් කරන්න', tam: 'நகலெடு' },
+            copied: { eng: 'Copied!', sin: 'පිටපත් කලා!', tam: 'நகலெடுக்கப்பட்டது!' },
             status: {
-                initializing: {
-                    eng: 'Initializing OCR engine...',
-                    sin: 'OCR යන්ත්‍රය ආරම්භ වෙමින් පවතී...',
-                    tam: 'OCR இயந்திரம் தொடங்குகிறது...'
-                },
-                loading: {
-                    eng: 'Downloading language data for the first time. This might take a few minutes...',
-                    sin: 'පළමු වරට භාෂා දත්ත බාගත වෙමින් පවතී. இதற்கு சில நிமிடங்கள் ஆகலாம்...',
-                    tam: 'முதல் முறையாக மொழித் தரவைப் பதிவிறக்குகிறது. இதற்கு சில நிமிடங்கள் ஆகலாம்...'
-                },
-                recognizing: {
-                    eng: 'Analyzing image and recognizing text...',
-                    sin: 'පින්තූරය විශ්ලේෂණය කරමින් සහ අකුරු හඳුනාගනිමින්...',
-                    tam: 'படத்தை பகுப்பாய்வு செய்து உரையை அடையாளம் காண்கிறது...'
-                },
-                done: {
-                    eng: 'Recognition complete!',
-                    sin: 'හඳුනාගැනීම අවසන්!',
-                    tam: 'அடையாளம் காணப்பட்டது!'
-                },
-                error: {
-                    eng: 'An error occurred. Please check your internet connection and try again.',
-                    sin: 'දෝෂයක් ඇතිවිය. කරුණාකර ඔබගේ අන්තර්ජාල සම්බන්ධතාවය පරීක්ෂා කර නැවත උත්සාහ කරන්න.',
-                    tam: 'ஒரு பிழை ஏற்பட்டது. உங்கள் இணைய இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.'
-                },
-                downloadingProgress: {
-                    eng: 'Downloading language data...',
-                    sin: 'භාෂා දත්ත බාගත වෙමින්...',
-                    tam: 'மொழித் தரவைப் பதிவிறக்குகிறது...'
-                }
+                initializing: { eng: 'Initializing OCR engine...', sin: 'OCR යන්ත්‍රය ආරම්භ වෙමින් පවතී...', tam: 'OCR இயந்திரம் தொடங்குகிறது...' },
+                loading: { eng: 'Downloading language data for the first time. This might take a few minutes...', sin: 'පළමු වරට භාෂා දත්ත බාගත වෙමින් පවතී. இதற்கு சில நிமிடங்கள் ஆகலாம்...', tam: 'முதல் முறையாக மொழித் தரவைப் பதிவிறக்குகிறது. இதற்கு சில நிமிடங்கள் ஆகலாம்...' },
+                recognizing: { eng: 'Analyzing image and recognizing text...', sin: 'පින්තූරය විශ්ලේෂණය කරමින් සහ අකුරු හඳුනාගනිමින්...', tam: 'படத்தை பகுப்பாய்வு செய்து உரையை அடையாளம் காண்கிறது...' },
+                done: { eng: 'Recognition complete!', sin: 'හඳුනාගැනීම අවසන්!', tam: 'அடையாளம் காணப்பட்டது!' },
+                error: { eng: 'An error occurred. Please check your internet connection and try again.', sin: 'දෝෂයක් ඇතිවිය. කරුණාකර ඔබගේ අන්තර්ජාල සම්බන්ධතාවය පරීක්ෂා කර නැවත උත්සාහ කරන්න.', tam: 'ஒரு பிழை ஏற்பட்டது. உங்கள் இணைய இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.' },
+                downloadingProgress: { eng: 'Downloading language data...', sin: 'භාෂා දත්ත බාගත වෙමින්...', tam: 'மொழித் தரவைப் பதிவிறக்குகிறது...' }
             }
         };
 
@@ -260,7 +242,7 @@
         const loader = document.getElementById('loader');
 
         let selectedFile = null;
-        let currentLang = 'sin'; // Default language
+        let currentLang = 'en';
 
         function updateUIText(lang) {
             currentLang = lang;
@@ -270,13 +252,21 @@
                     element.textContent = translations[key][lang];
                 }
             });
-             // Also update lang in select for consistency, though it controls itself
-            langSelect.value = lang;
         }
 
         langSelect.addEventListener('change', (event) => {
             updateUIText(event.target.value);
         });
+        
+        // Get language code from URL parameter
+        function getLangFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const lang = params.get('lang');
+            if (['en', 'si', 'ta'].includes(lang)) {
+                return lang;
+            }
+            return 'en'; // Default
+        }
 
         imageInput.addEventListener('change', (event) => {
             selectedFile = event.target.files[0];
@@ -361,17 +351,19 @@
             navigator.clipboard.writeText(resultTextEl.textContent).then(() => {
                 copyBtn.textContent = translations.copied[currentLang];
                 setTimeout(() => {
-                    copyBtn.textContent = translations.copy[currentLang];
+                    copyBtn.textContent = translations.copyBtn[currentLang];
                 }, 2000);
             }).catch(err => {
                 console.error('Failed to copy text: ', err);
             });
         });
 
-        // Initialize UI with default language on page load
-        updateUIText(currentLang);
+        // Initialize UI with language from URL on page load
+        const initialLang = getLangFromURL();
+        langSelect.value = initialLang;
+        updateUIText(initialLang);
+
     </script>
 
 </body>
 </html>
-

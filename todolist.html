@@ -1,179 +1,323 @@
 <!DOCTYPE html>
-<html lang="si">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do List Tool</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(-45deg, #0f0c29, #1e1b4b, #302b63, #24243e);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-        }
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        
-        .glass-card {
-            background: rgba(41, 51, 70, 0.3);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        /* Custom checkbox */
-        .task-item input[type="checkbox"] {
-            appearance: none;
-            -webkit-appearance: none;
-            height: 20px;
-            width: 20px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            cursor: pointer;
+            background: linear-gradient(135deg, #1e3a8a, #312e81);
+            color: #f9fafb;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
         }
-        .task-item input[type="checkbox"]:after {
-            content: '✔';
-            font-size: 14px;
-            color: #60a5fa;
-            display: none;
+        .back-btn {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
         }
-        .task-item input[type="checkbox"]:checked:after {
-            display: block;
+        .back-btn:hover {
+            background-color: rgba(55, 65, 81, 0.9);
+            color: white;
         }
-        .task-item.completed label {
+        .back-btn svg {
+            width: 1rem;
+            height: 1rem;
+        }
+        .container {
+            width: 100%;
+            max-width: 36rem; /* max-w-md */
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .header { text-align: center; margin-bottom: 2rem; }
+        .header h1 { font-size: 2.25rem; font-weight: 700; color: #93c5fd; }
+        .header p { color: #d1d5db; margin-top: 0.5rem; }
+        .input-form {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        #task-input {
+            flex-grow: 1;
+            background-color: #111827;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: #f9fafb;
+            font-size: 1rem;
+        }
+        #task-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
+        }
+        #add-task-btn {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        #add-task-btn:hover {
+            transform: scale(1.05);
+        }
+        .task-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .task-item {
+            display: flex;
+            align-items: center;
+            background-color: #1f2937;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s;
+        }
+        .task-item.completed {
+            opacity: 0.5;
+        }
+        .task-item.completed span {
             text-decoration: line-through;
             color: #9ca3af;
         }
+        .task-item input[type="checkbox"] {
+            margin-right: 1rem;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .task-item span {
+            flex-grow: 1;
+        }
+        .task-item .delete-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .task-item .delete-btn:hover {
+            background-color: #ef4444;
+            color: white;
+        }
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #374151;
+        }
+        .filter-btn {
+            background: none;
+            border: 1px solid #4b5563;
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+        .filter-btn.active {
+            background-color: #8b5cf6;
+            border-color: #8b5cf6;
+            color: white;
+        }
     </style>
 </head>
-<body class="text-gray-200 flex items-center justify-center min-h-screen p-4">
+<body>
 
-    <div class="w-full max-w-lg glass-card rounded-2xl shadow-2xl p-6 md:p-8 space-y-6">
-        <!-- Header -->
-        <div class="text-center">
-            <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">My To-Do List</h1>
-            <p class="text-gray-400 mt-2">ඔබේ දවස සැලසුම් කරගන්න.</p>
+    <a href="index.html" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+        <span data-key="backToHome">Back to Home</span>
+    </a>
+
+    <div class="container">
+        <div class="header">
+            <h1 data-key="title">To-Do List</h1>
+            <p data-key="subtitle">Organize your day, one task at a time.</p>
         </div>
-
-        <!-- Input Form -->
-        <form id="add-task-form" class="flex gap-4">
-            <input type="text" id="task-input" placeholder="Add a new task..." class="flex-grow bg-gray-900/50 border border-gray-600 rounded-full p-3 px-5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <button type="submit" class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold p-3 rounded-full transition-all duration-300 transform hover:scale-110 shadow-lg shadow-blue-500/30">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
-            </button>
+        <form class="input-form" id="task-form">
+            <input type="text" id="task-input" data-key-placeholder="placeholder" placeholder="e.g., Finish the project report">
+            <button type="submit" id="add-task-btn" data-key="addBtn">Add Task</button>
         </form>
-
-        <!-- Task List -->
-        <div id="task-list-container" class="space-y-3">
-            <!-- Tasks will be added here by JavaScript -->
-        </div>
-        
-        <!-- Filter/Clear Buttons -->
-        <div class="flex justify-between items-center pt-4 border-t border-gray-700/50">
-            <p id="task-counter" class="text-sm text-gray-400">0 tasks left</p>
-            <button id="clear-completed-btn" class="text-sm text-gray-400 hover:text-white">Clear Completed</button>
+        <ul class="task-list" id="task-list">
+            <!-- Tasks will be rendered here -->
+        </ul>
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all" data-key="filterAll">All</button>
+            <button class="filter-btn" data-filter="active" data-key="filterActive">Active</button>
+            <button class="filter-btn" data-filter="completed" data-key="filterCompleted">Completed</button>
         </div>
     </div>
 
     <script>
-        const taskForm = document.getElementById('add-task-form');
+        const translations = {
+             backToHome: { en: 'Back to Home', si: 'මුල් පිටුවට', ta: 'முகப்புக்குச் செல்' },
+            title: { en: 'To-Do List', si: 'කළ යුතු දේ ලැයිස්තුව', ta: 'செய்ய வேண்டிய பட்டியல்' },
+            subtitle: { en: 'Organize your day, one task at a time.', si: 'ඔබේ දවස සංවිධානය කරන්න, එකින් එක කාර්යය.', ta: 'உங்கள் நாளை ஒழுங்கமைக்கவும், ஒரு நேரத்தில் ஒரு பணி.' },
+            placeholder: { en: 'e.g., Finish the project report', si: 'උදා: ව්‍යාපෘති වාර්තාව අවසන් කරන්න', ta: 'எ.கா., திட்ட அறிக்கையை முடிக்கவும்' },
+            addBtn: { en: 'Add Task', si: 'කාර්යය එක් කරන්න', ta: 'பணியைச் சேர்' },
+            filterAll: { en: 'All', si: 'සියල්ල', ta: 'அனைத்தும்' },
+            filterActive: { en: 'Active', si: 'ක්‍රියාකාරී', ta: 'செயலில்' },
+            filterCompleted: { en: 'Completed', si: 'අවසන් කළ', ta: 'முடிந்தது' }
+        };
+
+        let currentLang = 'en';
+
+        // --- UI Elements ---
+        const taskForm = document.getElementById('task-form');
         const taskInput = document.getElementById('task-input');
-        const taskListContainer = document.getElementById('task-list-container');
-        const taskCounter = document.getElementById('task-counter');
-        const clearCompletedBtn = document.getElementById('clear-completed-btn');
-
-        // Load tasks from localStorage
-        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-
-        // Function to save tasks to localStorage
-        function saveTasks() {
-            localStorage.setItem('tasks', JSON.stringify(tasks));
+        const taskList = document.getElementById('task-list');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        
+        // --- Language and UI Update ---
+        function updateUIText(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[key] && translations[key][lang]) {
+                    element.textContent = translations[key][lang];
+                }
+            });
+             document.querySelectorAll('[data-key-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-key-placeholder');
+                if (translations[key] && translations[key][lang]) {
+                    element.placeholder = translations[key][lang];
+                }
+            });
         }
+        
+        function getLangFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const lang = params.get('lang');
+            if (['en', 'si', 'ta'].includes(lang)) {
+                return lang;
+            }
+            return 'en';
+        }
+        
+        // --- State ---
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        let currentFilter = 'all';
 
-        // Function to render tasks to the DOM
-        function renderTasks() {
-            taskListContainer.innerHTML = '';
-            tasks.forEach(task => {
-                const taskElement = document.createElement('div');
-                taskElement.className = `task-item flex items-center gap-4 p-3 rounded-lg transition-colors ${task.completed ? 'completed' : ''}`;
-                taskElement.dataset.id = task.id;
+        // --- Functions ---
+        const saveTasks = () => {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        };
 
-                taskElement.innerHTML = `
-                    <input type="checkbox" ${task.completed ? 'checked' : ''}>
-                    <label class="flex-grow cursor-pointer">${task.text}</label>
-                    <button class="delete-btn text-gray-500 hover:text-red-500 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        const renderTasks = () => {
+            taskList.innerHTML = '';
+            const filteredTasks = tasks.filter(task => {
+                if (currentFilter === 'active') return !task.completed;
+                if (currentFilter === 'completed') return task.completed;
+                return true;
+            });
+
+            filteredTasks.forEach(task => {
+                const taskItem = document.createElement('li');
+                taskItem.className = 'task-item';
+                if (task.completed) {
+                    taskItem.classList.add('completed');
+                }
+                taskItem.innerHTML = `
+                    <input type="checkbox" ${task.completed ? 'checked' : ''} data-id="${task.id}">
+                    <span>${task.text}</span>
+                    <button class="delete-btn" data-id="${task.id}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                          <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        </svg>
                     </button>
                 `;
-                taskListContainer.appendChild(taskElement);
+                taskList.appendChild(taskItem);
             });
-            updateCounter();
-        }
+        };
+        
+        const addTask = (text) => {
+            tasks.push({ id: Date.now(), text, completed: false });
+            saveTasks();
+            renderTasks();
+        };
 
-        // Function to update the task counter
-        function updateCounter() {
-            const incompleteTasks = tasks.filter(task => !task.completed).length;
-            taskCounter.textContent = `${incompleteTasks} task${incompleteTasks !== 1 ? 's' : ''} left`;
-        }
+        const toggleTask = (id) => {
+            tasks = tasks.map(task => task.id === id ? { ...task, completed: !task.completed } : task);
+            saveTasks();
+            renderTasks();
+        };
 
-        // Add a new task
+        const deleteTask = (id) => {
+            tasks = tasks.filter(task => task.id !== id);
+            saveTasks();
+            renderTasks();
+        };
+
+        // --- Event Listeners ---
         taskForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const taskText = taskInput.value.trim();
-            if (taskText) {
-                const newTask = {
-                    id: Date.now().toString(),
-                    text: taskText,
-                    completed: false
-                };
-                tasks.unshift(newTask); // Add to the beginning of the array
-                saveTasks();
-                renderTasks();
+            const text = taskInput.value.trim();
+            if (text) {
+                addTask(text);
                 taskInput.value = '';
             }
         });
 
-        // Handle clicks on the task list (for toggling complete and deleting)
-        taskListContainer.addEventListener('click', (e) => {
-            const target = e.target;
-            const parentTask = target.closest('.task-item');
-            if (!parentTask) return;
-
-            const taskId = parentTask.dataset.id;
-
-            // Toggle complete
-            if (target.type === 'checkbox') {
-                const task = tasks.find(t => t.id === taskId);
-                task.completed = !task.completed;
-                saveTasks();
-                renderTasks();
+        taskList.addEventListener('click', (e) => {
+            if (e.target.type === 'checkbox') {
+                toggleTask(Number(e.target.dataset.id));
             }
-
-            // Delete task
-            if (target.closest('.delete-btn')) {
-                tasks = tasks.filter(t => t.id !== taskId);
-                saveTasks();
-                renderTasks();
+            if (e.target.closest('.delete-btn')) {
+                deleteTask(Number(e.target.closest('.delete-btn').dataset.id));
             }
         });
-
-        // Clear completed tasks
-        clearCompletedBtn.addEventListener('click', () => {
-            tasks = tasks.filter(task => !task.completed);
-            saveTasks();
-            renderTasks();
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                renderTasks();
+            });
         });
 
-        // Initial render
+        // --- Initial Load ---
+        const initialLang = getLangFromURL();
+        updateUIText(initialLang);
         renderTasks();
-    </script>
 
+    </script>
 </body>
 </html>
