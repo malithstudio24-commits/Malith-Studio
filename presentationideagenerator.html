@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Presentation Idea Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(-45deg, #0f0c29, #1e1b4b, #302b63, #24243e);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
+        .glass-card {
+            background: rgba(41, 51, 70, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Custom loader animation */
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid #FFF;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="text-gray-200 flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-2xl glass-card rounded-2xl shadow-2xl p-6 md:p-8 space-y-6">
+        <!-- Header -->
+        <div class="text-center">
+            <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">AI Presentation Idea Generator</h1>
+            <p class="text-gray-400 mt-2">ඔබේ ඉදිරිපත් කිරීමේ මාතෘකාව ලබා දී අදහස් ජනනය කරගන්න.</p>
+        </div>
+
+        <!-- Input Form -->
+        <div class="space-y-4">
+            <input type="text" id="topic-input" placeholder="Enter your presentation topic..." class="w-full bg-gray-900/50 border border-gray-600 rounded-full p-3 px-5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button id="generate-btn" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg shadow-blue-500/30" disabled>
+                Generate Ideas
+            </button>
+        </div>
+
+        <!-- Status/Loader -->
+        <div id="status-container" class="text-center h-12 flex items-center justify-center">
+            <div id="loader" class="loader hidden"></div>
+            <p id="status-text" class="text-gray-400"></p>
+        </div>
+
+        <!-- Result -->
+        <div id="result-container" class="space-y-4 hidden">
+            <div id="result-output" class="w-full h-96 overflow-y-auto bg-gray-900/50 border border-gray-600 rounded-md p-4 text-white space-y-4">
+                <!-- Generated ideas will appear here -->
+            </div>
+            <button id="copy-btn" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full transition-transform transform hover:scale-105">
+                Copy Ideas
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const topicInput = document.getElementById('topic-input');
+        const generateBtn = document.getElementById('generate-btn');
+        const loader = document.getElementById('loader');
+        const statusText = document.getElementById('status-text');
+        const resultContainer = document.getElementById('result-container');
+        const resultOutput = document.getElementById('result-output');
+        const copyBtn = document.getElementById('copy-btn');
+
+        // Enable button only when there is text
+        topicInput.addEventListener('input', () => {
+            generateBtn.disabled = topicInput.value.trim().length === 0;
+        });
+
+        // Generate button click event
+        generateBtn.addEventListener('click', async () => {
+            const topic = topicInput.value;
+            if (!topic) return;
+
+            // Reset UI
+            resultContainer.classList.add('hidden');
+            generateBtn.disabled = true;
+            statusText.textContent = 'අදහස් ජනනය කරමින් පවතී, කරුණාකර රැඳී සිටින්න...';
+            loader.classList.remove('hidden');
+
+            try {
+                // **UPDATED**: API key is now added
+                const apiKey = "AIzaSyDk_3fFXF1Jxq7F1rPXTf5q95ssu_HfYt4"; 
+                
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                const prompt = `You are an expert presentation consultant. Based on the following topic, generate a structured outline for a compelling presentation in the same language as the topic.
+                Provide a main title for the presentation.
+                Then, for at least 5 slides, provide a slide title and 3-4 bullet points of key content or talking points for that slide.
+                Format the output clearly with headings for titles and bullet points for the content.
+                Topic: "${topic}"`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: prompt }] }]
+                };
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    let errorDetails = `API request failed with status ${response.status}`;
+                    try {
+                        const errorData = await response.json();
+                        errorDetails = errorData.error?.message || errorDetails;
+                    } catch (e) {}
+                    throw new Error(errorDetails);
+                }
+
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts) {
+                    const ideas = result.candidates[0].content.parts[0].text;
+                    
+                    const formattedIdeas = ideas
+                        .replace(/\*\*(.*?)\*\*/g, '<h3 class="text-lg font-bold text-blue-400 mt-4">$1</h3>')
+                        .replace(/\* (.*?)\n/g, '<li class="ml-4 list-disc">$1</li>')
+                        .replace(/\n/g, '<br>');
+
+                    resultOutput.innerHTML = formattedIdeas;
+                    resultContainer.classList.remove('hidden');
+                    statusText.textContent = 'අදහස් සාර්ථකව ජනනය විය!';
+                } else {
+                    console.error('Invalid response structure from API:', result);
+                    throw new Error('AI එකෙන් වලංගු ප්‍රතිචාරයක් ලබා ගැනීමට නොහැකි විය.');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                statusText.textContent = error.message;
+            } finally {
+                generateBtn.disabled = false;
+                loader.classList.add('hidden');
+            }
+        });
+
+        // Copy button click event
+        copyBtn.addEventListener('click', () => {
+            if (resultOutput.innerText) {
+                navigator.clipboard.writeText(resultOutput.innerText).then(() => {
+                    copyBtn.textContent = 'Copied!';
+                    setTimeout(() => {
+                        copyBtn.textContent = 'Copy Ideas';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

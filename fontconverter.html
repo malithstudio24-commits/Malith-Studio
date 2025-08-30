@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sinhala Font Converter</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e3a8a, #312e81);
+            color: #f9fafb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+        }
+        .container {
+            width: 100%;
+            max-width: 64rem; /* max-w-5xl */
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        .lang-switcher {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background-color: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .header { text-align: center; margin-bottom: 2rem; }
+        .header h1 { font-size: 2.25rem; font-weight: 700; color: #93c5fd; }
+        .header p { color: #d1d5db; margin-top: 0.5rem; }
+        .converter-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        @media (min-width: 1024px) {
+            .converter-grid {
+                grid-template-columns: 1fr auto 1fr;
+                align-items: center;
+            }
+        }
+        .textarea-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .textarea-container label {
+            font-weight: 600;
+            color: #d1d5db;
+        }
+        textarea {
+            width: 100%;
+            height: 250px;
+            background-color: #111827;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            color: #f9fafb;
+            font-size: 1rem;
+            resize: vertical;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
+        }
+        .controls {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+         @media (min-width: 1024px) {
+            .controls {
+                flex-direction: column;
+            }
+        }
+        .convert-btn {
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .convert-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+        }
+        .output-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .action-btn {
+            width: 150px;
+            padding: 0.5rem;
+            border: none;
+            color: white;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        #copy-output-btn { background-color: #4b5563; }
+        #copy-output-btn:hover { background-color: #6b7280; }
+        #clear-output-btn { background-color: #991b1b; }
+        #clear-output-btn:hover { background-color: #b91c1c; }
+        
+        @font-face {
+            font-family: 'FM-Abhaya';
+            src: url('https://www.fonts-top.com/server/fonts/FM-Abhaya_2.001_80f2303a74959f632a76f2b86d9a955c.ttf') format('truetype');
+        }
+        #input-text.fm-font, #output-text.fm-font {
+            font-family: 'FM-Abhaya', sans-serif;
+            font-size: 1.2rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <button id="lang-switcher-btn" class="lang-switcher">සිංහල</button>
+        <div class="header">
+            <h1 data-key="title">Sinhala Font Converter</h1>
+            <p data-key="subtitle">Easily convert between FM fonts and Unicode.</p>
+        </div>
+
+        <div class="converter-grid">
+            <div class="textarea-container">
+                <label for="input-text" data-key="inputLabel">Input Text (FM Font or Unicode)</label>
+                <textarea id="input-text" data-key-placeholder="inputPlaceholder" placeholder="Enter the text you want to convert here..."></textarea>
+            </div>
+
+            <div class="controls">
+                <button id="fm-to-uni-btn" class="convert-btn">
+                    <span data-key="fmToUni">FM ➔ Unicode</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </button>
+                <button id="uni-to-fm-btn" class="convert-btn">
+                    <span data-key="uniToFm">Unicode ➔ FM</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </button>
+            </div>
+
+            <div class="textarea-container">
+                <label for="output-text" data-key="outputLabel">Output Text</label>
+                <textarea id="output-text" readonly data-key-placeholder="outputPlaceholder" placeholder="See the converted text here..."></textarea>
+                <div class="output-buttons">
+                    <button id="copy-output-btn" class="action-btn" data-key="copyBtn">Copy Output</button>
+                    <button id="clear-output-btn" class="action-btn" data-key="clearBtn">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            title: { eng: 'Sinhala Font Converter', sin: 'සිංහල ෆොන්ට් පරිවර්තකය' },
+            subtitle: { eng: 'Easily convert between FM fonts and Unicode.', sin: 'FM ෆොන්ට් සහ යුනිකෝඩ් අතර පහසුවෙන් පරිවර්තනය කරන්න.' },
+            inputLabel: { eng: 'Input Text (FM Font or Unicode)', sin: 'ආදාන පාඨය (FM ෆොන්ට් හෝ යුනිකෝඩ්)' },
+            inputPlaceholder: { eng: 'Enter the text you want to convert here...', sin: 'ඔබට පරිවර්තනය කිරීමට අවශ්‍ය පාඨය මෙහි යොදන්න...' },
+            fmToUni: { eng: 'FM ➔ Unicode', sin: 'FM ➔ යුනිකෝඩ්' },
+            uniToFm: { eng: 'Unicode ➔ FM', sin: 'යුනිකෝඩ් ➔ FM' },
+            outputLabel: { eng: 'Output Text', sin: 'ප්‍රතිදාන පාඨය' },
+            outputPlaceholder: { eng: 'See the converted text here...', sin: 'පරිවර්තනය කළ පාඨය මෙතැනින් බලන්න...' },
+            copyBtn: { eng: 'Copy Output', sin: 'ප්‍රතිදානය පිටපත් කරන්න' },
+            clearBtn: { eng: 'Clear', sin: 'මකන්න' },
+            copied: { eng: 'Copied!', sin: 'පිටපත් කලා!' }
+        };
+
+        let currentLang = 'eng'; // Default is English now
+        const langSwitcherBtn = document.getElementById('lang-switcher-btn');
+        
+        function updateLanguage(lang) {
+            currentLang = lang;
+            langSwitcherBtn.textContent = lang === 'sin' ? 'English' : 'සිංහල';
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (translations[key]?.[lang]) el.textContent = translations[key][lang];
+            });
+            document.querySelectorAll('[data-key-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-key-placeholder');
+                if (translations[key]?.[lang]) el.placeholder = translations[key][lang];
+            });
+        }
+
+        langSwitcherBtn.addEventListener('click', () => updateLanguage(currentLang === 'sin' ? 'eng' : 'sin'));
+        updateLanguage(currentLang);
+
+        const inputText = document.getElementById('input-text');
+        const outputText = document.getElementById('output-text');
+        const fmToUniBtn = document.getElementById('fm-to-uni-btn');
+        const uniToFmBtn = document.getElementById('uni-to-fm-btn');
+        const copyOutputBtn = document.getElementById('copy-output-btn');
+        const clearOutputBtn = document.getElementById('clear-output-btn');
+
+        // --- Conversion Logic ---
+        const consonants = "ටඨඩඪණතථදධනපඵබභමඹයරලවශෂසහළඥඤ";
+        const vowels = "අආඇඈඉඊඋඌඑඒඓඔඕඖ";
+        
+        const fmToUniMap = {
+            'A': '?', 'B': '?', 'C': '?', 'D': '?', 'E': '?', 'F': '?', 'G': '?', 'H': '?',
+            'I': 'ෂ', 'J': '?', 'K': 'ණ', 'L': 'ඛ', 'M': 'ඵ', 'N': 'භ', 'O': 'ධ', 'P': 'ඡ', 'Q': '?',
+            'R': '?', 'S': 'ඝ', 'T': '?', 'U': '?', 'V': 'ඪ', 'W': 'ආ', 'X': '?', 'Y': 'ශ', 'Z': '?',
+            'a': '්', 'b': 'ඉ', 'c': 'ජ', 'd': 'ා', 'e': 'ැ', 'f': 'ෙ', 'g': 'ග', 'h': 'ය', 'i': 'ස', 'j': 'ව',
+            'k': 'න', 'l': 'ත', 'm': 'ප', 'n': 'බ', 'o': 'ද', 'p': 'ච', 'q': 'ු', 'r': 'ර', 's': 'ි', 't': 'එ',
+            'u': 'ම', 'v': 'ඩ', 'w': 'අ', 'x': 'ං', 'y': 'හ', 'z': '?',
+            'ff;': 'ළු', 'ffY': 'ශෛ', 'ffp': 'චෛ', 'ffk': 'නෛ', 'ffu': 'මෛ',
+            'ffl': 'තෛ', 'ffg': 'ගෛ', 'ffv': 'ඩෛ', 'ffh': 'යෛ', 'ffj': 'වෛ',
+            'ffO': 'ධෛ', 'ffc': 'ජෛ', 'ffn': 'බෛ', 'ffm': 'පෛ', 'ff;': 'ළෛ',
+            'ffs': 'ඝෛ', 'ffI': 'ෂෛ', 'ffY': 'ශෛ', 'ffo': 'දෛ', 'ffO': 'ධෛ', 'ff;': 'ළෛ',
+            'f;': 'ළෙ', 'fI': 'ෂෙ', 'fY': 'ශෙ',
+            ';': 'ළ', '(': '(', ')': ')', '%': '්‍ර', '.': 'ග', ',': 'ල',
+            'þ': '(', 'ü': 'ף', 'û': ' 乳', 'ú': ' 覽', 'ù': '?', 'ø': '?', 'ö': '÷',
+            '÷': '?', 'õ': '?', 'ô': '?', 'ó': '?', 'ò': '?', 'ñ': '?', 'ð': '?', 'ï': '?',
+            'î': '?', 'í': '?', 'ì': '?', 'ë': 'ඳු', 'ê': '?', 'é': '?', 'è': '?', 'ç': '?',
+            'æ': '?', 'å': '?', 'à': '?', 'á': '?', 'â': '?', 'ã': '?', 'ä': '?', 'Ù': '?',
+            'Ú': '?', 'Û': '?', 'Ü': '?', 'Ý': '?', 'Þ': 'ඳ', 'ß': '?', '×': '?', 'Ö': '?',
+            'Ñ': '?', 'Ð': '?', 'Ï': '?', 'Î': 'ඬ', 'Í': '?', 'Ì': 'ඟ', 'Ë': '?', 'Ê': '?',
+            'Å': '?', 'Ä': '?', 'Ã': '?', 'Â': '?', 'Á': '?', 'À': '?',
+        };
+
+        const uniToFmMap = {
+            'අ': 'w', 'ආ': 'wd', 'ඇ': 'we', 'ඈ': 'wE', 'ඉ': 'b', 'ඊ': 'B', 'උ': 'u', 'ඌ': 'U',
+            'එ': 't', 'ඒ': 'ta', 'ඓ': 'tA', 'ඔ': 'f', 'ඕ': 'fa', 'ඖ': 'fA',
+            'ක': 'l', 'ඛ': 'L', 'ග': 'g', 'ඝ': 'G', 'ච': 'p', 'ඡ': 'P', 'ජ': 'c', 'ඣ': 'C', 'ට': ';', 'ඨ': 'G', 'ඩ': 'v', 'ඪ': 'V', 'ණ': 'K',
+            'ත': 'l', 'ථ': 'L', 'ද': 'o', 'ධ': 'O', 'න': 'k', 'ප': 'm', 'ඵ': 'M', 'බ': 'n', 'භ': 'N', 'ම': 'u', 'ඹ': 'U',
+            'ය': 'h', 'ර': 'r', 'ල': ',', 'ව': 'j', 'ශ': 'Y', 'ෂ': 'I', 'ස': 'i', 'හ': 'y', 'ළ': ';',
+            'ං': 'x', 'ஃ': 'x', '්': 'a', 'ා': 'd', 'ැ': 'e', 'ෑ': 'E', 'ි': 's', 'ී': 'S', 'ු': 'q', 'ූ': 'Q',
+            'ෘ': 'D', 'ෙ': 'f', 'ේ': 'fa', 'ෛ': 'fA', 'ො': 'f', 'ෝ': 'fa', 'ෞ': 'fA',
+            'ෆ': 'f', 'ঙ': 'X', 'ඡ': 'P', 'ඣ': 'C', 'ඤ': 'c', 'ඥ': 'CO', 'ඳ': 'Þ', 'ඟ': 'Õ', 'ඬ': 'Î',
+            '੍ਰ': '%', '്യ': 'H', 'ஸ்ரீ': 'Y%S',
+            ' ': ' '
+        };
+
+        function convertFMToUnicode(text) {
+            let output = '';
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                let nextChar = text[i + 1] || '';
+                let twoChars = char + nextChar;
+
+                if (twoChars === 'ff') {
+                    output += 'ff'; // Keep it for now, handle later
+                    i++;
+                    continue;
+                }
+                
+                if(char === 'f'){
+                    let nextChar = text[i+1];
+                    let nextNextChar = text[i+2];
+                     if(nextNextChar === 'd'){
+                        output += 'ෙ' + (fmToUniMap[nextChar] || nextChar) + 'ා';
+                        i += 2;
+                    } else if(nextNextChar === 's'){
+                         output += 'ෙ' + (fmToUniMap[nextChar] || nextChar) + 'ි';
+                         i += 2;
+                    }
+                    else {
+                        output += 'ෙ' + (fmToUniMap[nextChar] || nextChar);
+                        i++;
+                    }
+                } else {
+                     output += fmToUniMap[char] || char;
+                }
+            }
+            return output;
+        }
+
+        function convertUnicodeToFM(text) {
+            let output = '';
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                let nextChar = text[i + 1] || '';
+                
+                if(nextChar && (nextChar === '්' || nextChar === '්‍ර')){
+                     let combination = char + nextChar + (text[i+2] || '');
+                     if(uniToFmMap[combination]){
+                         output += uniToFmMap[combination];
+                         i += 2;
+                         continue;
+                     }
+                     if(uniToFmMap[char+nextChar]){
+                        output += uniToFmMap[char+nextChar];
+                        i++;
+                        continue;
+                     }
+                }
+                
+                if(nextChar && ['ෙ','ේ','ෛ','ො','ෝ','ෞ'].includes(nextChar)){
+                    output += uniToFmMap[nextChar];
+                    output += uniToFmMap[char];
+                    i++;
+                } else {
+                     output += uniToFmMap[char] || char;
+                }
+            }
+            return output;
+        }
+
+        fmToUniBtn.addEventListener('click', () => {
+            inputText.classList.add('fm-font');
+            outputText.classList.remove('fm-font');
+            outputText.value = convertFMToUnicode(inputText.value);
+        });
+        
+        uniToFmBtn.addEventListener('click', () => {
+            inputText.classList.remove('fm-font');
+            outputText.classList.add('fm-font');
+            outputText.value = convertUnicodeToFM(inputText.value);
+        });
+
+        copyOutputBtn.addEventListener('click', () => {
+            if (outputText.value) {
+                navigator.clipboard.writeText(outputText.value).then(() => {
+                    copyOutputBtn.textContent = translations.copied[currentLang];
+                    setTimeout(() => {
+                        copyOutputBtn.textContent = translations.copyBtn[currentLang];
+                    }, 2000);
+                }).catch(err => console.error('Failed to copy text: ', err));
+            }
+        });
+
+        clearOutputBtn.addEventListener('click', () => {
+            outputText.value = '';
+        });
+    </script>
+</body>
+</html>
+

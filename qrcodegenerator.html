@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- QR Code Generation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- PDF Generation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(-45deg, #0f0c29, #1e1b4b, #302b63, #24243e);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
+        .glass-card {
+            background: rgba(41, 51, 70, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Tab Styles */
+        .tab-btn {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .tab-btn.active {
+            background-color: rgba(96, 165, 250, 0.2); /* bg-blue-400/20 */
+            color: #60a5fa; /* text-blue-400 */
+        }
+        
+        /* Dropdown Styles */
+        .dropdown { position: relative; }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #1f2937; /* bg-gray-800 */
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            overflow: hidden;
+        }
+        .dropdown-content button {
+            color: #f9fafb;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            width: 100%;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .dropdown-content button:hover { background-color: #4b5563; }
+        .dropdown-content.show { display: block; }
+    </style>
+</head>
+<body class="text-gray-200 flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-md glass-card rounded-2xl shadow-2xl p-6 md:p-8 space-y-6 text-center">
+        <!-- Header -->
+        <div>
+            <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">QR Code Generator</h1>
+            <p class="text-gray-400 mt-2">ඔබේ වෙබ් ලිපිනය, දුරකථන අංකය හෝ ඕනෑම පෙළක් QR කේතයක් බවට පත් කරන්න.</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex border border-gray-600 rounded-full p-1">
+            <button id="tab-text" class="tab-btn active w-1/2 rounded-full py-2">Text / URL</button>
+            <button id="tab-phone" class="tab-btn w-1/2 rounded-full py-2">Phone Number</button>
+        </div>
+
+        <!-- Input Form -->
+        <form id="qr-form" class="space-y-4">
+            <div id="content-text">
+                <input type="text" id="text-input" placeholder="Enter URL or Text..." class="w-full bg-gray-900/50 border border-gray-600 rounded-full p-3 px-5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <!-- **UPDATED**: Phone input with country code selector with flags -->
+            <div id="content-phone" class="hidden flex gap-2">
+                <select id="country-code" class="bg-gray-900/50 border border-gray-600 rounded-full p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="+94">🇱🇰 (+94)</option>
+                    <option value="+91">🇮🇳 (+91)</option>
+                    <option value="+1">🇺🇸 (+1)</option>
+                    <option value="+44">🇬🇧 (+44)</option>
+                    <option value="+61">🇦🇺 (+61)</option>
+                    <option value="+81">🇯🇵 (+81)</option>
+                </select>
+                <input type="tel" id="phone-input" placeholder="77 123 4567" class="w-full bg-gray-900/50 border border-gray-600 rounded-full p-3 px-5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg shadow-blue-500/30">
+                Generate QR Code
+            </button>
+        </form>
+
+        <!-- QR Code Display -->
+        <div id="qrcode-container" class="p-4 bg-white rounded-lg inline-block shadow-lg hidden">
+            <div id="qrcode"></div>
+        </div>
+        
+        <!-- Download Button & Dropdown -->
+        <div id="download-container" class="dropdown hidden">
+             <button id="download-btn" class="inline-block bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-full transition-transform transform hover:scale-105">
+                Download
+            </button>
+            <div id="download-dropdown" class="dropdown-content">
+                <button id="download-png">Download as PNG</button>
+                <button id="download-pdf">Download as PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const qrForm = document.getElementById('qr-form');
+        const textInput = document.getElementById('text-input');
+        const phoneInput = document.getElementById('phone-input');
+        const countryCodeSelect = document.getElementById('country-code');
+        const qrcodeContainer = document.getElementById('qrcode-container');
+        const qrcodeDiv = document.getElementById('qrcode');
+        const downloadContainer = document.getElementById('download-container');
+        const downloadBtn = document.getElementById('download-btn');
+        const downloadDropdown = document.getElementById('download-dropdown');
+        const downloadPngBtn = document.getElementById('download-png');
+        const downloadPdfBtn = document.getElementById('download-pdf');
+        
+        const tabText = document.getElementById('tab-text');
+        const tabPhone = document.getElementById('tab-phone');
+        const contentText = document.getElementById('content-text');
+        const contentPhone = document.getElementById('content-phone');
+
+        let qrcode = null;
+        let activeTab = 'text';
+
+        // Tab switching logic
+        tabText.addEventListener('click', () => {
+            activeTab = 'text';
+            tabText.classList.add('active');
+            tabPhone.classList.remove('active');
+            contentText.classList.remove('hidden');
+            contentPhone.classList.add('hidden');
+        });
+
+        tabPhone.addEventListener('click', () => {
+            activeTab = 'phone';
+            tabPhone.classList.add('active');
+            tabText.classList.remove('active');
+            contentPhone.classList.remove('hidden');
+            contentText.classList.add('hidden');
+        });
+
+        qrForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let textToEncode = '';
+
+            if (activeTab === 'text') {
+                textToEncode = textInput.value.trim();
+            } else {
+                const countryCode = countryCodeSelect.value;
+                // Remove leading zeros from the phone number to create a valid tel URI
+                const phoneNumber = phoneInput.value.trim().replace(/^0+/, '');
+                if (phoneNumber) {
+                    textToEncode = `tel:${countryCode}${phoneNumber}`;
+                }
+            }
+            
+            if (textToEncode) {
+                generateQRCode(textToEncode);
+            }
+        });
+
+        function generateQRCode(text) {
+            qrcodeDiv.innerHTML = '';
+            qrcode = new QRCode(qrcodeDiv, {
+                text: text,
+                width: 200,
+                height: 200,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+            qrcodeContainer.classList.remove('hidden');
+            downloadContainer.classList.remove('hidden');
+        }
+
+        // Download logic
+        downloadBtn.addEventListener('click', () => {
+            downloadDropdown.classList.toggle('show');
+        });
+
+        // Close dropdown if clicked outside
+        window.onclick = (event) => {
+            if (!event.target.matches('#download-btn')) {
+                if (downloadDropdown.classList.contains('show')) {
+                    downloadDropdown.classList.remove('show');
+                }
+            }
+        };
+
+        downloadPngBtn.addEventListener('click', () => {
+            const canvas = qrcodeDiv.querySelector('canvas');
+            if (canvas) {
+                const a = document.createElement('a');
+                a.href = canvas.toDataURL("image/png");
+                a.download = "qrcode.png";
+                a.click();
+            }
+        });
+
+        downloadPdfBtn.addEventListener('click', () => {
+            const canvas = qrcodeDiv.querySelector('canvas');
+            if (canvas) {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'px',
+                    format: [canvas.width + 20, canvas.height + 20] // Page size based on QR code size
+                });
+                const imgData = canvas.toDataURL('image/png');
+                doc.addImage(imgData, 'PNG', 10, 10, canvas.width, canvas.height);
+                doc.save('qrcode.pdf');
+            }
+        });
+
+    </script>
+
+</body>
+</html>

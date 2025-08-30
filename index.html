@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malith Studio®</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        :root {
+            --glow-color: hsl(231, 79%, 58%);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+            color: #e5e7eb;
+            margin: 0;
+            overflow-x: hidden;
+            /* The main gradient is a fallback and base */
+            background-image: linear-gradient(145deg, #1e3a8a 0%, #312e81 50%, #0b0f19 100%);
+            animation: gradient-animation 15s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        #background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Place it behind everything */
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.05) 70%);
+            animation: float 20s infinite ease-in-out;
+            filter: blur(20px);
+        }
+
+
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes float {
+            0% { transform: translate(0px, 0px); }
+            50% { transform: translate(30vw, 30vh); }
+            100% { transform: translate(0px, 0px); }
+        }
+
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative; /* To keep content above background */
+            z-index: 2;
+        }
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            z-index: 50;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .logo-wrapper {
+            position: relative;
+            width: 40px;
+            height: 40px;
+        }
+        .logo-wrapper::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: 9999px;
+            background: conic-gradient(from var(--angle), #6366f1, #a855f7, #ec4899, #f59e0b, #6366f1);
+            animation: spin 5s linear infinite;
+            filter: blur(5px);
+        }
+        @keyframes spin {
+            0% { --angle: 0deg; }
+            100% { --angle: 360deg; }
+        }
+        .logo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 9999px;
+            position: relative;
+            z-index: 1;
+            background: #0b0f19;
+        }
+        .logo-text { font-size: 1.25rem; font-weight: 800; color: white; }
+        nav ul {
+            display: none;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 2rem;
+        }
+        @media (min-width: 1024px) {
+            nav ul { display: flex; }
+        }
+        nav a {
+            color: #d1d5db;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        nav a:hover { color: #818cf8; }
+        /* Hero Section */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 80px;
+        }
+        .hero-content h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #d1d5db;
+        }
+        .animated-text {
+            font-size: 3rem;
+            font-weight: 800;
+            background-image: linear-gradient(90deg, #a855f7, #ec4899, #f59e0b, #a855f7);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: text-animation 5s linear infinite;
+        }
+        @keyframes text-animation {
+            to { background-position: 200% center; }
+        }
+        .hero-content p {
+            max-width: 600px;
+            margin: 1.5rem auto;
+            font-size: 1.125rem;
+            color: #9ca3af;
+        }
+        .cta-button {
+            display: inline-block;
+            background-image: linear-gradient(to right, #6366f1, #8b5cf6);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
+        }
+        /* Sections */
+        section {
+            padding: 6rem 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            color: #c7d2fe;
+        }
+        /* Project Cards */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 2rem;
+        }
+        @media (min-width: 640px) {
+            .projects-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+         @media (min-width: 1024px) {
+            .projects-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        .project-card {
+            background-color: rgba(31, 41, 55, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid #374151;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .project-card .p-6 { padding: 1.5rem; flex-grow: 1;}
+        .project-card h4 { font-size: 1.25rem; font-weight: 700; color: white; }
+        .project-card p { color: #9ca3af; margin-top: 0.5rem; }
+
+        /* Services Section */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 2rem;
+        }
+         @media (min-width: 768px) {
+            .services-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        .service-card {
+             background-color: rgba(31, 41, 55, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid #374151;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .service-card:hover {
+             transform: translateY(-8px);
+        }
+        .service-icon {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem auto;
+        }
+        .service-icon svg { width: 32px; height: 32px; color: white;}
+        .service-card h4 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: white; }
+        .service-card p { color: #9ca3af; }
+
+         /* About Section */
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3rem;
+        }
+        @media (min-width: 768px) {
+            .about-content { flex-direction: row; }
+        }
+        .about-image {
+             position: relative;
+        }
+        .about-image .logo-wrapper { width: 240px; height: 240px; }
+        .about-text { max-width: 600px; }
+
+        /* Comments Section */
+        /* Styles for comments will be added here if needed */
+
+        /* Contact Section */
+        #contact {
+            text-align: center;
+        }
+        #contact p {
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+            font-size: 1.125rem;
+            color: #9ca3af;
+        }
+
+
+        /* Language Switcher */
+        .language-switcher {
+            position: relative;
+        }
+        #language-btn {
+            background: none;
+            border: 1px solid #4b5563;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        #language-options {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 0.5rem;
+            background-color: #1f2937;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            z-index: 10;
+        }
+        #language-options button {
+            display: block;
+            background: none;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 0.25rem;
+        }
+        #language-options button:hover {
+            background-color: #4b5563;
+        }
+    </style>
+</head>
+<body>
+    <div id="background-animation"></div>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo-container">
+                    <div class="logo-wrapper">
+                        <img src="logo.jpg" alt="Malith Studio® Logo" class="logo">
+                    </div>
+                    <span class="logo-text">Malith Studio®</span>
+                </div>
+                <ul>
+                    <li><a href="#home" data-key="navHome">Home</a></li>
+                    <li><a href="#projects" data-key="navProjects">Projects</a></li>
+                    <li><a href="#services" data-key="navServices">Services</a></li>
+                    <li><a href="#about" data-key="navAbout">About Us</a></li>
+                    <li><a href="#comments" data-key="navComments">Comments</a></li>
+                    <li><a href="#contact" data-key="navContact">Get In Touch</a></li>
+                </ul>
+                <div class="language-switcher">
+                    <button id="language-btn">English</button>
+                    <div id="language-options">
+                        <button data-lang="en">English</button>
+                        <button data-lang="si">සිංහල</button>
+                        <button data-lang="ta">தமிழ்</button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="home">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 data-key="heroWelcome">Welcome to</h1>
+                    <div class="animated-text">Malith Studio®</div>
+                    <p data-key="heroSubtitle">We build innovative tools that simplify your digital life. Saving your time is our priority.</p>
+                    <a href="#projects" class="cta-button" data-key="heroButton">Go to Projects</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="container">
+                <h2 class="section-title" data-key="projectsTitle">Our Projects</h2>
+                <div class="projects-grid">
+                     <!-- Project 1: Voice Typing -->
+                    <a href="voicetype.html" class="project-card">
+                        <img src="https://placehold.co/600x400/312e81/93c5fd?text=Voice+Typing" alt="Voice Typing">
+                        <div class="p-6">
+                            <h4 data-key="project1Title">Voice Typing Tool</h4>
+                            <p data-key="project1Desc">A modern tool designed to type using voice in Sinhala, English, and Tamil.</p>
+                        </div>
+                    </a>
+                    <!-- Project 2: Image to Text -->
+                    <a href="imagetotext.html" class="project-card">
+                        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1962&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Image to Text">
+                        <div class="p-6">
+                            <h4 data-key="project2Title">Image to Text (OCR)</h4>
+                            <p data-key="project2Desc">Easily convert text in a photo into editable text.</p>
+                        </div>
+                    </a>
+                    <!-- Project 3: Text Summarizer -->
+                    <a href="textsummarizer.html" class="project-card">
+                         <img src="https://images.unsplash.com/photo-1484417894907-623942c8ee29?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Text Summarizer">
+                        <div class="p-6">
+                            <h4 data-key="project3Title">Text Summarizer</h4>
+                            <p data-key="project3Desc">Don't waste time reading long articles, just summarize the most important points.</p>
+                        </div>
+                    </a>
+                    <!-- Project 4: To-Do List -->
+                    <a href="todolist.html" class="project-card">
+                        <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="To-Do List">
+                        <div class="p-6">
+                            <h4 data-key="project4Title">To-Do List</h4>
+                            <p data-key="project4Desc">Organize your daily tasks simply and efficiently. Your list is saved in your browser.</p>
+                        </div>
+                    </a>
+                    <!-- Project 5: QR Code Generator -->
+                    <a href="qrcodegenerator.html" class="project-card">
+                        <img src="https://images.unsplash.com/photo-1605379399642-870262d3d051?q=80&w=2106&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="QR Code Generator">
+                        <div class="p-6">
+                            <h4 data-key="project5Title">QR Code Generator</h4>
+                            <p data-key="project5Desc">Create QR codes for URLs, phone numbers, and text instantly.</p>
+                        </div>
+                    </a>
+                    <!-- Project 6: Password Generator -->
+                    <a href="passwordgenerator.html" class="project-card">
+                         <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Password Generator">
+                        <div class="p-6">
+                             <h4 data-key="project6Title">Password Generator</h4>
+                            <p data-key="project6Desc">Generate strong, secure, and random passwords to protect your online accounts.</p>
+                        </div>
+                    </a>
+                    <!-- Project 7: AI Presentation Idea Generator -->
+                    <a href="presentationideagenerator.html" class="project-card">
+                        <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Presentation Idea Generator">
+                        <div class="p-6">
+                            <h4 data-key="project7Title">AI Presentation Ideas</h4>
+                            <p data-key="project7Desc">Get creative and structured ideas for your next presentation with the help of AI.</p>
+                        </div>
+                    </a>
+                    <!-- Project 8: Font Converter -->
+                    <a href="fontconverter.html" class="project-card">
+                        <img src="https://placehold.co/600x400/312e81/93c5fd?text=Font+Converter" alt="Font Converter">
+                        <div class="p-6">
+                            <h4 data-key="project8Title">Sinhala Font Converter</h4>
+                            <p data-key="project8Desc">Easily convert between legacy Sinhala fonts (FM) and standard Unicode.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <section id="services">
+             <div class="container">
+                <h2 class="section-title" data-key="servicesTitle">Our Services</h2>
+                <div class="services-grid">
+                    <!-- Service 1 -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" /></svg>
+                        </div>
+                        <h4 data-key="service1Title">Custom Tool Development</h4>
+                        <p data-key="service1Desc">We build custom web tools tailored to your specific needs, focusing on efficiency and user-friendliness to save you time.</p>
+                    </div>
+                     <!-- Service 2 -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>
+                        </div>
+                        <h4 data-key="service2Title">Modern Web Solutions</h4>
+                        <p data-key="service2Desc">From personal portfolios to small business sites, we create visually appealing and responsive websites that work perfectly on any device.</p>
+                    </div>
+                     <!-- Service 3 -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.5 13.5L18 15l-1.5 1.5" /></svg>
+                        </div>
+                        <h4 data-key="service3Title">AI Integration</h4>
+                        <p data-key="service3Desc">We enhance your web applications with the power of AI, creating smarter tools that automate tasks and provide intelligent solutions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title" data-key="aboutTitle">About Us</h2>
+                 <div class="about-content">
+                    <div class="about-image">
+                        <div class="logo-wrapper">
+                             <img src="logo.jpg" alt="Malith Studio® Logo" class="logo">
+                        </div>
+                    </div>
+                    <div class="about-text">
+                        <p data-key="aboutDesc1">Malith Studio® was founded with a simple mission: to create digital tools that genuinely help people. In a world full of complex software, we focus on building simple, intuitive, and powerful solutions that save time for busy individuals.</p>
+                        <p data-key="aboutDesc2" style="margin-top: 1rem;">Our journey began with the Voice Typing Tool, born from a desire to make documentation easier. Today, we continue to develop a suite of tools designed to streamline your daily digital tasks, making technology accessible and efficient for everyone.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+         <section id="comments">
+            <!-- Comments section will be populated by Firebase -->
+            <div class="container">
+                 <h2 class="section-title" data-key="commentsTitle">Comments</h2>
+                 <!-- Firebase will populate this area -->
+            </div>
+        </section>
+
+
+        <section id="contact">
+            <div class="container">
+                <h2 class="section-title" data-key="contactTitle">Get In Touch</h2>
+                <p data-key="contactDesc">Have a question or a project in mind? We'd love to hear from you. Reach out to us, and let's create something amazing together.</p>
+                <a href="mailto:malithstudio24@gmail.com" class="cta-button">Email Us</a>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // All JavaScript, including translations, scroll observer, etc.
+        const translations = {
+            navHome: { en: 'Home', si: 'මුල් පිටුව', ta: 'முகப்பு' },
+            navProjects: { en: 'Projects', si: 'නිර්මාණ', ta: 'திட்டங்கள்' },
+            navServices: { en: 'Services', si: 'සේවාවන්', ta: 'சேவைகள்' },
+            navAbout: { en: 'About Us', si: 'අප ගැන', ta: 'எங்களை பற்றி' },
+            navComments: { en: 'Comments', si: 'අදහස්', ta: 'கருத்துக்கள்' },
+            navContact: { en: 'Get In Touch', si: 'සම්බන්ධ වන්න', ta: 'தொடர்பு கொள்ளுங்கள்' },
+            heroWelcome: { en: 'Welcome to', si: 'සාදරයෙන් පිළිගනිමු', ta: 'வரவேற்கிறோம்' },
+            heroSubtitle: { en: 'We build innovative tools that simplify your digital life. Saving your time is our priority.', si: 'ඔබේ ඩිජිටල් ජීවිතය සරල කරන නව්‍ය මෙවලම් අපි නිර්මාණය කරමු. ඔබේ කාලය ඉතිරි කිරීම අපගේ ප්‍රමුඛතාවයයි.', ta: 'உங்கள் டிஜிட்டல் வாழ்க்கையை எளிதாக்கும் புதுமையான கருவிகளை நாங்கள் உருவாக்குகிறோம். உங்கள் நேரத்தை சேமிப்பது எங்கள் முன்னுரிமை.' },
+            heroButton: { en: 'Go to Projects', si: 'නිර්මාණ වෙත යන්න', ta: 'திட்டங்களுக்குச் செல்லவும்' },
+            projectsTitle: { en: 'Our Projects', si: 'අපගේ නිර්මාණ', ta: 'எங்கள் திட்டங்கள்' },
+            servicesTitle: { en: 'Our Services', si: 'අපගේ සේවාවන්', ta: 'எங்கள் சேவைகள்' },
+            aboutTitle: { en: 'About Us', si: 'අප ගැන', ta: 'எங்களை பற்றி' },
+            commentsTitle: { en: 'Comments', si: 'අදහස්', ta: 'கருத்துக்கள்' },
+            contactTitle: { en: 'Get In Touch', si: 'සම්බන්ධ වන්න', ta: 'தொடர்பு கொள்ளுங்கள்' },
+            contactDesc: { en: "Have a question or a project in mind? We'd love to hear from you. Reach out to us, and let's create something amazing together.", si: 'ඔබට ප්‍රශ්නයක් හෝ ව්‍යාපෘතියක් മനസ്സിൽ තිබේද? ඔබෙන් ඇසීමට අපි කැමතියි. අප හා සම්බන්ධ වන්න, අපි එක්ව පුදුමාකාර දෙයක් නිර්මාණය කරමු.', ta: 'உங்களுக்கு ஒரு கேள்வி அல்லது ஒரு திட்டம் உள்ளதா? உங்களிடமிருந்து கேட்க நாங்கள் விரும்பிறோம். எங்களைத் தொடர்புகொண்டு, நாம் ஒன்றிணைந்து அற்புதமான ஒன்றை உருவாக்குவோம்.'},
+            service1Title: { en: 'Custom Tool Development', si: 'විශේෂිත මෙවලම් සංවර්ධනය', ta: 'தனிப்பயன் கருவி மேம்பாடு' },
+            service1Desc: { en: 'We build custom web tools tailored to your specific needs, focusing on efficiency and user-friendliness to save you time.', si: 'අපි ඔබගේ විශේෂිත අවශ්‍යතා සඳහාම ගැලපෙන වෙබ් මෙවලම් නිර්මාණය කරමු. එහිදී ඔබගේ කාලය ඉතිරි කිරීම සඳහා කාර්යක්ෂමතාව සහ පරිශීලක-හිතකාමී බව කෙරෙහි අවධානය යොමු කරමු.', ta: 'உங்கள் நேரத்தை சேமிக்க, செயல்திறன் மற்றும் பயனர் நட்பை மையமாகக் கொண்டு, உங்கள் குறிப்பிட்ட தேவைகளுக்கு ஏற்ப தனிப்பயன் இணையக் கருவிகளை நாங்கள் உருவாக்குகிறோம்.' },
+            service2Title: { en: 'Modern Web Solutions', si: 'නවීන වෙබ් විසඳුම්', ta: 'நவீன வலை தீர்வுகள்' },
+            service2Desc: { en: 'From personal portfolios to small business sites, we create visually appealing and responsive websites that work perfectly on any device.', si: 'පුද්ගලික portfolio වල සිට කුඩා ව්‍යාපාරික වෙබ් අඩවි දක්වා, ඕනෑම උපාංගයකට ගැලපෙන, දෘශ්‍යමය වශයෙන් ආකර්ෂණීය සහ ප්‍රතිචාරාත්මක වෙබ් අඩවි අපි නිර්මාණය කරමු.', ta: 'தனிப்பட்ட портஃபோலியோக்கள் முதல் சிறு வணிக தளங்கள் வரை, எந்தவொரு சாதனத்திலும் hoàn hảoமாக செயல்படும் பார்வைக்கு ஈர்க்கக்கூடிய மற்றும் பதிலளிக்கக்கூடிய வலைத்தளங்களை நாங்கள் உருவாக்குகிறோம்.' },
+            service3Title: { en: 'AI Integration', si: 'AI ඒකාබද්ධ කිරීම', ta: 'AI ஒருங்கிணைப்பு' },
+            service3Desc: { en: 'We enhance your web applications with the power of AI, creating smarter tools that automate tasks and provide intelligent solutions.', si: 'කාර්යයන් ස්වයංක්‍රීය කරන සහ බුද්ධිමත් විසඳුම් සපයන දක්ෂ මෙවලම් නිර්මාණය කරමින්, AI හි බලයෙන් අපි ඔබගේ වෙබ් යෙදුම් වැඩිදියුණු කරමු.', ta: 'பணிகளை தானியக்கமாக்கும் மற்றும் புத்திசாலித்தனமான தீர்வுகளை வழங்கும் சிறந்த கருவிகளை உருவாக்கி, AI இன் சக்தியுடன் உங்கள் வலை பயன்பாடுகளை நாங்கள் மேம்படுத்துகிறோம்.' },
+            aboutDesc1: { en: 'Malith Studio® was founded with a simple mission: to create digital tools that genuinely help people. In a world full of complex software, we focus on building simple, intuitive, and powerful solutions that save time for busy individuals.', si: 'මලිත් ස්ටුඩියෝ® ආරම්භ කරන ලද්දේ සරල මෙහෙවරක් ඇතිවය: මිනිසුන්ට සැබවින්ම උපකාර වන ඩිජිටල් මෙවලම් නිර්මාණය කිරීම. සංකීර්ණ මෘදුකාංග වලින් පිරුණු ලෝකයක, කාර්යබහුල පුද්ගලයින් සඳහා කාලය ඉතිරි කරන සරල, интуитивно зрозумілий, සහ බලවත් විසඳුම් ගොඩනැගීම කෙරෙහි අපි අවධානය යොමු කරමු.', ta: 'மலித் ஸ்டுடியோ® ஒரு எளிய நோக்கத்துடன் நிறுவப்பட்டது: மக்களுக்கு உண்மையாக உதவும் டிஜிட்டல் கருவிகளை உருவாக்குவது. சிக்கலான மென்பொருட்கள் நிறைந்த உலகில், பிஸியான நபர்களுக்கு நேரத்தை சேமிக்கும் எளிய, உள்ளுணர்வு மற்றும் சக்திவாய்ந்த தீர்வுகளை உருவாக்குவதில் நாங்கள் கவனம் செலுத்துகிறோம்.' },
+            aboutDesc2: { en: 'Our journey began with the Voice Typing Tool, born from a desire to make documentation easier. Today, we continue to develop a suite of tools designed to streamline your daily digital tasks, making technology accessible and efficient for everyone.', si: 'අපගේ ගමන ආරම්භ වූයේ ලේඛන කටයුතු පහසු කිරීමේ අරමුණින් බිහි වූ කටහඬින් ටයිප් කිරීමේ මෙවලමෙනි. අද, අපි ඔබගේ දෛනික ඩිජිටල් කාර්යයන් විධිමත් කිරීම සඳහා නිර්මාණය කර ඇති මෙවලම් මාලාවක් අඛණ්ඩව සංවර්ධනය කරමින්, තාක්ෂණය සැමට ප්‍රවේශ විය හැකි සහ කාර්යක්ෂම කරවන්නෙමු.', ta: 'எங்கள் பயணம் குரல் தட்டச்சு கருவியுடன் தொடங்கியது, இது ஆவணப்படுத்தலை எளிதாக்கும் விருப்பத்திலிருந்து பிறந்தது. இன்று, உங்கள் தினசரி டிஜிட்டல் பணிகளை நெறிப்படுத்த வடிவமைக்கப்பட்ட கருவிகளின் தொகுப்பை நாங்கள் தொடர்ந்து உருவாக்குகிறோம், தொழில்நுட்பத்தை அனைவருக்கும் அணுகக்கூடியதாகவும் திறமையாகவும் ஆக்குகிறோம்.' },
+            project1Title: { en: 'Voice Typing Tool', si: 'කටහඬින් ටයිප් කිරීමේ මෙවලම', ta: 'குரல் தட்டச்சு கருவி' },
+            project1Desc: { en: 'A modern tool designed to type using voice in Sinhala, English, and Tamil.', si: 'සිංහල, ඉංග්‍රීසි, සහ දෙමළ භාෂාවලින් කටහඬ භාවිතයෙන් ටයිප් කිරීමට නිර්මාණය කරන ලද නවීන මෙවලමකි.', ta: 'சிங்களம், ஆங்கிலம் மற்றும் தமிழில் குரல் மூலம் தட்டச்சு செய்ய வடிவமைக்கப்பட்ட ஒரு நவீன கருவி.' },
+            project2Title: { en: 'Image to Text (OCR)', si: 'පින්තූරයෙන් අකුරු (OCR)', ta: 'படத்திலிருந்து உரை (OCR)' },
+            project2Desc: { en: 'Easily convert text in a photo into editable text.', si: 'ඡායාරූපයක ඇති අකුරු, සංස්කරණය කළ හැකි පෙළක් බවට පහසුවෙන් පරිවර්තනය කරන්න.', ta: 'ஒரு புகைப்படத்தில் உள்ள உரையை எளிதாக திருத்தக்கூடிய உரையாக மாற்றவும்.' },
+            project3Title: { en: 'Text Summarizer', si: 'ලිපි සාරාංශකරණය', ta: 'உரை சுருக்கம்' },
+            project3Desc: { en: "Don't waste time reading long articles, just summarize the most important points.", si: 'ረጅም ලිපි කියවීමට කාලය නාස්ති නොකර, වැදගත්ම කරුණු පමණක් සාරාංශගත කරන්න.', ta: 'நீண்ட கட்டுரைகளைப் படிப்பதில் நேரத்தை வீணாக்காதீர்கள், மிக முக்கியமான புள்ளிகளைச் சுருக்கவும்.' },
+            project4Title: { en: 'To-Do List', si: 'කළ යුතු දේ ලැයිස්තුව', ta: 'செய்ய வேண்டிய பட்டியல்' },
+            project4Desc: { en: 'Organize your daily tasks simply and efficiently. Your list is saved in your browser.', si: 'ඔබේ දෛනික කාර්යයන් සරලව හා කාර්යක්ෂමව සංවිධානය කරන්න. ඔබගේ ලැයිස්තුව ඔබගේ බ්‍රව්සරයේම සුරැකේ.', ta: 'உங்கள் தினசரி பணிகளை எளிமையாகவும் திறமையாகவும் ஒழுங்கமைக்கவும். உங்கள் பட்டியல் உங்கள் உலாவியில் சேமிக்கப்படும்.' },
+            project5Title: { en: 'QR Code Generator', si: 'QR කේත සාදන්නා', ta: 'QR குறியீடு ஜெனரேட்டர்' },
+            project5Desc: { en: 'Create QR codes for URLs, phone numbers, and text instantly.', si: 'වෙබ් ලිපින, දුරකථන අංක, සහ පෙළ සඳහා ක්ෂණිකව QR කේත සාදන්න.', ta: 'URLகள், தொலைபேசி எண்கள் மற்றும் உரைக்கு உடனடியாக QR குறியீடுகளை உருவாக்கவும்.' },
+            project6Title: { en: 'Password Generator', si: 'මුරපද සාදන්නා', ta: 'கடவுச்சொல் ஜெனரேட்டர்' },
+            project6Desc: { en: 'Generate strong, secure, and random passwords to protect your online accounts.', si: 'ඔබගේ මාර්ගගත ගිණුම් ආරක්ෂා කර ගැනීමට ශක්තිමත්, ආරක්ෂිත, සහ අහඹු මුරපද සාදන්න.', ta: 'உங்கள் ஆன்லைன் கணக்குகளைப் பாதுகாக்க வலுவான, பாதுகாப்பான மற்றும் சீரற்ற கடவுச்சொற்களை உருவாக்கவும்.' },
+            project7Title: { en: 'AI Presentation Ideas', si: 'AI ඉදිරිපත් කිරීමේ අදහස්', ta: 'AI விளக்கக்காட்சி யோசனைகள்' },
+            project7Desc: { en: 'Get creative and structured ideas for your next presentation with the help of AI.', si: 'AI හි සහාය ඇතිව ඔබගේ මීළඟ ඉදිරිපත් කිරීම සඳහා නිර්මාණාත්මක සහ ව්‍යුහගත අදහස් ලබා ගන්න.', ta: 'AI உதவியுடன் உங்கள் அடுத்த விளக்கக்காட்சிக்கு ஆக்கப்பூர்வமான மற்றும் கட்டமைக்கப்பட்ட யோசனைகளைப் பெறுங்கள்.' },
+            project8Title: { en: 'Sinhala Font Converter', si: 'සිංහල ෆොන්ට් පරිවර්තකය', ta: 'சிங்கள எழுத்துரு மாற்றி' },
+            project8Desc: { en: 'Easily convert between legacy Sinhala fonts (FM) and standard Unicode.', si: 'පැරණි සිංහල ෆොන්ට් (FM) සහ සම්මත යුනිකෝඩ් අතර පහසුවෙන් පරිවර්තනය කරන්න.', ta: 'பழைய சிங்கள எழுத்துருக்களுக்கும் (FM) மற்றும் நிலையான யூனிகோட்டிற்கும் இடையில் எளிதாக மாற்றவும்.' },
+        };
+
+        const languageBtn = document.getElementById('language-btn');
+        const languageOptions = document.getElementById('language-options');
+        let currentLang = 'en';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            languageBtn.textContent = lang.toUpperCase();
+            languageOptions.style.display = 'none';
+            document.documentElement.lang = lang;
+
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[key] && translations[key][lang]) {
+                    element.textContent = translations[key][lang];
+                }
+            });
+            
+            // Pass language to linked pages
+            document.querySelectorAll('a[href*=".html"]').forEach(link => {
+                 if(link.href.includes('.html')){
+                    const url = new URL(link.href, window.location.origin);
+                    url.searchParams.set('lang', lang);
+                    link.href = url.toString();
+                }
+            });
+        }
+
+        languageBtn.addEventListener('click', () => {
+            languageOptions.style.display = languageOptions.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.querySelectorAll('#language-options button').forEach(button => {
+            button.addEventListener('click', () => {
+                setLanguage(button.getAttribute('data-lang'));
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!languageBtn.contains(e.target)) {
+                languageOptions.style.display = 'none';
+            }
+        });
+        
+        // Intersection Observer for scroll animations
+        const sections = document.querySelectorAll('section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Background Orbs Animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const bgAnimation = document.getElementById('background-animation');
+            const numberOfOrbs = 15;
+
+            for (let i = 0; i < numberOfOrbs; i++) {
+                const orb = document.createElement('div');
+                orb.classList.add('orb');
+
+                const size = Math.random() * 200 + 50; // 50px to 250px
+                orb.style.width = `${size}px`;
+                orb.style.height = `${size}px`;
+                
+                orb.style.top = `${Math.random() * 100}vh`;
+                orb.style.left = `${Math.random() * 100}vw`;
+                
+                orb.style.animationDuration = `${Math.random() * 20 + 20}s`; // 20s to 40s
+                orb.style.animationDelay = `-${Math.random() * 10}s`;
+                
+                // Add a second, different animation to each orb for more randomness
+                const orbAnim = document.createElement('style');
+                orbAnim.innerHTML = `
+                    @keyframes float-orb-${i} {
+                        0% { transform: translate(0, 0) scale(1); }
+                        33% { transform: translate(${Math.random() * 40 - 20}vw, ${Math.random() * 40 - 20}vh) scale(1.2); }
+                        66% { transform: translate(${Math.random() * 40 - 20}vw, ${Math.random() * 40 - 20}vh) scale(0.8); }
+                        100% { transform: translate(0, 0) scale(1); }
+                    }
+                `;
+                document.head.appendChild(orbAnim);
+                orb.style.animationName = `float-orb-${i}`;
+
+
+                bgAnimation.appendChild(orb);
+            }
+        });
+
+
+        // Initial language setup
+        setLanguage(currentLang);
+
+    </script>
+</body>
+</html>
+

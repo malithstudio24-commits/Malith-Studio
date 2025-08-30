@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to Text (OCR) Tool</title>
+    <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e3a8a, #312e81);
+            color: #f9fafb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+        }
+        .container {
+            width: 100%;
+            max-width: 48rem; /* max-w-2xl */
+            background-color: rgba(31, 41, 55, 0.8); /* bg-gray-800 with opacity */
+            backdrop-filter: blur(10px);
+            border-radius: 1rem; /* rounded-2xl */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .header { text-align: center; margin-bottom: 2rem; }
+        .header h1 { font-size: 2.25rem; font-weight: 700; color: #93c5fd; }
+        .header p { color: #d1d5db; margin-top: 0.5rem; }
+        .upload-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .file-input-wrapper:hover { transform: scale(1.05); }
+        #imageInput { position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+        #fileName { margin-left: 1rem; color: #d1d5db; font-style: italic; }
+        .lang-select {
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            background-color: #374151; /* bg-gray-700 */
+            border: 1px solid #4b5563;
+            color: white;
+            font-weight: 500;
+        }
+        .image-preview-container {
+            width: 100%;
+            min-height: 200px;
+            background-color: #111827;
+            border: 2px dashed #4b5563;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+        #imagePreview {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 0.25rem;
+        }
+        .loader {
+            border: 5px solid #374151;
+            border-top: 5px solid #8b5cf6;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .main-btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(to right, #8b5cf6, #ec4899);
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 1.5rem;
+        }
+        .main-btn:hover:not(:disabled) { box-shadow: 0 0 20px rgba(236, 72, 153, 0.5); }
+        .main-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .progress-container { width: 100%; margin-bottom: 1.5rem; }
+        #status { text-align: center; color: #9ca3af; margin-bottom: 0.5rem; font-size: 0.875rem; height: 1.25rem;}
+        #progressBar { width: 100%; height: 8px; background-color: #374151; border-radius: 4px; overflow: hidden; }
+        #progressBarInner { width: 0%; height: 100%; background: linear-gradient(to right, #3b82f6, #8b5cf6); transition: width 0.3s; }
+        .result-box {
+            position: relative;
+            width: 100%;
+            min-height: 150px;
+            background-color: #111827;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            color: #d1d5db;
+            font-family: monospace;
+            white-space: pre-wrap;
+            box-sizing: border-box;
+        }
+        #copyBtn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #4b5563;
+            border: none;
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .result-box:hover #copyBtn { opacity: 1; }
+        #copyBtn:hover { background-color: #6b7280; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1 data-key="title">Image to Text (OCR) Tool</h1>
+            <p data-key="subtitle">ඡායාරූපයක ඇති අකුරු පෙළක් බවට පරිවර්තනය කරන්න.</p>
+        </div>
+
+        <div class="upload-section">
+            <label for="imageInput" class="file-input-wrapper">
+                <span data-key="chooseFile">Choose File</span>
+                <input type="file" id="imageInput" accept="image/*">
+            </label>
+            <span id="fileName" data-key="noFileChosen">No file chosen</span>
+            <select id="langSelect" class="lang-select">
+                <option value="eng">English</option>
+                <option value="sin">Sinhala (සිංහල)</option>
+                <option value="tam">Tamil (தமிழ்)</option>
+            </select>
+        </div>
+
+        <div id="imagePreviewContainer" class="image-preview-container" style="display: none;">
+            <div id="loader" class="loader"></div>
+            <img id="imagePreview" src="#" alt="Image Preview" style="display: none;" />
+        </div>
+
+        <button id="recognizeBtn" class="main-btn" disabled data-key="recognize">Recognize Text</button>
+
+        <div class="progress-container">
+            <div id="status"></div>
+            <div id="progressBar"><div id="progressBarInner"></div></div>
+        </div>
+
+        <div class="result-box">
+            <pre id="resultText"></pre>
+            <button id="copyBtn" style="display: none;" data-key="copy">Copy</button>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            title: {
+                eng: 'Image to Text (OCR) Tool',
+                sin: 'Image to Text (OCR) මෙවලම',
+                tam: 'Image to Text (OCR) கருவி'
+            },
+            subtitle: {
+                eng: 'Convert text in an image into an editable string.',
+                sin: 'ඡායාරූපයක ඇති අකුරු පෙළක් බවට පරිවර්තනය කරන්න.',
+                tam: 'படத்தில் உள்ள உரையை திருத்தக்கூடிய சரமாக மாற்றவும்.'
+            },
+            chooseFile: {
+                eng: 'Choose File',
+                sin: 'ගොනුවක් තෝරන්න',
+                tam: 'கோப்பைத் தேர்ந்தெடுக்கவும்'
+            },
+            noFileChosen: {
+                eng: 'No file chosen',
+                sin: 'ගොනුවක් තෝරාගෙන නැත',
+                tam: 'கோப்பு எதுவும் தேர்ந்தெடுக்கப்படவில்லை'
+            },
+            recognize: {
+                eng: 'Recognize Text',
+                sin: 'අකුරු හඳුනාගන්න',
+                tam: 'உரையை அடையாளம் காணவும்'
+            },
+            copy: {
+                eng: 'Copy',
+                sin: 'පිටපත් කරන්න',
+                tam: 'நகலெடு'
+            },
+            copied: {
+                eng: 'Copied!',
+                sin: 'පිටපත් කලා!',
+                tam: 'நகலெடுக்கப்பட்டது!'
+            },
+            status: {
+                initializing: {
+                    eng: 'Initializing OCR engine...',
+                    sin: 'OCR යන්ත්‍රය ආරම්භ වෙමින් පවතී...',
+                    tam: 'OCR இயந்திரம் தொடங்குகிறது...'
+                },
+                loading: {
+                    eng: 'Downloading language data for the first time. This might take a few minutes...',
+                    sin: 'පළමු වරට භාෂා දත්ත බාගත වෙමින් පවතී. இதற்கு சில நிமிடங்கள் ஆகலாம்...',
+                    tam: 'முதல் முறையாக மொழித் தரவைப் பதிவிறக்குகிறது. இதற்கு சில நிமிடங்கள் ஆகலாம்...'
+                },
+                recognizing: {
+                    eng: 'Analyzing image and recognizing text...',
+                    sin: 'පින්තූරය විශ්ලේෂණය කරමින් සහ අකුරු හඳුනාගනිමින්...',
+                    tam: 'படத்தை பகுப்பாய்வு செய்து உரையை அடையாளம் காண்கிறது...'
+                },
+                done: {
+                    eng: 'Recognition complete!',
+                    sin: 'හඳුනාගැනීම අවසන්!',
+                    tam: 'அடையாளம் காணப்பட்டது!'
+                },
+                error: {
+                    eng: 'An error occurred. Please check your internet connection and try again.',
+                    sin: 'දෝෂයක් ඇතිවිය. කරුණාකර ඔබගේ අන්තර්ජාල සම්බන්ධතාවය පරීක්ෂා කර නැවත උත්සාහ කරන්න.',
+                    tam: 'ஒரு பிழை ஏற்பட்டது. உங்கள் இணைய இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.'
+                },
+                downloadingProgress: {
+                    eng: 'Downloading language data...',
+                    sin: 'භාෂා දත්ත බාගත වෙමින්...',
+                    tam: 'மொழித் தரவைப் பதிவிறக்குகிறது...'
+                }
+            }
+        };
+
+        const imageInput = document.getElementById('imageInput');
+        const fileNameEl = document.getElementById('fileName');
+        const langSelect = document.getElementById('langSelect');
+        const recognizeBtn = document.getElementById('recognizeBtn');
+        const statusEl = document.getElementById('status');
+        const progressBarInner = document.getElementById('progressBarInner');
+        const resultTextEl = document.getElementById('resultText');
+        const copyBtn = document.getElementById('copyBtn');
+        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+        const imagePreview = document.getElementById('imagePreview');
+        const loader = document.getElementById('loader');
+
+        let selectedFile = null;
+        let currentLang = 'sin'; // Default language
+
+        function updateUIText(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[key] && translations[key][lang]) {
+                    element.textContent = translations[key][lang];
+                }
+            });
+             // Also update lang in select for consistency, though it controls itself
+            langSelect.value = lang;
+        }
+
+        langSelect.addEventListener('change', (event) => {
+            updateUIText(event.target.value);
+        });
+
+        imageInput.addEventListener('change', (event) => {
+            selectedFile = event.target.files[0];
+            if (selectedFile) {
+                fileNameEl.textContent = selectedFile.name;
+                
+                imagePreviewContainer.style.display = 'flex';
+                imagePreview.style.display = 'none';
+                loader.style.display = 'block';
+                recognizeBtn.disabled = true;
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    loader.style.display = 'none';
+                    imagePreview.style.display = 'block';
+                    recognizeBtn.disabled = false;
+                };
+                reader.readAsDataURL(selectedFile);
+
+            } else {
+                fileNameEl.textContent = translations.noFileChosen[currentLang];
+                recognizeBtn.disabled = true;
+                imagePreviewContainer.style.display = 'none';
+            }
+        });
+
+        function getStatusMessage(statusKey) {
+            return translations.status[statusKey][currentLang];
+        }
+
+        recognizeBtn.addEventListener('click', async () => {
+            if (!selectedFile) return;
+
+            resultTextEl.textContent = '';
+            copyBtn.style.display = 'none';
+            recognizeBtn.disabled = true;
+            statusEl.textContent = getStatusMessage('initializing');
+            progressBarInner.style.width = '0%';
+
+            try {
+                const worker = await Tesseract.createWorker({
+                    logger: m => {
+                        if (m.status === 'loading language model') {
+                             if(m.progress > 0 && m.progress < 1) {
+                                statusEl.textContent = `${translations.status.downloadingProgress[currentLang]} (${Math.round(m.progress * 100)}%)`;
+                             } else {
+                                statusEl.textContent = getStatusMessage('loading');
+                             }
+                        } else if(m.status === 'recognizing text') {
+                            statusEl.textContent = getStatusMessage('recognizing');
+                        } else {
+                             statusEl.textContent = getStatusMessage('initializing');
+                        }
+
+                        if (m.progress) {
+                            progressBarInner.style.width = `${m.progress * 100}%`;
+                        }
+                    }
+                });
+                
+                await worker.loadLanguage(langSelect.value);
+                await worker.initialize(langSelect.value);
+                
+                const { data: { text } } = await worker.recognize(selectedFile);
+                
+                resultTextEl.textContent = text;
+                copyBtn.style.display = 'block';
+                statusEl.textContent = getStatusMessage('done');
+                
+                await worker.terminate();
+
+            } catch (error) {
+                console.error(error);
+                statusEl.textContent = getStatusMessage('error');
+            } finally {
+                recognizeBtn.disabled = false;
+            }
+        });
+
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(resultTextEl.textContent).then(() => {
+                copyBtn.textContent = translations.copied[currentLang];
+                setTimeout(() => {
+                    copyBtn.textContent = translations.copy[currentLang];
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        });
+
+        // Initialize UI with default language on page load
+        updateUIText(currentLang);
+    </script>
+
+</body>
+</html>
+
