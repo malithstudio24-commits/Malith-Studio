@@ -178,7 +178,7 @@
             placeholderOutput: { en: 'Summary will appear here...', si: 'සාරාංශය මෙහි දිස්වනු ඇත...', ta: 'சுருக்கம் இங்கே தோன்றும்...' },
             copy: { en: 'Copy Summary', si: 'සාරාංශය පිටපත් කරන්න', ta: 'சுருக்கத்தை நகலெடு' },
             copied: { en: 'Copied!', si: 'පිටපත් කලා!', ta: 'நகலெடுக்கப்பட்டது!' },
-            error: { en: 'An error occurred. Please try again.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. மீண்டும் முயல்க.'}
+            error: { en: 'An error occurred. Please check your API key and try again.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර ඔබගේ API යතුර පරීක්ෂා කර නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. உங்கள் API விசையைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.'}
         };
 
         let currentLang = 'en';
@@ -219,8 +219,9 @@
         }
 
         // --- API Logic ---
-        const apiKey = "AIzaSyDk_3fFXF1Jxq7F1rPXTf5q95ssu_HfYt4"; // Your Gemini API Key
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+        const apiKey = "AIzaSyDk_3fFXF1Jxq7F1rPXTf5q95ssu_HfYt4";
+        const model = 'gemini-1.5-flash';
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
         summarizeBtn.addEventListener('click', async () => {
             const textToSummarize = inputText.value;
@@ -237,13 +238,21 @@
 
             const prompt = `Summarize the following text concisely:\n\n${textToSummarize}`;
             
+             const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                safetySettings: [
+                    { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+                    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+                    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+                    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
+                ]
+            };
+
             try {
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: prompt }] }]
-                    })
+                    body: JSON.stringify(payload)
                 });
 
                 if (!response.ok) {
@@ -251,8 +260,14 @@
                 }
                 
                 const result = await response.json();
-                const summary = result.candidates[0].content.parts[0].text;
-                outputText.value = summary;
+                
+                if (result.candidates && result.candidates.length > 0 && result.candidates[0].content) {
+                    const summary = result.candidates[0].content.parts[0].text;
+                    outputText.value = summary;
+                } else {
+                    console.error("API Response Blocked:", result);
+                    throw new Error("No content received from API. It might have been blocked due to safety settings.");
+                }
 
             } catch (error) {
                 console.error("Error:", error);
@@ -281,3 +296,4 @@
     </script>
 </body>
 </html>
+

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="si">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,6 +16,32 @@
             min-height: 100vh;
             margin: 0;
             padding: 1rem;
+        }
+        .back-btn {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background-color: rgba(55, 65, 81, 0.9);
+            color: white;
+        }
+        .back-btn svg {
+            width: 1rem;
+            height: 1rem;
         }
         .container {
             width: 100%;
@@ -145,6 +171,13 @@
 </head>
 <body>
 
+    <a href="index.html" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+        <span data-key="backToHome">Back to Home</span>
+    </a>
+
     <div class="container">
         <button id="lang-switcher-btn" class="lang-switcher">සිංහල</button>
         <div class="header">
@@ -182,6 +215,7 @@
 
     <script>
         const translations = {
+            backToHome: { en: 'Back to Home', si: 'මුල් පිටුවට' },
             title: { eng: 'Sinhala Font Converter', sin: 'සිංහල ෆොන්ට් පරිවර්තකය' },
             subtitle: { eng: 'Easily convert between FM fonts and Unicode.', sin: 'FM ෆොන්ට් සහ යුනිකෝඩ් අතර පහසුවෙන් පරිවර්තනය කරන්න.' },
             inputLabel: { eng: 'Input Text (FM Font or Unicode)', sin: 'ආදාන පාඨය (FM ෆොන්ට් හෝ යුනිකෝඩ්)' },
@@ -195,25 +229,40 @@
             copied: { eng: 'Copied!', sin: 'පිටපත් කලා!' }
         };
 
-        let currentLang = 'eng'; // Default is English now
+        let currentLang = 'en';
+
         const langSwitcherBtn = document.getElementById('lang-switcher-btn');
         
         function updateLanguage(lang) {
             currentLang = lang;
             langSwitcherBtn.textContent = lang === 'sin' ? 'English' : 'සිංහල';
-            document.querySelectorAll('[data-key]').forEach(el => {
-                const key = el.getAttribute('data-key');
-                if (translations[key]?.[lang]) el.textContent = translations[key][lang];
+            
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[key] && translations[key][lang]) {
+                    element.textContent = translations[key][lang];
+                }
             });
-            document.querySelectorAll('[data-key-placeholder]').forEach(el => {
-                const key = el.getAttribute('data-key-placeholder');
-                if (translations[key]?.[lang]) el.placeholder = translations[key][lang];
+
+             document.querySelectorAll('[data-key-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-key-placeholder');
+                if (translations[key] && translations[key][lang]) {
+                    element.placeholder = translations[key][lang];
+                }
             });
         }
 
-        langSwitcherBtn.addEventListener('click', () => updateLanguage(currentLang === 'sin' ? 'eng' : 'sin'));
-        updateLanguage(currentLang);
+        function getLangFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const lang = params.get('lang');
+            return ['en', 'si'].includes(lang) ? lang : 'en';
+        }
 
+        langSwitcherBtn.addEventListener('click', () => {
+            const newLang = currentLang === 'sin' ? 'eng' : 'sin';
+            updateLanguage(newLang);
+        });
+        
         const inputText = document.getElementById('input-text');
         const outputText = document.getElementById('output-text');
         const fmToUniBtn = document.getElementById('fm-to-uni-btn');
@@ -221,30 +270,15 @@
         const copyOutputBtn = document.getElementById('copy-output-btn');
         const clearOutputBtn = document.getElementById('clear-output-btn');
 
-        // --- Conversion Logic ---
-        const consonants = "ටඨඩඪණතථදධනපඵබභමඹයරලවශෂසහළඥඤ";
-        const vowels = "අආඇඈඉඊඋඌඑඒඓඔඕඖ";
-        
         const fmToUniMap = {
-            'A': '?', 'B': '?', 'C': '?', 'D': '?', 'E': '?', 'F': '?', 'G': '?', 'H': '?',
-            'I': 'ෂ', 'J': '?', 'K': 'ණ', 'L': 'ඛ', 'M': 'ඵ', 'N': 'භ', 'O': 'ධ', 'P': 'ඡ', 'Q': '?',
-            'R': '?', 'S': 'ඝ', 'T': '?', 'U': '?', 'V': 'ඪ', 'W': 'ආ', 'X': '?', 'Y': 'ශ', 'Z': '?',
-            'a': '්', 'b': 'ඉ', 'c': 'ජ', 'd': 'ා', 'e': 'ැ', 'f': 'ෙ', 'g': 'ග', 'h': 'ය', 'i': 'ස', 'j': 'ව',
-            'k': 'න', 'l': 'ත', 'm': 'ප', 'n': 'බ', 'o': 'ද', 'p': 'ච', 'q': 'ු', 'r': 'ර', 's': 'ි', 't': 'එ',
-            'u': 'ම', 'v': 'ඩ', 'w': 'අ', 'x': 'ං', 'y': 'හ', 'z': '?',
-            'ff;': 'ළු', 'ffY': 'ශෛ', 'ffp': 'චෛ', 'ffk': 'නෛ', 'ffu': 'මෛ',
-            'ffl': 'තෛ', 'ffg': 'ගෛ', 'ffv': 'ඩෛ', 'ffh': 'යෛ', 'ffj': 'වෛ',
-            'ffO': 'ධෛ', 'ffc': 'ජෛ', 'ffn': 'බෛ', 'ffm': 'පෛ', 'ff;': 'ළෛ',
-            'ffs': 'ඝෛ', 'ffI': 'ෂෛ', 'ffY': 'ශෛ', 'ffo': 'දෛ', 'ffO': 'ධෛ', 'ff;': 'ළෛ',
-            'f;': 'ළෙ', 'fI': 'ෂෙ', 'fY': 'ශෙ',
-            ';': 'ළ', '(': '(', ')': ')', '%': '්‍ර', '.': 'ග', ',': 'ල',
-            'þ': '(', 'ü': 'ף', 'û': ' 乳', 'ú': ' 覽', 'ù': '?', 'ø': '?', 'ö': '÷',
-            '÷': '?', 'õ': '?', 'ô': '?', 'ó': '?', 'ò': '?', 'ñ': '?', 'ð': '?', 'ï': '?',
-            'î': '?', 'í': '?', 'ì': '?', 'ë': 'ඳු', 'ê': '?', 'é': '?', 'è': '?', 'ç': '?',
-            'æ': '?', 'å': '?', 'à': '?', 'á': '?', 'â': '?', 'ã': '?', 'ä': '?', 'Ù': '?',
-            'Ú': '?', 'Û': '?', 'Ü': '?', 'Ý': '?', 'Þ': 'ඳ', 'ß': '?', '×': '?', 'Ö': '?',
-            'Ñ': '?', 'Ð': '?', 'Ï': '?', 'Î': 'ඬ', 'Í': '?', 'Ì': 'ඟ', 'Ë': '?', 'Ê': '?',
-            'Å': '?', 'Ä': '?', 'Ã': '?', 'Â': '?', 'Á': '?', 'À': '?',
+            'w': 'අ', 'wd': 'ආ', 'we': 'ඇ', 'wE': 'ඈ', 'b': 'ඉ', 'B': 'ඊ', 'u': 'උ', 'U': 'ඌ',
+            't': 'එ', 'ta': 'ඒ', 'tA': 'ඓ', 'f': 'ඔ', 'fa': 'ඕ', 'fA': 'ඖ',
+            'l': 'ක', 'L': 'ඛ', 'g': 'ග', 'G': 'ඝ', 'p': 'ච', 'P': 'ඡ', 'c': 'ජ', 'C': 'ඣ', 'g': 'ට', 'G': 'ඨ', 'v': 'ඩ', 'V': 'ඪ', 'K': 'ණ',
+            'l': 'ත', 'L': 'ථ', 'o': 'ද', 'O': 'ධ', 'k': 'න', 'm': 'ප', 'M': 'ඵ', 'n': 'බ', 'N': 'භ', 'u': 'ම', 'U': 'ඹ',
+            'h': 'ය', 'r': 'ර', 'd': 'ල', 'j': 'ව', 'Y': 'ශ', 'I': 'ෂ', 'i': 'ස', 'y': 'හ', 'L': 'ළ', 'f': 'ෆ',
+            'x': 'ං', 'y': 'ඃ', 'X': 'ඞ', 'Õ': 'ඟ', 'Ë': 'ඬ', 'Þ': 'ඳ',
+            '%': '්‍ර', 'Y%S': 'ශ්‍රී', 'Yd': 'ශ්', 'Id': 'ෂ්',
+            'a': '්', 'd': 'ා', 'e': 'ැ', 'E': 'ෑ', 's': 'ි', 'S': 'ී', 'q': 'ු', 'Q': 'ූ', 'D': 'ෘ', 'f': 'ෙ'
         };
 
         const uniToFmMap = {
@@ -256,65 +290,16 @@
             'ං': 'x', 'ஃ': 'x', '්': 'a', 'ා': 'd', 'ැ': 'e', 'ෑ': 'E', 'ි': 's', 'ී': 'S', 'ු': 'q', 'ූ': 'Q',
             'ෘ': 'D', 'ෙ': 'f', 'ේ': 'fa', 'ෛ': 'fA', 'ො': 'f', 'ෝ': 'fa', 'ෞ': 'fA',
             'ෆ': 'f', 'ঙ': 'X', 'ඡ': 'P', 'ඣ': 'C', 'ඤ': 'c', 'ඥ': 'CO', 'ඳ': 'Þ', 'ඟ': 'Õ', 'ඬ': 'Î',
-            '੍ਰ': '%', '്യ': 'H', 'ஸ்ரீ': 'Y%S',
+            '්‍ර': '%', '്യ': 'H', 'ශ්‍රී': 'Y%S',
             ' ': ' '
         };
-
-        function convertFMToUnicode(text) {
-            let output = '';
-            for (let i = 0; i < text.length; i++) {
-                let char = text[i];
-                let nextChar = text[i + 1] || '';
-                let twoChars = char + nextChar;
-
-                if (twoChars === 'ff') {
-                    output += 'ff'; // Keep it for now, handle later
-                    i++;
-                    continue;
-                }
-                
-                if(char === 'f'){
-                    let nextChar = text[i+1];
-                    let nextNextChar = text[i+2];
-                     if(nextNextChar === 'd'){
-                        output += 'ෙ' + (fmToUniMap[nextChar] || nextChar) + 'ා';
-                        i += 2;
-                    } else if(nextNextChar === 's'){
-                         output += 'ෙ' + (fmToUniMap[nextChar] || nextChar) + 'ි';
-                         i += 2;
-                    }
-                    else {
-                        output += 'ෙ' + (fmToUniMap[nextChar] || nextChar);
-                        i++;
-                    }
-                } else {
-                     output += fmToUniMap[char] || char;
-                }
-            }
-            return output;
-        }
 
         function convertUnicodeToFM(text) {
             let output = '';
             for (let i = 0; i < text.length; i++) {
                 let char = text[i];
                 let nextChar = text[i + 1] || '';
-                
-                if(nextChar && (nextChar === '්' || nextChar === '්‍ර')){
-                     let combination = char + nextChar + (text[i+2] || '');
-                     if(uniToFmMap[combination]){
-                         output += uniToFmMap[combination];
-                         i += 2;
-                         continue;
-                     }
-                     if(uniToFmMap[char+nextChar]){
-                        output += uniToFmMap[char+nextChar];
-                        i++;
-                        continue;
-                     }
-                }
-                
-                if(nextChar && ['ෙ','ේ','ෛ','ො','ෝ','ෞ'].includes(nextChar)){
+                if(['ෙ','ේ','ෛ','ො','ෝ','ෞ'].includes(nextChar)){
                     output += uniToFmMap[nextChar];
                     output += uniToFmMap[char];
                     i++;
@@ -322,6 +307,34 @@
                      output += uniToFmMap[char] || char;
                 }
             }
+            return output;
+        }
+
+        function convertFMToUnicode(text) {
+            text = text.replace(/f([lLGpPcCgGvVKlLdoOmMnNhrydYIiysL])/g, 'เ$1');
+            let output = '';
+            for(let i=0; i<text.length; i++) {
+                let char = text[i];
+                let nextChar = text[i+1];
+                if(fmToUniMap[char+nextChar]) {
+                    output += fmToUniMap[char+nextChar];
+                    i++;
+                } else if(fmToUniMap[char]) {
+                    output += fmToUniMap[char];
+                } else {
+                    output += char;
+                }
+            }
+             output = output.replace(/เ(.)/g, '$1ෙ');
+             output = output.replace(/a(.)/g, '$1්');
+             output = output.replace(/d(.)/g, '$1ා');
+             output = output.replace(/e(.)/g, '$1ැ');
+             output = output.replace(/E(.)/g, '$1ෑ');
+             output = output.replace(/s(.)/g, '$1ි');
+             output = output.replace(/S(.)/g, '$1ී');
+             output = output.replace(/q(.)/g, '$1ු');
+             output = output.replace(/Q(.)/g, '$1ූ');
+             output = output.replace(/D(.)/g, '$1ෘ');
             return output;
         }
 
@@ -347,10 +360,14 @@
                 }).catch(err => console.error('Failed to copy text: ', err));
             }
         });
-
         clearOutputBtn.addEventListener('click', () => {
             outputText.value = '';
+            inputText.value = '';
         });
+
+        const initialLang = getLangFromURL();
+        updateLanguage(initialLang);
+
     </script>
 </body>
 </html>
