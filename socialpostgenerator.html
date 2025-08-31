@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Social Media Post Generator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e3a8a, #312e81);
+            color: #f9fafb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+        }
+        .back-btn {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background-color: rgba(55, 65, 81, 0.9);
+            color: white;
+        }
+        .back-btn svg {
+            width: 1rem;
+            height: 1rem;
+        }
+        .container {
+            width: 100%;
+            max-width: 48rem;
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .header { text-align: center; margin-bottom: 2rem; }
+        .header h1 { font-size: 2.25rem; font-weight: 700; color: #93c5fd; }
+        .header p { color: #d1d5db; margin-top: 0.5rem; }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        @media(min-width: 768px) {
+            .form-grid {
+                 grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .form-group label {
+            font-weight: 600;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            background-color: #111827;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: #f9fafb;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
+        }
+
+        .main-btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(to right, #8b5cf6, #ec4899);
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+        .main-btn:hover:not(:disabled) { box-shadow: 0 0 20px rgba(236, 72, 153, 0.5); }
+        .main-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .loader {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fff;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .result-box {
+            position: relative;
+            margin-top: 2rem;
+        }
+        #result-text {
+            width: 100%;
+            min-height: 150px;
+            background-color: #111827;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            color: #d1d5db;
+            white-space: pre-wrap;
+            box-sizing: border-box;
+        }
+        .output-controls {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            color: white;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        #copyBtn { background-color: #4b5563; }
+        #copyBtn:hover { background-color: #6b7280; }
+        #newPostBtn { background-color: #166534; }
+        #newPostBtn:hover { background-color: #15803d; }
+
+        #status {
+            text-align: center;
+            color: #f87171;
+            height: 1.5rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+        <span data-key="backToHome">Back to Home</span>
+    </a>
+
+    <div class="container">
+        <div class="header">
+            <h1 data-key="title">AI Social Media Post Generator</h1>
+            <p data-key="subtitle">Create engaging social media posts in seconds.</p>
+        </div>
+
+        <div id="form-container">
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label for="topic-input" data-key="topicLabel">Topic</label>
+                <input type="text" id="topic-input" data-key-placeholder="topicPlaceholder" placeholder="e.g., The benefits of morning walks">
+            </div>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="platform-select" data-key="platformLabel">Platform</label>
+                    <select id="platform-select">
+                        <option value="Facebook" data-key="platformFacebook">Facebook</option>
+                        <option value="X (Twitter)" data-key="platformX">X (Twitter)</option>
+                        <option value="Instagram" data-key="platformInstagram">Instagram</option>
+                        <option value="LinkedIn" data-key="platformLinkedIn">LinkedIn</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tone-select" data-key="toneLabel">Tone</label>
+                    <select id="tone-select">
+                        <option value="Professional" data-key="toneProfessional">Professional</option>
+                        <option value="Casual" data-key="toneCasual">Casual</option>
+                        <option value="Funny" data-key="toneFunny">Funny</option>
+                        <option value="Inspirational" data-key="toneInspirational">Inspirational</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="language-select" data-key="languageLabel">Language</label>
+                    <select id="language-select">
+                        <option value="English" data-key="langEnglish">English</option>
+                        <option value="Sinhala" data-key="langSinhala">Sinhala</option>
+                        <option value="Tamil" data-key="langTamil">Tamil</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button id="generate-btn" class="main-btn">
+                <span data-key="generate">Generate Post</span>
+                <div id="loader" class="loader" style="display: none;"></div>
+            </button>
+        </div>
+
+        <div class="result-box" id="result-box" style="display: none;">
+            <textarea id="result-text" readonly data-key-placeholder="placeholderOutput" placeholder="Generated post will appear here..."></textarea>
+            <div class="output-controls">
+                <button id="newPostBtn" class="action-btn" data-key="newPost">New Post</button>
+                <button id="copyBtn" class="action-btn" data-key="copy">Copy</button>
+            </div>
+        </div>
+        
+        <div id="status"></div>
+    </div>
+
+    <script>
+        const translations = {
+            backToHome: { en: 'Back to Home', si: 'මුල් පිටුවට', ta: 'முகப்புக்குச் செல்' },
+            title: { en: 'AI Social Media Post Generator', si: 'AI සමාජ මාධ්‍ය සටහන් සාදන්නා', ta: 'AI சமூக ஊடக பதிவு ஜெனரேட்டர்' },
+            subtitle: { en: 'Create engaging social media posts in seconds.', si: 'තත්පර කිහිපයකින් ආකර්ෂණීය සමාජ මාධ්‍ය සටහන් සාදන්න.', ta: 'சில நொடிகளில் ஈர்க்கக்கூடிய சமூக ஊடக பதிவுகளை உருவாக்கவும்.' },
+            topicLabel: { en: 'Topic', si: 'මාතෘකාව', ta: 'தலைப்பு' },
+            topicPlaceholder: { en: 'e.g., The benefits of morning walks', si: 'උදා: උදෑසන ඇවිදීමේ ප්‍රයෝජන', ta: 'எ.கா., காலை நடைப்பயிற்சியின் நன்மைகள்' },
+            platformLabel: { en: 'Platform', si: 'වේදිකාව', ta: 'தளம்' },
+            platformFacebook: { en: 'Facebook', si: 'ෆේස්බුක්', ta: 'முகநூல்' },
+            platformX: { en: 'X (Twitter)', si: 'X (ට්විටර්)', ta: 'X (ட்விட்டர்)' },
+            platformInstagram: { en: 'Instagram', si: 'ඉන්ස්ටග්‍රෑම්', ta: 'இன்ஸ்டாகிராம்' },
+            platformLinkedIn: { en: 'LinkedIn', si: 'ලින්ක්ඩ්ඉන්', ta: 'லிங்க்ட்இன்' },
+            toneLabel: { en: 'Tone', si: 'ස්වරය', ta: 'தொனி' },
+            toneProfessional: { en: 'Professional', si: 'වෘත්තීය', ta: 'தொழில்முறை' },
+            toneCasual: { en: 'Casual', si: 'සුහද', ta: 'சாதாரண' },
+            toneFunny: { en: 'Funny', si: 'හාස්‍යජනක', ta: 'வேடிக்கையான' },
+            toneInspirational: { en: 'Inspirational', si: 'ප්‍රබෝධමත්', ta: 'ஊக்கமளிக்கும்' },
+            languageLabel: { en: 'Language', si: 'භාෂාව', ta: 'மொழி' },
+            langEnglish: { en: 'English', si: 'ඉංග්‍රීසි', ta: 'ஆங்கிலம்' },
+            langSinhala: { en: 'Sinhala', si: 'සිංහල', ta: 'சிங்களம்' },
+            langTamil: { en: 'Tamil', si: 'දෙමළ', ta: 'தமிழ்' },
+            generate: { en: 'Generate Post', si: 'සටහන සාදන්න', ta: 'பதிவை உருவாக்கவும்' },
+            generating: { en: 'Generating...', si: 'සාදමින්...', ta: 'உருவாக்குகிறது...' },
+            newPost: { en: 'New Post', si: 'නව සටහනක්', ta: 'புதிய பதிவு' },
+            placeholderOutput: { en: 'Generated post will appear here...', si: 'සාදන ලද සටහන මෙහි දිස්වනු ඇත...', ta: 'உருவாக்கப்பட்ட பதிவு இங்கே தோன்றும்...' },
+            copy: { en: 'Copy', si: 'පිටපත් කරන්න', ta: 'நகலெடு' },
+            copied: { en: 'Copied!', si: 'පිටපත් කලා!', ta: 'நகலெடுக்கப்பட்டது!' },
+            error: { en: 'An error occurred. Please try again.', si: 'දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න.', ta: 'ஒரு பிழை ஏற்பட்டது. மீண்டும் முயல்க.'}
+        };
+
+        let currentLang = 'en';
+
+        // --- UI Elements ---
+        const formContainer = document.getElementById('form-container');
+        const topicInput = document.getElementById('topic-input');
+        const platformSelect = document.getElementById('platform-select');
+        const toneSelect = document.getElementById('tone-select');
+        const languageSelect = document.getElementById('language-select');
+        const generateBtn = document.getElementById('generate-btn');
+        const generateBtnText = generateBtn.querySelector('span');
+        const loader = document.getElementById('loader');
+        const resultBox = document.getElementById('result-box');
+        const resultText = document.getElementById('result-text');
+        const copyBtn = document.getElementById('copyBtn');
+        const newPostBtn = document.getElementById('newPostBtn');
+        const statusDiv = document.getElementById('status');
+        
+        function updateUIText(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (translations[key]?.[lang]) el.textContent = translations[key][lang];
+            });
+             document.querySelectorAll('[data-key-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-key-placeholder');
+                if (translations[key]?.[lang]) el.placeholder = translations[key][lang];
+            });
+        }
+        
+        function getLangFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const lang = params.get('lang');
+            return ['en', 'si', 'ta'].includes(lang) ? lang : 'en';
+        }
+
+        const apiKey = "AIzaSyDk_3fFXF1Jxq7F1rPXTf5q95ssu_HfYt4";
+        const model = 'gemini-1.5-flash';
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+        generateBtn.addEventListener('click', async () => {
+            const topic = topicInput.value;
+            const platform = platformSelect.value;
+            const tone = toneSelect.value;
+            const language = languageSelect.value;
+
+            if (!topic.trim()) {
+                statusDiv.textContent = 'Please enter a topic.';
+                return;
+            }
+
+            generateBtn.disabled = true;
+            generateBtnText.textContent = translations.generating[currentLang];
+            loader.style.display = 'inline-block';
+            resultBox.style.display = 'none';
+            statusDiv.textContent = '';
+
+            const prompt = `Act as a professional social media manager. Write a post for ${platform} about the topic: "${topic}". The language of the post must be ${language}. The tone of the post should be ${tone}. For Instagram, include relevant emojis and 3-5 popular hashtags. For X (Twitter), keep it concise and under 280 characters. For LinkedIn, make it professional and engaging. For Facebook, make it friendly and include a question to encourage comments.`;
+            
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                 safetySettings: [
+                    { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+                    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+                    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+                    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
+                ]
+            };
+
+            try {
+                const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if (!response.ok) throw new Error(`API Error: ${response.status}`);
+                const result = await response.json();
+                
+                if (result.candidates?.[0]?.content) {
+                    const post = result.candidates[0].content.parts[0].text;
+                    resultText.value = post;
+                    resultBox.style.display = 'block';
+                    formContainer.style.display = 'none'; // Hide the form
+                } else {
+                    console.error("API Response Blocked:", result);
+                    throw new Error("No content received from API.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                statusDiv.textContent = translations.error[currentLang];
+            } finally {
+                generateBtn.disabled = false;
+                generateBtnText.textContent = translations.generate[currentLang];
+                loader.style.display = 'none';
+            }
+        });
+        
+        copyBtn.addEventListener('click', () => {
+             if (resultText.value) {
+                navigator.clipboard.writeText(resultText.value);
+                copyBtn.textContent = translations.copied[currentLang];
+                setTimeout(() => { copyBtn.textContent = translations.copy[currentLang]; }, 2000);
+            }
+        });
+        
+        newPostBtn.addEventListener('click', () => {
+            resultBox.style.display = 'none';
+            formContainer.style.display = 'block';
+            topicInput.value = '';
+        });
+
+        const initialLang = getLangFromURL();
+        updateUIText(initialLang);
+    </script>
+</body>
+</html>
+

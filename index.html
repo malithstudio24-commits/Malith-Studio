@@ -70,11 +70,21 @@
             transform: translate(-50%, -50%);
             border-radius: 50%;
             pointer-events: none;
-            z-index: 10000;
+            z-index: 10000; /* Make sure it's on top */
         }
-        .cursor-dot { width: 8px; height: 8px; background-color: #fff; }
-        .cursor-outline { width: 40px; height: 40px; border: 2px solid rgba(255, 255, 255, 0.5); transition: width 0.3s, height 0.3s, border-color 0.3s, transform 0.1s; }
-        .cursor-grow { width: 60px; height: 60px; border-color: #a855f7; }
+        .cursor-dot {
+            width: 8px; height: 8px;
+            background-color: #fff;
+        }
+        .cursor-outline {
+            width: 40px; height: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.3s, height 0.3s, border-color 0.3s, transform 0.1s;
+        }
+        .cursor-grow {
+            width: 60px; height: 60px;
+            border-color: #a855f7;
+        }
 
         #background-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
         .orb { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.05) 70%); animation: float 20s infinite ease-in-out; filter: blur(20px); }
@@ -157,33 +167,16 @@
         .reaction-btn:hover { transform: scale(1.1); }
         .reaction-btn span { margin-left: 0.25rem; font-size: 0.875rem; font-weight: 500; }
         
-        /* Back to Top Button */
         #back-to-top {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background-color: rgba(139, 92, 246, 0.8);
-            backdrop-filter: blur(5px);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.4s, visibility 0.4s, transform 0.4s;
-            z-index: 100;
+            position: fixed; bottom: 2rem; right: 2rem;
+            background-color: rgba(139, 92, 246, 0.8); backdrop-filter: blur(5px);
+            color: white; width: 50px; height: 50px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none; opacity: 0; visibility: hidden;
+            transition: opacity 0.4s, visibility 0.4s, transform 0.4s; z-index: 100;
         }
-        #back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-        #back-to-top:hover {
-            transform: scale(1.1);
-        }
+        #back-to-top.visible { opacity: 1; visibility: visible; }
+        #back-to-top:hover { transform: scale(1.1); }
     </style>
 </head>
 <body>
@@ -248,6 +241,7 @@
                     <a href="passwordgenerator.html" class="project-card"><img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Password Generator"><div class="p-6"><h4 data-key="project6Title">Password Generator</h4><p data-key="project6Desc">Generate strong, secure, and random passwords to protect your online accounts.</p></div></a>
                     <a href="presentationideagenerator.html" class="project-card"><img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Presentation Idea Generator"><div class="p-6"><h4 data-key="project7Title">AI Presentation Ideas</h4><p data-key="project7Desc">Get creative and structured ideas for your next presentation with the help of AI.</p></div></a>
                     <a href="fontconverter.html" class="project-card"><img src="https://placehold.co/600x400/312e81/93c5fd?text=Font+Converter" alt="Font Converter"><div class="p-6"><h4 data-key="project8Title">Sinhala Font Converter</h4><p data-key="project8Desc">Easily convert between legacy Sinhala fonts (FM) and standard Unicode.</p></div></a>
+                    <a href="socialpostgenerator.html" class="project-card"><img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Social Media Post Generator"><div class="p-6"><h4 data-key="project9Title">AI Social Media Post Generator</h4><p data-key="project9Desc">Create engaging social media posts in seconds for various platforms.</p></div></a>
                 </div>
             </div>
         </section>
@@ -452,6 +446,8 @@
             project7Desc: { en: 'Get creative and structured ideas for your next presentation with the help of AI.', si: 'AI හි සහාය ඇතිව ඔබගේ මීළඟ ඉදිරිපත් කිරීම සඳහා නිර්මාණාත්මක සහ ව්‍යුහගත අදහස් ලබා ගන්න.', ta: 'AI உதவியுடன் உங்கள் அடுத்த விளக்கக்காட்சிக்கு ஆக்கப்பூர்வமான மற்றும் கட்டமைக்கப்பட்ட யோசனைகளைப் பெறுங்கள்.' },
             project8Title: { en: 'Sinhala Font Converter', si: 'සිංහල ෆොන්ට් පරිවර්තකය', ta: 'சிங்கள எழுத்துரு மாற்றி' },
             project8Desc: { en: 'Easily convert between legacy Sinhala fonts (FM) and standard Unicode.', si: 'පැරණි සිංහල ෆොන්ට් (FM) සහ සම්මත යුනිකෝඩ් අතර පහසුවෙන් පරිවර්තනය කරන්න.', ta: 'பழைய சிங்கள எழுத்துருக்களுக்கும் (FM) மற்றும் நிலையான யூனிகோட்டிற்கும் இடையில் எளிதாக மாற்றவும்.' },
+            project9Title: { en: 'AI Social Media Post Generator', si: 'AI සමාජ මාධ්‍ය සටහන් සාදන්නා', ta: 'AI சமூக ஊடக பதிவு ஜெனரேட்டர்' },
+            project9Desc: { en: 'Create engaging social media posts in seconds for various platforms.', si: 'විවිධ වේදිකා සඳහා තත්පර කිහිපයකින් ආකර්ෂණීය සමාජ මාධ්‍ය සටහන් සාදන්න.', ta: 'பல்வேறு தளங்களுக்கு சில நொடிகளில் ஈர்க்கக்கூடிய சமூக ஊடக பதிவுகளை உருவாக்கவும்.' },
         };
 
         const languageBtn = document.getElementById('language-btn');
@@ -545,7 +541,6 @@
                 bgAnimation.appendChild(orb);
             }
             
-            // Hide preloader when the window is fully loaded
             window.addEventListener('load', function() {
                 const preloader = document.getElementById('preloader');
                 if (preloader) {
@@ -553,30 +548,23 @@
                 }
             });
 
-            // Animated cursor
             const cursorDot = document.querySelector('.cursor-dot');
             const cursorOutline = document.querySelector('.cursor-outline');
 
             window.addEventListener('mousemove', function(e) {
                 const posX = e.clientX;
                 const posY = e.clientY;
-
                 cursorDot.style.left = `${posX}px`;
                 cursorDot.style.top = `${posY}px`;
-
-                cursorOutline.animate({
-                    left: `${posX}px`,
-                    top: `${posY}px`
-                }, { duration: 500, fill: "forwards" });
+                cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
             });
 
-            const interactiveElements = document.querySelectorAll('a, button, input[type="checkbox"], select');
+            const interactiveElements = document.querySelectorAll('a, button, input, select, textarea');
             interactiveElements.forEach(el => {
                 el.addEventListener('mouseenter', () => cursorOutline.classList.add('cursor-grow'));
                 el.addEventListener('mouseleave', () => cursorOutline.classList.remove('cursor-grow'));
             });
 
-            // Back to top button
             const backToTopButton = document.getElementById('back-to-top');
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 300) {
@@ -585,7 +573,6 @@
                     backToTopButton.classList.remove('visible');
                 }
             });
-
         });
 
         setLanguage(currentLang);
