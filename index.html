@@ -41,13 +41,8 @@
             background-image: linear-gradient(145deg, #1e3a8a 0%, #312e81 50%, #0b0f19 100%);
             animation: gradient-animation 15s ease infinite;
             background-size: 200% 200%;
-            cursor: none; /* Hide default cursor */
-        }
-        a, button, input {
-             cursor: none; /* Hide default cursor for interactive elements */
         }
         
-        /* Preloader Styles */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #0b0f19; display: flex; justify-content: center;
@@ -61,29 +56,6 @@
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); }
             70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
-        }
-
-        /* Animated Cursor Styles */
-        .cursor-dot, .cursor-outline {
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 10000; /* Make sure it's on top */
-        }
-        .cursor-dot {
-            width: 8px; height: 8px;
-            background-color: #fff;
-        }
-        .cursor-outline {
-            width: 40px; height: 40px;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            transition: width 0.3s, height 0.3s, border-color 0.3s, transform 0.1s;
-        }
-        .cursor-grow {
-            width: 60px; height: 60px;
-            border-color: #a855f7;
         }
 
         #background-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
@@ -100,7 +72,7 @@
         @keyframes spin { 0% { --angle: 0deg; } 100% { --angle: 360deg; } }
         .logo { width: 100%; height: 100%; object-fit: cover; border-radius: 9999px; position: relative; z-index: 1; background: #0b0f19; }
         .logo-text { font-size: 1.25rem; font-weight: 800; color: white; }
-        nav ul { display: none; list-style: none; margin: 0; padding: 0; gap: 2rem; }
+        nav ul { display: none; list-style: none; margin: 0; padding: 0; gap: 1.5rem; }
         @media (min-width: 1024px) { nav ul { display: flex; } }
         nav a { color: #d1d5db; text-decoration: none; font-weight: 600; transition: color 0.3s; }
         nav a:hover { color: #818cf8; }
@@ -177,17 +149,30 @@
         }
         #back-to-top.visible { opacity: 1; visibility: visible; }
         #back-to-top:hover { transform: scale(1.1); }
+
+        footer { background-color: rgba(17, 24, 39, 0.8); padding: 2rem; margin-top: 4rem; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .footer-links { margin-bottom: 1rem; }
+        .footer-links a { color: #9ca3af; text-decoration: none; margin: 0 1rem; transition: color 0.3s; }
+        .footer-links a:hover { color: white; }
+        .footer-copyright { color: #6b7280; font-size: 0.875rem; }
+
+        .blog-post-preview { background-color: rgba(31, 41, 55, 0.2); border: 1px solid #374151; border-radius: 0.75rem; padding: 1.5rem; transition: background-color 0.3s; text-decoration: none; display: block; color: inherit; }
+        .blog-post-preview:hover { background-color: rgba(31, 41, 55, 0.5); }
+        .blog-post-preview h4 { margin-top: 0; color: #c7d2fe;}
+        .blog-post-preview p { color: #9ca3af; }
+        .text-center { text-align: center; }
+        .mt-12 { margin-top: 3rem; }
+
     </style>
 </head>
 <body>
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
-
     <div id="preloader">
         <div class="logo-wrapper">
             <img src="logo.jpg" alt="Malith Studio® Logo" class="logo">
         </div>
     </div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
     <div id="background-animation"></div>
     <header>
         <div class="container">
@@ -200,6 +185,7 @@
                     <li><a href="#home" data-key="navHome">Home</a></li>
                     <li><a href="#projects" data-key="navProjects">Projects</a></li>
                     <li><a href="#services" data-key="navServices">Services</a></li>
+                    <li><a href="#blog" data-key="navBlog">Blog</a></li>
                     <li><a href="#about" data-key="navAbout">About Us</a></li>
                     <li><a href="#comments" data-key="navComments">Comments</a></li>
                     <li><a href="#contact" data-key="navContact">Get In Touch</a></li>
@@ -233,15 +219,15 @@
             <div class="container">
                 <h2 class="section-title" data-key="projectsTitle">Our Projects</h2>
                 <div class="projects-grid">
-                    <a href="voicetype.html" class="project-card"><img src="https://placehold.co/600x400/312e81/93c5fd?text=Voice+Typing" alt="Voice Typing"><div class="p-6"><h4 data-key="project1Title">Voice Typing Tool</h4><p data-key="project1Desc">A modern tool designed to type using voice in Sinhala, English, and Tamil.</p></div></a>
-                    <a href="imagetotext.html" class="project-card"><img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1962&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Image to Text"><div class="p-6"><h4 data-key="project2Title">Image to Text (OCR)</h4><p data-key="project2Desc">Easily convert text in a photo into editable text.</p></div></a>
-                    <a href="textsummarizer.html" class="project-card"><img src="https://images.unsplash.com/photo-1484417894907-623942c8ee29?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Text Summarizer"><div class="p-6"><h4 data-key="project3Title">Text Summarizer</h4><p data-key="project3Desc">Don't waste time reading long articles, just summarize the most important points.</p></div></a>
-                    <a href="todolist.html" class="project-card"><img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="To-Do List"><div class="p-6"><h4 data-key="project4Title">To-Do List</h4><p data-key="project4Desc">Organize your daily tasks simply and efficiently. Your list is saved in your browser.</p></div></a>
-                    <a href="qrcodegenerator.html" class="project-card"><img src="https://images.unsplash.com/photo-1605379399642-870262d3d051?q=80&w=2106&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="QR Code Generator"><div class="p-6"><h4 data-key="project5Title">QR Code Generator</h4><p data-key="project5Desc">Create QR codes for URLs, phone numbers, and text instantly.</p></div></a>
-                    <a href="passwordgenerator.html" class="project-card"><img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Password Generator"><div class="p-6"><h4 data-key="project6Title">Password Generator</h4><p data-key="project6Desc">Generate strong, secure, and random passwords to protect your online accounts.</p></div></a>
-                    <a href="presentationideagenerator.html" class="project-card"><img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Presentation Idea Generator"><div class="p-6"><h4 data-key="project7Title">AI Presentation Ideas</h4><p data-key="project7Desc">Get creative and structured ideas for your next presentation with the help of AI.</p></div></a>
-                    <a href="fontconverter.html" class="project-card"><img src="https://placehold.co/600x400/312e81/93c5fd?text=Font+Converter" alt="Font Converter"><div class="p-6"><h4 data-key="project8Title">Sinhala Font Converter</h4><p data-key="project8Desc">Easily convert between legacy Sinhala fonts (FM) and standard Unicode.</p></div></a>
-                    <a href="socialpostgenerator.html" class="project-card"><img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Social Media Post Generator"><div class="p-6"><h4 data-key="project9Title">AI Social Media Post Generator</h4><p data-key="project9Desc">Create engaging social media posts in seconds for various platforms.</p></div></a>
+                    <a href="voicetype.html" class="project-card"><img src="tool-voicetype.jpg" alt="Voice Typing"><div class="p-6"><h4 data-key="project1Title">Voice Typing Tool</h4><p data-key="project1Desc">A modern tool designed to type using voice in Sinhala, English, and Tamil.</p></div></a>
+                    <a href="imagetotext.html" class="project-card"><img src="tool-imagetotext.jpg" alt="Image to Text"><div class="p-6"><h4 data-key="project2Title">Image to Text (OCR)</h4><p data-key="project2Desc">Easily convert text in a photo into editable text.</p></div></a>
+                    <a href="textsummarizer.html" class="project-card"><img src="tool-textsummarizer.jpg" alt="Text Summarizer"><div class="p-6"><h4 data-key="project3Title">Text Summarizer</h4><p data-key="project3Desc">Don't waste time reading long articles, just summarize the most important points.</p></div></a>
+                    <a href="todolist.html" class="project-card"><img src="tool-todolist.jpg" alt="To-Do List"><div class="p-6"><h4 data-key="project4Title">To-Do List</h4><p data-key="project4Desc">Organize your daily tasks simply and efficiently. Your list is saved in your browser.</p></div></a>
+                    <a href="qrcodegenerator.html" class="project-card"><img src="tool-qrcodegenerator.jpg" alt="QR Code Generator"><div class="p-6"><h4 data-key="project5Title">QR Code Generator</h4><p data-key="project5Desc">Create QR codes for URLs, phone numbers, and text instantly.</p></div></a>
+                    <a href="passwordgenerator.html" class="project-card"><img src="tool-passwordgenerator.jpg" alt="Password Generator"><div class="p-6"><h4 data-key="project6Title">Password Generator</h4><p data-key="project6Desc">Generate strong, secure, and random passwords to protect your online accounts.</p></div></a>
+                    <a href="presentationideagenerator.html" class="project-card"><img src="tool-presentationideagenerator.jpg" alt="Presentation Idea Generator"><div class="p-6"><h4 data-key="project7Title">AI Presentation Ideas</h4><p data-key="project7Desc">Get creative and structured ideas for your next presentation with the help of AI.</p></div></a>
+                    <a href="fontconverter.html" class="project-card"><img src="tool-fontconverter.jpg" alt="Font Converter"><div class="p-6"><h4 data-key="project8Title">Sinhala Font Converter</h4><p data-key="project8Desc">Easily convert between legacy Sinhala fonts (FM) and standard Unicode.</p></div></a>
+                    <a href="socialpostgenerator.html" class="project-card"><img src="tool-socialpostgenerator.jpg" alt="Social Media Post Generator"><div class="p-6"><h4 data-key="project9Title">AI Social Media Post Generator</h4><p data-key="project9Desc">Create engaging social media posts in seconds for various platforms.</p></div></a>
                 </div>
             </div>
         </section>
@@ -254,6 +240,27 @@
                     <div class="service-card"><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg></div><h4 data-key="service2Title">Modern Web Solutions</h4><p data-key="service2Desc">From personal portfolios to small business sites, we create visually appealing and responsive websites that work perfectly on any device.</p></div>
                     <div class="service-card"><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.5 13.5L18 15l-1.5 1.5" /></svg></div><h4 data-key="service3Title">AI Integration</h4><p data-key="service3Desc">We enhance your web applications with the power of AI, creating smarter tools that automate tasks and provide intelligent solutions.</p></div>
                 </div>
+            </div>
+        </section>
+        
+         <section id="blog">
+             <div class="container">
+                <h2 class="section-title" data-key="blogTitle">Recent Updates</h2>
+                 <div class="projects-grid">
+                     <!-- Blog Post Preview 1 -->
+                     <a href="blog.html" class="blog-post-preview">
+                        <h4 data-key="blog1Title">The Journey Begins: The Story of Malith Studio</h4>
+                        <p data-key="blog1Desc">Our journey started with a simple idea: to create powerful, easy-to-use digital tools that save time for busy people...</p>
+                    </a>
+                     <!-- Blog Post Preview 2 -->
+                     <a href="blog.html" class="blog-post-preview">
+                        <h4 data-key="blog2Title">Why AI is a Game-Changer for Everyday Productivity</h4>
+                        <p data-key="blog2Desc">Artificial Intelligence is no longer just a buzzword; it's a practical tool that can significantly enhance our daily productivity...</p>
+                    </a>
+                 </div>
+                 <div class="text-center mt-12">
+                     <a href="blog.html" class="cta-button" data-key="blogViewAll">View All Posts</a>
+                 </div>
             </div>
         </section>
 
@@ -296,6 +303,15 @@
             </div>
         </section>
     </main>
+
+     <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="privacy.html" data-key="footerPrivacy">Privacy Policy</a>
+            </div>
+            <p class="footer-copyright" data-key="footerCopyright">© 2025 Malith Studio®. All rights reserved.</p>
+        </div>
+    </footer>
 
     <a href="#home" id="back-to-top">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
@@ -407,6 +423,7 @@
             navHome: { en: 'Home', si: 'මුල් පිටුව', ta: 'முகப்பு' },
             navProjects: { en: 'Projects', si: 'නිර්මාණ', ta: 'திட்டங்கள்' },
             navServices: { en: 'Services', si: 'සේවාවන්', ta: 'சேவைகள்' },
+            navBlog: { en: 'Blog', si: 'බ්ලොග්', ta: 'வலைப்பதிவு' },
             navAbout: { en: 'About Us', si: 'අප ගැන', ta: 'எங்களை பற்றி' },
             navComments: { en: 'Comments', si: 'අදහස්', ta: 'கருத்துக்கள்' },
             navContact: { en: 'Get In Touch', si: 'සම්බන්ධ වන්න', ta: 'தொடர்பு கொள்ளுங்கள்' },
@@ -415,6 +432,12 @@
             heroButton: { en: 'Go to Projects', si: 'නිර්මාණ වෙත යන්න', ta: 'திட்டங்களுக்குச் செல்லவும்' },
             projectsTitle: { en: 'Our Projects', si: 'අපගේ නිර්මාණ', ta: 'எங்கள் திட்டங்கள்' },
             servicesTitle: { en: 'Our Services', si: 'අපගේ සේවාවන්', ta: 'எங்கள் சேவைகள்' },
+            blogTitle: { en: 'Recent Updates', si: 'නවතම ලිපි', ta: 'சமீபத்திய புதுப்பிப்புகள்' },
+            blogViewAll: { en: 'View All Posts', si: 'සියලුම ලිපි බලන්න', ta: 'அனைத்து பதிவுகளையும் காண்க' },
+            blog1Title: { en: 'The Journey Begins: The Story of Malith Studio', si: 'ගමන අරඹමු: මලිත් ස්ටුඩියෝ කතාව', ta: 'பயணம் தொடங்குகிறது: மலித் ஸ்டுடியோவின் கதை' },
+            blog1Desc: { en: 'Our journey started with a simple idea: to create powerful, easy-to-use digital tools that save time for busy people...', si: 'අපගේ ගමන ආරම්භ වූයේ සරල අදහසකිනි: කාර්යබහුල පුද්ගලයින් සඳහා කාලය ඉතිරි කරන බලවත්, භාවිතයට පහසු ඩිජිටල් මෙවලම් නිර්මාණය කිරීම...', ta: 'எங்கள் பயணம் ஒரு எளிய யோசனையுடன் தொடங்கியது: பிஸியான நபர்களுக்கு நேரத்தை சேமிக்கும் சக்திவாய்ந்த, பயன்படுத்த எளிதான டிஜிட்டல் கருவிகளை உருவாக்குவது...' },
+            blog2Title: { en: 'Why AI is a Game-Changer for Everyday Productivity', si: 'දෛනික ඵලදායිතාව සඳහා AI වෙනසක් ඇති කරන්නේ ඇයි?', ta: 'தினசரி உற்பத்தித்திறனுக்கு AI ஒரு கேம்-சேஞ்சர் ஏன்?' },
+            blog2Desc: { en: 'Artificial Intelligence is no longer just a buzzword; it\'s a practical tool that can significantly enhance our daily productivity...', si: 'කෘත්‍රිම බුද්ධිය තවදුරටත් හුදු වචනයක් නොවේ; එය අපගේ දෛනික ඵලදායිතාව සැලකිය යුතු ලෙස වැඩිදියුණු කළ හැකි ප්‍රායෝගික මෙවලමකි...', ta: 'செயற்கை நுண்ணறிவு என்பது ஒரு சலசலப்பான வார்த்தை மட்டுமல்ல; இது நமது அன்றாட உற்பத்தித்திறனை கணிசமாக மேம்படுத்தக்கூடிய ஒரு நடைமுறைக் கருவியாகும்...' },
             aboutTitle: { en: 'About Us', si: 'අප ගැන', ta: 'எங்களை பற்றி' },
             commentsTitle: { en: 'Comments', si: 'අදහස්', ta: 'கருத்துக்கள்' },
             commentNamePlaceholder: { en: 'Your Name', si: 'ඔබේ නම', ta: 'உங்கள் பெயர்' },
@@ -448,6 +471,8 @@
             project8Desc: { en: 'Easily convert between legacy Sinhala fonts (FM) and standard Unicode.', si: 'පැරණි සිංහල ෆොන්ට් (FM) සහ සම්මත යුනිකෝඩ් අතර පහසුවෙන් පරිවර්තනය කරන්න.', ta: 'பழைய சிங்கள எழுத்துருக்களுக்கும் (FM) மற்றும் நிலையான யூனிகோட்டிற்கும் இடையில் எளிதாக மாற்றவும்.' },
             project9Title: { en: 'AI Social Media Post Generator', si: 'AI සමාජ මාධ්‍ය සටහන් සාදන්නා', ta: 'AI சமூக ஊடக பதிவு ஜெனரேட்டர்' },
             project9Desc: { en: 'Create engaging social media posts in seconds for various platforms.', si: 'විවිධ වේදිකා සඳහා තත්පර කිහිපයකින් ආකර්ෂණීය සමාජ මාධ්‍ය සටහන් සාදන්න.', ta: 'பல்வேறு தளங்களுக்கு சில நொடிகளில் ஈர்க்கக்கூடிய சமூக ஊடக பதிவுகளை உருவாக்கவும்.' },
+            footerPrivacy: { en: 'Privacy Policy', si: 'රහස්‍යතා ප්‍රතිපත්තිය', ta: 'தனியுரிமைக் கொள்கை' },
+            footerCopyright: { en: '© 2025 Malith Studio®. All rights reserved.', si: '© 2025 මලිත් ස්ටුඩියෝ®. सर्व हक्क राखीव.', ta: '© 2025 மலித் ஸ்டுடியோ®. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.' },
         };
 
         const languageBtn = document.getElementById('language-btn');
