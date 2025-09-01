@@ -8,6 +8,16 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0b0f19">
     <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <!-- Google tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H7WQ3CSB4E"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-H7WQ3CSB4E'); // <-- ID එක මෙතනට යාවත්කාලීන කරන ලදී
+    </script>
     
     <!-- SEO Meta Tags (ඔබේ පරණ file එකෙන්) -->
     <title>Malith Studio® | Innovative Web Tools for Productivity</title>
@@ -20,14 +30,14 @@
     <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/">
     <meta property="og:title" content="Malith Studio® | Innovative Web Tools for Productivity">
     <meta property="og:description" content="A collection of free web tools designed to simplify your digital life.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-155074۵۱۶۵-۹bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
 
     <!-- Twitter (ඔබේ පරණ file එකෙන්) -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/">
     <meta property="twitter:title" content="Malith Studio® | Innovative Web Tools for Productivity">
     <meta property="twitter:description" content="A collection of free web tools designed to simplify your digital life.">
-    <meta property="twitter:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
 
     <!-- Font Awesome CDN (Icons සඳහා අලුතෙන් එකතු කරන ලදී) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -252,7 +262,7 @@
         #submit-comment { width: 100%; }
         #comments-list { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
         @media (min-width: 768px) { #comments-list { grid-template-columns: repeat(2, 1fr); } }
-        .comment-card { background-color: rgba(31, 41, 55, 0.5); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #374151; }
+        .comment-card { background-color: rgba(31, 41, 55, 0.5); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #374151; overflow: hidden; /* Reply එකේ border-radius එකට */ }
         .comment-card p { margin: 0 0 1rem 0; color: #d1d5db; }
         .comment-footer { display: flex; justify-content: space-between; align-items: center; }
         .comment-author { font-weight: 600; color: #9ca3af; }
@@ -260,6 +270,33 @@
         .reaction-btn { background-color: #374151; border: none; padding: 0.5rem; border-radius: 50%; cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; }
         .reaction-btn:hover { transform: scale(1.1); }
         .reaction-btn span { margin-left: 0.25rem; font-size: 0.875rem; font-weight: 500; }
+        
+        /* --- Auto Reply සඳහා වන CSS --- */
+        .comment-reply {
+            background-color: rgba(17, 24, 39, 0.7);
+            border-top: 1px solid #4b5563;
+            padding: 1rem;
+            margin: 1.5rem -1.5rem -1.5rem -1.5rem; /* Card එකේ full-width වෙන්න */
+        }
+        .reply-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+            color: #c7d2fe;
+        }
+        .reply-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+        }
+        .comment-reply p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #d1d5db;
+        }
+        /* --- CSS අවසානය --- */
         
         #back-to-top { position: fixed; bottom: 2rem; right: 2rem; background-color: rgba(139, 92, 246, 0.8); backdrop-filter: blur(5px); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0.4s, transform 0.4s; z-index: 100; }
         #back-to-top.visible { opacity: 1; visibility: visible; }
@@ -278,7 +315,6 @@
         .text-center { text-align: center; }
         .mt-12 { margin-top: 3rem; }
 
-        /* --- Theme Switcher සඳහා වන Styles යාවත්කාලීන කරන ලදී --- */
         #theme-switcher { position: fixed; bottom: 2rem; left: 2rem; display: flex; background-color: rgba(31, 41, 55, 0.5); backdrop-filter: blur(10px); border-radius: 9999px; padding: 0.5rem; border: 1px solid #374151; z-index: 100; gap: 0.5rem; }
         .theme-btn { 
             border: 2px solid #4b5563;
@@ -300,11 +336,9 @@
             transform: scale(1.1);
             box-shadow: 0 0 10px rgba(139, 92, 246, 0.7);
         }
-        /* --- Theme Switcher Styles අවසානය --- */
     </style>
 </head>
 <body>
-    <!-- ඔබේ පරණ Preloader, background, header සියල්ලම මෙතන තියෙනවා -->
     <div id="preloader">
         <div class="logo-wrapper">
             <img src="logo.jpg" alt="Malith Studio® Logo" class="logo">
@@ -353,20 +387,15 @@
             </div>
         </section>
 
-        <!-- === Projects Section එකේ වෙනස්කම් === -->
         <section id="projects">
             <div class="container">
                 <h2 class="section-title" data-key="projectsTitle">Our Projects</h2>
-
-                <!-- Feature Tags (අලුතෙන් එකතු කරන ලදී) -->
                 <div class="feature-tags-container">
                     <span class="feature-tag"><i class="fas fa-bolt"></i> Fast & Lightweight</span>
                     <span class="feature-tag"><i class="fas fa-shield-halved"></i> Privacy-friendly</span>
                     <span class="feature-tag"><i class="fas fa-mobile-screen-button"></i> Mobile Ready</span>
                     <span class="feature-tag"><i class="fas fa-gift"></i> Always Free</span>
                 </div>
-
-                <!-- Search and Filter (අලුතෙන් එකතු කරන ලදී) -->
                 <div class="search-filter-section">
                     <div class="search-bar-wrapper">
                         <i class="fas fa-search"></i>
@@ -379,10 +408,7 @@
                         <button class="filter-btn" data-filter="utility">Utility</button>
                     </div>
                 </div>
-
-                <!-- Tools Grid (Images සහිතව යාවත්කාලීන කරන ලදී) -->
                 <div id="toolsGrid" class="projects-grid">
-                    <!-- Tool Card 1: Voice Typing -->
                     <a href="voicetype.html" class="tool-card" data-category="ai text utility">
                         <img src="tool-voicetype.jpg" alt="Voice Typing Tool">
                         <div class="tool-card-content">
@@ -390,7 +416,6 @@
                             <p data-key="project1Desc">A modern tool designed to type using voice in Sinhala, English, and Tamil.</p>
                         </div>
                     </a>
-                    <!-- Tool Card 2: Image to Text (OCR) -->
                     <a href="imagetotext.html" class="tool-card" data-category="ai text utility">
                         <img src="tool-imagetotext.jpg" alt="Image to Text (OCR)">
                         <div class="tool-card-content">
@@ -398,7 +423,6 @@
                             <p data-key="project2Desc">Easily convert text in a photo into editable text.</p>
                         </div>
                     </a>
-                    <!-- Tool Card 3: Text Summarizer -->
                     <a href="textsummarizer.html" class="tool-card" data-category="ai text">
                         <img src="tool-textsummarizer.jpg" alt="Text Summarizer">
                         <div class="tool-card-content">
@@ -406,7 +430,6 @@
                             <p data-key="project3Desc">Don't waste time reading long articles, just summarize the most important points.</p>
                         </div>
                     </a>
-                    <!-- Tool Card 4: To-Do List -->
                     <a href="todolist.html" class="tool-card" data-category="utility">
                         <img src="tool-todolist.jpg" alt="To-Do List">
                         <div class="tool-card-content">
@@ -414,7 +437,6 @@
                             <p data-key="project4Desc">Organize your daily tasks simply and efficiently. Your list is saved in your browser.</p>
                         </div>
                     </a>
-                    <!-- Tool Card 5: QR Code Generator -->
                     <a href="qrcodegenerator.html" class="tool-card" data-category="utility">
                         <img src="tool-qrcodegenerator.jpg" alt="QR Code Generator">
                         <div class="tool-card-content">
@@ -422,7 +444,6 @@
                             <p data-key="project5Desc">Create QR codes for URLs, phone numbers, and text instantly.</p>
                         </div>
                     </a>
-                    <!-- Tool Card 6: Password Generator -->
                     <a href="passwordgenerator.html" class="tool-card" data-category="utility">
                         <img src="tool-passwordgenerator.jpg" alt="Password Generator">
                         <div class="tool-card-content">
@@ -430,7 +451,6 @@
                             <p data-key="project6Desc">Generate strong, secure, and random passwords to protect your online accounts.</p>
                         </div>
                     </a>
-                    <!-- Tool Card 7: AI Presentation Ideas -->
                     <a href="presentationideagenerator.html" class="tool-card" data-category="ai">
                         <img src="tool-presentationideagenerator.jpg" alt="AI Presentation Ideas">
                         <div class="tool-card-content">
@@ -438,7 +458,6 @@
                             <p data-key="project7Desc">Get creative and structured ideas for your next presentation with the help of AI.</p>
                         </div>
                     </a>
-                    <!-- Tool Card 8: Sinhala Font Converter -->
                     <a href="fontconverter.html" class="tool-card" data-category="text utility">
                         <img src="tool-fontconverter.jpg" alt="Sinhala Font Converter">
                         <div class="tool-card-content">
@@ -446,7 +465,6 @@
                             <p data-key="project8Desc">Easily convert between legacy Sinhala fonts (FM) and standard Unicode.</p>
                         </div>
                     </a>
-                    <!-- Tool Card 9: AI Social Media Post Generator -->
                     <a href="socialpostgenerator.html" class="tool-card" data-category="ai text">
                         <img src="tool-socialpostgenerator.jpg" alt="AI Social Media Post Generator">
                         <div class="tool-card-content">
@@ -458,7 +476,6 @@
             </div>
         </section>
         
-        <!-- === අනෙකුත් sections කිසිම වෙනසක් නැතුව ඒ විදිහටම තියෙනවා === -->
         <section id="services">
             <div class="container">
                 <h2 class="section-title" data-key="servicesTitle">Our Services</h2>
@@ -474,12 +491,10 @@
              <div class="container">
                 <h2 class="section-title" data-key="blogTitle">Recent Updates</h2>
                  <div class="projects-grid">
-                      <!-- Blog Post Preview 1 -->
                       <a href="blog.html" class="blog-post-preview">
                           <h4 data-key="blog1Title">The Journey Begins: The Story of Malith Studio</h4>
                           <p data-key="blog1Desc">Our journey started with a simple idea: to create powerful, easy-to-use digital tools that save time for busy people...</p>
                       </a>
-                      <!-- Blog Post Preview 2 -->
                       <a href="blog.html" class="blog-post-preview">
                           <h4 data-key="blog2Title">Why AI is a Game-Changer for Everyday Productivity</h4>
                           <p data-key="blog2Desc">Artificial Intelligence is no longer just a buzzword; it's a practical tool that can significantly enhance our daily productivity...</p>
@@ -526,7 +541,6 @@
             <div class="container">
                 <h2 class="section-title" data-key="contactTitle">Get In Touch</h2>
                 <p data-key="contactDesc">Have a question or a project in mind? We'd love to hear from you. Reach out to us, and let's create something amazing together.</p>
-                <!-- Contact Buttons (යාවත්කාලීන කරන ලදී) -->
                 <div class="contact-buttons-container">
                     <a href="mailto:malithstudio24@gmail.com" class="cta-button contact-btn">
                         <i class="fas fa-envelope"></i> <span data-key="contactEmail">Email Us</span>
@@ -537,7 +551,6 @@
                     <a href="https://youtube.com/@malithmusicstudio-i5h?si=GyHX3wVz3e8M6eCw" target="_blank" class="cta-button contact-btn">
                         <i class="fab fa-youtube"></i> <span data-key="contactYoutube">YouTube</span>
                     </a>
-                    <!-- TikTok Button (අලුතෙන් එකතු කරන ලදී) -->
                     <a href="https://www.tiktok.com/@malith.dushantha2?_t=ZS-8zMkcrsyFtQ&_r=1" target="_blank" class="cta-button contact-btn">
                         <i class="fab fa-tiktok"></i> <span data-key="contactTiktok">TikTok</span>
                     </a>
@@ -561,7 +574,6 @@
         </svg>
     </a>
     
-    <!-- Theme Switcher (HTML වෙනස් කරන ලදී) -->
     <div id="theme-switcher">
         <button class="theme-btn active" data-theme="default"></button>
         <button class="theme-btn" data-theme="theme1.jpg"></button>
@@ -611,11 +623,19 @@
 
             if (name.trim() && message.trim()) {
                 try {
+                    // Auto-reply පණිවිඩය මෙතන නිර්මාණය කරයි
+                    const replyMessage = `Hi ${name}, thank you so much for your feedback! We really appreciate you taking the time to share your thoughts.`;
+                    
                     await addDoc(testimonialsCollection, {
                         name: name,
                         message: message,
                         timestamp: new Date(),
-                        reactions: { like: 0, love: 0, idea: 0 }
+                        reactions: { like: 0, love: 0, idea: 0 },
+                        // Reply object එක comment එකත් සමගම Firestore එකට යවයි
+                        reply: {
+                            text: replyMessage,
+                            timestamp: new Date()
+                        }
                     });
                     commentsForm.reset();
                 } catch (error) {
@@ -633,6 +653,21 @@
                     const commentCard = document.createElement('div');
                     commentCard.className = 'comment-card';
                     
+                    // Reply එකට අදාල HTML කොටස මෙතන නිර්මාණය කරයි
+                    let replyHTML = '';
+                    if (comment.reply && comment.reply.text) {
+                        replyHTML = `
+                            <div class="comment-reply">
+                                <div class="reply-header">
+                                    <img src="logo.jpg" alt="Admin" class="reply-avatar">
+                                    <strong>Malith Studio (Admin)</strong>
+                                </div>
+                                <p>${comment.reply.text}</p>
+                            </div>
+                        `;
+                    }
+                    
+                    // Comment card එකේ HTML එකට reply එකත් එකතු කරයි
                     commentCard.innerHTML = `
                         <p>"${comment.message}"</p>
                         <div class="comment-footer">
@@ -643,6 +678,7 @@
                                 <button class="reaction-btn" data-doc-id="${docSnap.id}" data-reaction="idea">💡<span>${comment.reactions.idea || 0}</span></button>
                             </div>
                         </div>
+                        ${replyHTML}
                     `;
                     commentsList.appendChild(commentCard);
                 });
@@ -699,7 +735,7 @@
             contactEmail: { en: 'Email Us', si: 'ඊමේල් කරන්න', ta: 'மின்னஞ்சல்' },
             contactFacebook: { en: 'Facebook', si: 'ෆේස්බුක්', ta: 'முகநூல்' },
             contactYoutube: { en: 'YouTube', si: 'යූටියුබ්', ta: 'யூடியூப்' },
-            contactTiktok: { en: 'TikTok', si: 'ටික්ටොක්', ta: ' டிக்டாக்' }, // TikTok සඳහා පරිවර්තන
+            contactTiktok: { en: 'TikTok', si: 'ටික්ටොක්', ta: ' டிக்டாக்' },
             service1Title: { en: 'Custom Tool Development', si: 'විශේෂිත මෙවලම් සංවර්ධනය', ta: 'தனிப்பயன் கருவி மேம்பாடு' },
             service1Desc: { en: 'We build custom web tools tailored to your specific needs, focusing on efficiency and user-friendliness to save you time.', si: 'අපි ඔබගේ විශේෂිත අවශ්‍යතා සඳහාම ගැලපෙන වෙබ් මෙවලම් නිර්මාණය කරමු. එහිදී ඔබගේ කාලය ඉතිරි කිරීම සඳහා කාර්යක්ෂමතාව සහ පරිශීලක-හිතකාමී බව කෙරෙහි අවධානය යොමු කරමු.', ta: 'உங்கள் நேரத்தை சேமிக்க, செயல்திறன் மற்றும் பயனர் நட்பை மையமாகக் கொண்டு, உங்கள் குறிப்பிட்ட தேவைகளுக்கு ஏற்ப தனிப்பயன் இணையக் கருவிகளை நாங்கள் உருவாக்குகிறோம்.' },
             service2Title: { en: 'Modern Web Solutions', si: 'නවීන වෙබ් විසඳුම්', ta: 'நவீன வலை தீர்வுகள்' },
@@ -756,15 +792,13 @@
                 }
             });
             
-             // Language switching for contact buttons
-            document.querySelectorAll('.contact-btn span').forEach(span => {
+             document.querySelectorAll('.contact-btn span').forEach(span => {
                  const key = span.getAttribute('data-key');
                  if (translations[key] && translations[key][lang]) {
                     span.textContent = translations[key][lang];
                 }
             });
 
-            // Pass language to linked pages
             document.querySelectorAll('a[href*=".html"]').forEach(link => {
                  if(link.href.includes('.html')){
                      const url = new URL(link.href, window.location.origin);
@@ -808,7 +842,6 @@
             const themeSwitcher = document.getElementById('theme-switcher');
             const themeBtns = document.querySelectorAll('.theme-btn');
             
-            // --- Theme Switcher සඳහා වන අලුත් JavaScript කොටස ---
             themeBtns.forEach(btn => {
                 const theme = btn.dataset.theme;
                 if (theme === 'default') {
@@ -817,11 +850,9 @@
                     btn.style.backgroundImage = `url('${theme}')`;
                 }
             });
-            // --- අලුත් JavaScript කොටස අවසානය ---
 
             const themes = ['default', 'theme1.jpg', 'theme2.jpg', 'theme3.jpg'];
             
-            // Set initial theme
             bgContainer.style.backgroundImage = "linear-gradient(145deg, #1e3a8a 0%, #312e81 50%, #0b0f19 100%)";
 
 
@@ -888,7 +919,6 @@
         // --- PWA Service Worker Registration ---
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                // Path එක GitHub Pages වලට ගැලපෙන ලෙස වෙනස් කරන ලදී
                 navigator.serviceWorker.register('/Malith-Studio/sw.js').then(registration => {
                     console.log('ServiceWorker registration successful with scope: ', registration.scope);
                 }, err => {
@@ -905,7 +935,7 @@
             const filterContainer = document.getElementById('filterContainer');
             const toolsGrid = document.getElementById('toolsGrid');
             
-            if (!searchInput || !filterContainer || !toolsGrid) return; // අවශ්‍ය elements නැත්නම් script එක නවත්වන්න
+            if (!searchInput || !filterContainer || !toolsGrid) return;
 
             const toolCards = toolsGrid.querySelectorAll('.tool-card');
             const filterButtons = filterContainer.querySelectorAll('.filter-btn');
@@ -919,7 +949,6 @@
                     const descriptionElement = card.querySelector('p');
                     const cardCategory = card.dataset.category || '';
 
-                    // data-key එකෙන් text එක ගන්න, language switching වලට ගැලපෙන්න
                     const titleKey = titleElement.dataset.key;
                     const descKey = descriptionElement.dataset.key;
                     
@@ -931,11 +960,8 @@
                     const desc_si = translations[descKey]?.si.toLowerCase() || '';
                     const desc_ta = translations[descKey]?.ta.toLowerCase() || '';
 
-
-                    // Filter එකට ගැලපෙනවද?
                     const matchesFilter = (activeFilter === 'all') || cardCategory.includes(activeFilter);
 
-                    // Search term එකට ගැලපෙනවද? (භාෂා තුනෙන්ම)
                     const matchesSearch = title_en.includes(searchTerm) || desc_en.includes(searchTerm) ||
                                           title_si.includes(searchTerm) || desc_si.includes(searchTerm) ||
                                           title_ta.includes(searchTerm) || desc_ta.includes(searchTerm);
@@ -958,10 +984,8 @@
 
             searchInput.addEventListener('input', updateToolsView);
 
-            // භාෂාව මාරු කරාට පස්සේ search එක update කරන්න
              document.querySelectorAll('#language-options button').forEach(button => {
                 button.addEventListener('click', () => {
-                    // පොඩි delay එකක් දෙන්නේ text content එක update වෙන්න
                     setTimeout(updateToolsView, 100); 
                 });
             });
