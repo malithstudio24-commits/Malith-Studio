@@ -4,27 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO Meta Tags -->
+    <!-- SEO Meta Tags (ඔබේ පරණ file එකෙන්) -->
     <title>Malith Studio® | Innovative Web Tools for Productivity</title>
     <meta name="description" content="Malith Studio offers a collection of free, innovative web tools like Voice Typing, OCR, Text Summarizers, and Font Converters to simplify your digital life.">
     <meta name="keywords" content="Malith Studio, web tools, free tools, sinhala tools, productivity, voice typing, ocr, text summarizer, font converter, sri lanka">
     <meta name="author" content="Malith Studio®">
 
-    <!-- Open Graph / Facebook -->
+    <!-- Open Graph / Facebook (ඔබේ පරණ file එකෙන්) -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/">
     <meta property="og:title" content="Malith Studio® | Innovative Web Tools for Productivity">
     <meta property="og:description" content="A collection of free web tools designed to simplify your digital life.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
 
-    <!-- Twitter -->
+    <!-- Twitter (ඔබේ පරණ file එකෙන්) -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/">
     <meta property="twitter:title" content="Malith Studio® | Innovative Web Tools for Productivity">
     <meta property="twitter:description" content="A collection of free web tools designed to simplify your digital life.">
     <meta property="twitter:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
 
+    <!-- Font Awesome CDN (Icons සඳහා අලුතෙන් එකතු කරන ලදී) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
+        /* --- ඔබේ පරණ CSS Styles --- */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         :root {
             --glow-color: hsl(231, 79%, 58%);
@@ -38,8 +42,6 @@
             color: #e5e7eb;
             margin: 0;
             overflow-x: hidden;
-            background-image: linear-gradient(145deg, #1e3a8a 0%, #312e81 50%, #0b0f19 100%);
-            animation: gradient-animation 15s ease infinite;
             background-size: 200% 200%;
         }
         
@@ -58,9 +60,8 @@
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
         }
 
-        #background-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
+        #background-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background-size: cover; background-position: center center; transition: background-image 1s ease-in-out; }
         .orb { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.05) 70%); animation: float 20s infinite ease-in-out; filter: blur(20px); }
-        @keyframes gradient-animation { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         @keyframes float { 0% { transform: translate(0px, 0px); } 50% { transform: translate(30vw, 30vh); } 100% { transform: translate(0px, 0px); } }
 
         .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
@@ -89,16 +90,118 @@
         section.visible { opacity: 1; transform: translateY(0); }
         .section-title { text-align: center; font-size: 2.5rem; font-weight: 800; margin-bottom: 3rem; color: #c7d2fe; }
         
+        /* --- Search, Filter, සහ නව Tool Cards සඳහා වන අලුත් Styles (Image සහිතව) --- */
+        .feature-tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 2.5rem;
+        }
+        .feature-tag {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+        .feature-tag:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .search-filter-section {
+            max-width: 800px;
+            margin: 0 auto 3rem auto;
+        }
+        .search-bar-wrapper {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        .search-bar-wrapper .fa-search {
+            position: absolute;
+            top: 50%;
+            left: 1.25rem;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+        #searchInput {
+            width: 100%;
+            background-color: rgba(31, 41, 55, 0.5);
+            border: 1px solid #374151;
+            border-radius: 9999px;
+            padding: 0.9rem 1rem 0.9rem 3.5rem;
+            color: #f9fafb;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        #searchInput:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .filter-btn {
+            background-color: rgba(31, 41, 55, 0.5);
+            border: 1px solid #374151;
+            color: #d1d5db;
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .filter-btn:hover {
+            background-color: #374151;
+        }
+        .filter-btn.active {
+            background-color: #6366f1;
+            border-color: #6366f1;
+            color: white;
+        }
+
         .projects-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 2rem; }
         @media (min-width: 640px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (min-width: 1024px) { .projects-grid { grid-template-columns: repeat(3, 1fr); } }
-        .project-card { background-color: rgba(31, 41, 55, 0.5); backdrop-filter: blur(10px); border: 1px solid #374151; border-radius: 0.75rem; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
-        .project-card:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
-        .project-card img { width: 100%; height: 200px; object-fit: cover; }
-        .project-card .p-6 { padding: 1.5rem; flex-grow: 1; }
-        .project-card h4 { font-size: 1.25rem; font-weight: 700; color: white; }
-        .project-card p { color: #9ca3af; margin-top: 0.5rem; }
-
+        
+        .tool-card { 
+            background-color: rgba(31, 41, 55, 0.5); 
+            backdrop-filter: blur(10px); 
+            border: 1px solid #374151; 
+            border-radius: 0.75rem; 
+            overflow: hidden; 
+            transition: transform 0.3s, box-shadow 0.3s; 
+            text-decoration: none; 
+            color: inherit; 
+            display: flex; 
+            flex-direction: column;
+        }
+        .tool-card:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
+        .tool-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        .tool-card-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .tool-card-content h4 { font-size: 1.25rem; font-weight: 700; color: white; margin: 0 0 0.5rem 0; }
+        .tool-card-content p { color: #9ca3af; margin: 0; flex-grow: 1; }
+        .tool-card.hidden-card { display: none; }
+        /* --- අලුත් Styles අවසානය --- */
+        
         .services-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 2rem; }
         @media (min-width: 768px) { .services-grid { grid-template-columns: repeat(3, 1fr); } }
         .service-card { background-color: rgba(31, 41, 55, 0.5); backdrop-filter: blur(10px); border: 1px solid #374151; padding: 2rem; border-radius: 0.75rem; text-align: center; transition: transform 0.3s; }
@@ -116,6 +219,20 @@
         
         #contact { text-align: center; }
         #contact p { max-width: 600px; margin: 0 auto 2rem auto; font-size: 1.125rem; color: #9ca3af; }
+
+        /* --- Contact Buttons සඳහා වන Styles --- */
+        .contact-buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap; /* To handle smaller screens */
+        }
+        .contact-btn {
+            display: flex !important;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        /* --- Styles අවසානය --- */
 
         .language-switcher { position: relative; }
         #language-btn { background: none; border: 1px solid #4b5563; color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer; font-weight: 600; }
@@ -139,14 +256,7 @@
         .reaction-btn:hover { transform: scale(1.1); }
         .reaction-btn span { margin-left: 0.25rem; font-size: 0.875rem; font-weight: 500; }
         
-        #back-to-top {
-            position: fixed; bottom: 2rem; right: 2rem;
-            background-color: rgba(139, 92, 246, 0.8); backdrop-filter: blur(5px);
-            color: white; width: 50px; height: 50px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            text-decoration: none; opacity: 0; visibility: hidden;
-            transition: opacity 0.4s, visibility 0.4s, transform 0.4s; z-index: 100;
-        }
+        #back-to-top { position: fixed; bottom: 2rem; right: 2rem; background-color: rgba(139, 92, 246, 0.8); backdrop-filter: blur(5px); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0.4s, transform 0.4s; z-index: 100; }
         #back-to-top.visible { opacity: 1; visibility: visible; }
         #back-to-top:hover { transform: scale(1.1); }
 
@@ -163,17 +273,41 @@
         .text-center { text-align: center; }
         .mt-12 { margin-top: 3rem; }
 
+        /* --- Theme Switcher සඳහා වන Styles යාවත්කාලීන කරන ලදී --- */
+        #theme-switcher { position: fixed; bottom: 2rem; left: 2rem; display: flex; background-color: rgba(31, 41, 55, 0.5); backdrop-filter: blur(10px); border-radius: 9999px; padding: 0.5rem; border: 1px solid #374151; z-index: 100; gap: 0.5rem; }
+        .theme-btn { 
+            border: 2px solid #4b5563;
+            background: none; 
+            padding: 0;
+            border-radius: 50%; 
+            width: 32px;
+            height: 32px; 
+            cursor: pointer;
+            transition: all 0.3s;
+            background-size: cover;
+            background-position: center;
+        }
+        .theme-btn:hover {
+            border-color: #6366f1;
+        }
+        .theme-btn.active { 
+            border-color: #8b5cf6;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.7);
+        }
+        /* --- Theme Switcher Styles අවසානය --- */
     </style>
 </head>
 <body>
+    <!-- ඔබේ පරණ Preloader, background, header සියල්ලම මෙතන තියෙනවා -->
     <div id="preloader">
         <div class="logo-wrapper">
             <img src="logo.jpg" alt="Malith Studio® Logo" class="logo">
         </div>
     </div>
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
-    <div id="background-animation"></div>
+    <div id="background-container">
+        <div id="background-animation"></div>
+    </div>
     <header>
         <div class="container">
             <nav>
@@ -203,9 +337,8 @@
     </header>
 
     <main>
-        <!-- Sections will appear here -->
         <section id="home">
-             <div class="container">
+            <div class="container">
                 <div class="hero-content">
                     <h1 data-key="heroWelcome">Welcome to</h1>
                     <div class="animated-text">Malith Studio®</div>
@@ -215,25 +348,114 @@
             </div>
         </section>
 
+        <!-- === Projects Section එකේ වෙනස්කම් === -->
         <section id="projects">
             <div class="container">
                 <h2 class="section-title" data-key="projectsTitle">Our Projects</h2>
-                <div class="projects-grid">
-                    <a href="voicetype.html" class="project-card"><img src="tool-voicetype.jpg" alt="Voice Typing"><div class="p-6"><h4 data-key="project1Title">Voice Typing Tool</h4><p data-key="project1Desc">A modern tool designed to type using voice in Sinhala, English, and Tamil.</p></div></a>
-                    <a href="imagetotext.html" class="project-card"><img src="tool-imagetotext.jpg" alt="Image to Text"><div class="p-6"><h4 data-key="project2Title">Image to Text (OCR)</h4><p data-key="project2Desc">Easily convert text in a photo into editable text.</p></div></a>
-                    <a href="textsummarizer.html" class="project-card"><img src="tool-textsummarizer.jpg" alt="Text Summarizer"><div class="p-6"><h4 data-key="project3Title">Text Summarizer</h4><p data-key="project3Desc">Don't waste time reading long articles, just summarize the most important points.</p></div></a>
-                    <a href="todolist.html" class="project-card"><img src="tool-todolist.jpg" alt="To-Do List"><div class="p-6"><h4 data-key="project4Title">To-Do List</h4><p data-key="project4Desc">Organize your daily tasks simply and efficiently. Your list is saved in your browser.</p></div></a>
-                    <a href="qrcodegenerator.html" class="project-card"><img src="tool-qrcodegenerator.jpg" alt="QR Code Generator"><div class="p-6"><h4 data-key="project5Title">QR Code Generator</h4><p data-key="project5Desc">Create QR codes for URLs, phone numbers, and text instantly.</p></div></a>
-                    <a href="passwordgenerator.html" class="project-card"><img src="tool-passwordgenerator.jpg" alt="Password Generator"><div class="p-6"><h4 data-key="project6Title">Password Generator</h4><p data-key="project6Desc">Generate strong, secure, and random passwords to protect your online accounts.</p></div></a>
-                    <a href="presentationideagenerator.html" class="project-card"><img src="tool-presentationideagenerator.jpg" alt="Presentation Idea Generator"><div class="p-6"><h4 data-key="project7Title">AI Presentation Ideas</h4><p data-key="project7Desc">Get creative and structured ideas for your next presentation with the help of AI.</p></div></a>
-                    <a href="fontconverter.html" class="project-card"><img src="tool-fontconverter.jpg" alt="Font Converter"><div class="p-6"><h4 data-key="project8Title">Sinhala Font Converter</h4><p data-key="project8Desc">Easily convert between legacy Sinhala fonts (FM) and standard Unicode.</p></div></a>
-                    <a href="socialpostgenerator.html" class="project-card"><img src="tool-socialpostgenerator.jpg" alt="Social Media Post Generator"><div class="p-6"><h4 data-key="project9Title">AI Social Media Post Generator</h4><p data-key="project9Desc">Create engaging social media posts in seconds for various platforms.</p></div></a>
+
+                <!-- Feature Tags (අලුතෙන් එකතු කරන ලදී) -->
+                <div class="feature-tags-container">
+                    <span class="feature-tag"><i class="fas fa-bolt"></i> Fast & Lightweight</span>
+                    <span class="feature-tag"><i class="fas fa-shield-halved"></i> Privacy-friendly</span>
+                    <span class="feature-tag"><i class="fas fa-mobile-screen-button"></i> Mobile Ready</span>
+                    <span class="feature-tag"><i class="fas fa-gift"></i> Always Free</span>
+                </div>
+
+                <!-- Search and Filter (අලුතෙන් එකතු කරන ලදී) -->
+                <div class="search-filter-section">
+                    <div class="search-bar-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search tools... (voice, qr, font, social, ...)">
+                    </div>
+                    <div id="filterContainer" class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="ai">AI</button>
+                        <button class="filter-btn" data-filter="text">Text</button>
+                        <button class="filter-btn" data-filter="utility">Utility</button>
+                    </div>
+                </div>
+
+                <!-- Tools Grid (Images සහිතව යාවත්කාලීන කරන ලදී) -->
+                <div id="toolsGrid" class="projects-grid">
+                    <!-- Tool Card 1: Voice Typing -->
+                    <a href="voicetype.html" class="tool-card" data-category="ai text utility">
+                        <img src="tool-voicetype.jpg" alt="Voice Typing Tool">
+                        <div class="tool-card-content">
+                            <h4 data-key="project1Title">Voice Typing Tool</h4>
+                            <p data-key="project1Desc">A modern tool designed to type using voice in Sinhala, English, and Tamil.</p>
+                        </div>
+                    </a>
+                    <!-- Tool Card 2: Image to Text (OCR) -->
+                    <a href="imagetotext.html" class="tool-card" data-category="ai text utility">
+                        <img src="tool-imagetotext.jpg" alt="Image to Text (OCR)">
+                        <div class="tool-card-content">
+                            <h4 data-key="project2Title">Image to Text (OCR)</h4>
+                            <p data-key="project2Desc">Easily convert text in a photo into editable text.</p>
+                        </div>
+                    </a>
+                    <!-- Tool Card 3: Text Summarizer -->
+                    <a href="textsummarizer.html" class="tool-card" data-category="ai text">
+                        <img src="tool-textsummarizer.jpg" alt="Text Summarizer">
+                        <div class="tool-card-content">
+                            <h4 data-key="project3Title">Text Summarizer</h4>
+                            <p data-key="project3Desc">Don't waste time reading long articles, just summarize the most important points.</p>
+                        </div>
+                    </a>
+                    <!-- Tool Card 4: To-Do List -->
+                    <a href="todolist.html" class="tool-card" data-category="utility">
+                        <img src="tool-todolist.jpg" alt="To-Do List">
+                        <div class="tool-card-content">
+                            <h4 data-key="project4Title">To-Do List</h4>
+                            <p data-key="project4Desc">Organize your daily tasks simply and efficiently. Your list is saved in your browser.</p>
+                        </div>
+                    </a>
+                    <!-- Tool Card 5: QR Code Generator -->
+                    <a href="qrcodegenerator.html" class="tool-card" data-category="utility">
+                        <img src="tool-qrcodegenerator.jpg" alt="QR Code Generator">
+                        <div class="tool-card-content">
+                            <h4 data-key="project5Title">QR Code Generator</h4>
+                            <p data-key="project5Desc">Create QR codes for URLs, phone numbers, and text instantly.</p>
+                        </div>
+                    </a>
+                    <!-- Tool Card 6: Password Generator -->
+                    <a href="passwordgenerator.html" class="tool-card" data-category="utility">
+                        <img src="tool-passwordgenerator.jpg" alt="Password Generator">
+                        <div class="tool-card-content">
+                            <h4 data-key="project6Title">Password Generator</h4>
+                            <p data-key="project6Desc">Generate strong, secure, and random passwords to protect your online accounts.</p>
+                        </div>
+                    </a>
+                    <!-- Tool Card 7: AI Presentation Ideas -->
+                    <a href="presentationideagenerator.html" class="tool-card" data-category="ai">
+                        <img src="tool-presentationideagenerator.jpg" alt="AI Presentation Ideas">
+                        <div class="tool-card-content">
+                            <h4 data-key="project7Title">AI Presentation Ideas</h4>
+                            <p data-key="project7Desc">Get creative and structured ideas for your next presentation with the help of AI.</p>
+                        </div>
+                    </a>
+                    <!-- Tool Card 8: Sinhala Font Converter -->
+                    <a href="fontconverter.html" class="tool-card" data-category="text utility">
+                        <img src="tool-fontconverter.jpg" alt="Sinhala Font Converter">
+                        <div class="tool-card-content">
+                            <h4 data-key="project8Title">Sinhala Font Converter</h4>
+                            <p data-key="project8Desc">Easily convert between legacy Sinhala fonts (FM) and standard Unicode.</p>
+                        </div>
+                    </a>
+                    <!-- Tool Card 9: AI Social Media Post Generator -->
+                    <a href="socialpostgenerator.html" class="tool-card" data-category="ai text">
+                        <img src="tool-socialpostgenerator.jpg" alt="AI Social Media Post Generator">
+                        <div class="tool-card-content">
+                            <h4 data-key="project9Title">AI Social Media Post Generator</h4>
+                            <p data-key="project9Desc">Create engaging social media posts in seconds for various platforms.</p>
+                        </div>
+                    </a>
                 </div>
             </div>
         </section>
         
+        <!-- === අනෙකුත් sections කිසිම වෙනසක් නැතුව ඒ විදිහටම තියෙනවා === -->
         <section id="services">
-             <div class="container">
+            <div class="container">
                 <h2 class="section-title" data-key="servicesTitle">Our Services</h2>
                 <div class="services-grid">
                     <div class="service-card"><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" /></svg></div><h4 data-key="service1Title">Custom Tool Development</h4><p data-key="service1Desc">We build custom web tools tailored to your specific needs, focusing on efficiency and user-friendliness to save you time.</p></div>
@@ -247,19 +469,19 @@
              <div class="container">
                 <h2 class="section-title" data-key="blogTitle">Recent Updates</h2>
                  <div class="projects-grid">
-                     <!-- Blog Post Preview 1 -->
-                     <a href="blog.html" class="blog-post-preview">
-                        <h4 data-key="blog1Title">The Journey Begins: The Story of Malith Studio</h4>
-                        <p data-key="blog1Desc">Our journey started with a simple idea: to create powerful, easy-to-use digital tools that save time for busy people...</p>
-                    </a>
-                     <!-- Blog Post Preview 2 -->
-                     <a href="blog.html" class="blog-post-preview">
-                        <h4 data-key="blog2Title">Why AI is a Game-Changer for Everyday Productivity</h4>
-                        <p data-key="blog2Desc">Artificial Intelligence is no longer just a buzzword; it's a practical tool that can significantly enhance our daily productivity...</p>
-                    </a>
+                      <!-- Blog Post Preview 1 -->
+                      <a href="blog.html" class="blog-post-preview">
+                          <h4 data-key="blog1Title">The Journey Begins: The Story of Malith Studio</h4>
+                          <p data-key="blog1Desc">Our journey started with a simple idea: to create powerful, easy-to-use digital tools that save time for busy people...</p>
+                      </a>
+                      <!-- Blog Post Preview 2 -->
+                      <a href="blog.html" class="blog-post-preview">
+                          <h4 data-key="blog2Title">Why AI is a Game-Changer for Everyday Productivity</h4>
+                          <p data-key="blog2Desc">Artificial Intelligence is no longer just a buzzword; it's a practical tool that can significantly enhance our daily productivity...</p>
+                      </a>
                  </div>
                  <div class="text-center mt-12">
-                     <a href="blog.html" class="cta-button" data-key="blogViewAll">View All Posts</a>
+                      <a href="blog.html" class="cta-button" data-key="blogViewAll">View All Posts</a>
                  </div>
             </div>
         </section>
@@ -268,12 +490,12 @@
             <div class="container">
                 <h2 class="section-title" data-key="aboutTitle">About Us</h2>
                  <div class="about-content">
-                    <div class="about-image"><div class="logo-wrapper"><img src="logo.jpg" alt="Malith Studio® Logo" class="logo"></div></div>
-                    <div class="about-text">
-                        <p data-key="aboutDesc1">Malith Studio® was founded with a simple mission: to create digital tools that genuinely help people. In a world full of complex software, we focus on building simple, intuitive, and powerful solutions that save time for busy individuals.</p>
-                        <p data-key="aboutDesc2" style="margin-top: 1rem;">Our journey began with the Voice Typing Tool, born from a desire to make documentation easier. Today, we continue to develop a suite of tools designed to streamline your daily digital tasks, making technology accessible and efficient for everyone.</p>
-                    </div>
-                </div>
+                     <div class="about-image"><div class="logo-wrapper"><img src="logo.jpg" alt="Malith Studio® Logo" class="logo"></div></div>
+                     <div class="about-text">
+                         <p data-key="aboutDesc1">Malith Studio® was founded with a simple mission: to create digital tools that genuinely help people. In a world full of complex software, we focus on building simple, intuitive, and powerful solutions that save time for busy individuals.</p>
+                         <p data-key="aboutDesc2" style="margin-top: 1rem;">Our journey began with the Voice Typing Tool, born from a desire to make documentation easier. Today, we continue to develop a suite of tools designed to streamline your daily digital tasks, making technology accessible and efficient for everyone.</p>
+                     </div>
+                 </div>
             </div>
         </section>
 
@@ -281,16 +503,16 @@
             <div class="container">
                  <h2 class="section-title" data-key="commentsTitle">Comments</h2>
                  <form id="comments-form">
-                     <div class="form-group">
-                         <input type="text" id="comment-name" required data-key-placeholder="commentNamePlaceholder" placeholder="Your Name">
-                     </div>
-                     <div class="form-group">
-                         <textarea id="comment-message" required data-key-placeholder="commentMessagePlaceholder" placeholder="Your Comment"></textarea>
-                     </div>
-                     <button type="submit" id="submit-comment" class="cta-button" data-key="commentSubmit">Submit Comment</button>
+                      <div class="form-group">
+                           <input type="text" id="comment-name" required data-key-placeholder="commentNamePlaceholder" placeholder="Your Name">
+                      </div>
+                      <div class="form-group">
+                           <textarea id="comment-message" required data-key-placeholder="commentMessagePlaceholder" placeholder="Your Comment"></textarea>
+                      </div>
+                      <button type="submit" id="submit-comment" class="cta-button" data-key="commentSubmit">Submit Comment</button>
                  </form>
                  <div id="comments-list">
-                     <!-- Comments will be dynamically inserted here -->
+                      <!-- Comments will be dynamically inserted here -->
                  </div>
             </div>
         </section>
@@ -299,12 +521,27 @@
             <div class="container">
                 <h2 class="section-title" data-key="contactTitle">Get In Touch</h2>
                 <p data-key="contactDesc">Have a question or a project in mind? We'd love to hear from you. Reach out to us, and let's create something amazing together.</p>
-                <a href="mailto:malithstudio24@gmail.com" class="cta-button">Email Us</a>
+                <!-- Contact Buttons (යාවත්කාලීන කරන ලදී) -->
+                <div class="contact-buttons-container">
+                    <a href="mailto:malithstudio24@gmail.com" class="cta-button contact-btn">
+                        <i class="fas fa-envelope"></i> <span data-key="contactEmail">Email Us</span>
+                    </a>
+                    <a href="https://www.facebook.com/groups/1889931538411601/?ref=share&mibextid=NSMWBT" target="_blank" class="cta-button contact-btn">
+                        <i class="fab fa-facebook"></i> <span data-key="contactFacebook">Facebook</span>
+                    </a>
+                    <a href="https://youtube.com/@malithmusicstudio-i5h?si=GyHX3wVz3e8M6eCw" target="_blank" class="cta-button contact-btn">
+                        <i class="fab fa-youtube"></i> <span data-key="contactYoutube">YouTube</span>
+                    </a>
+                    <!-- TikTok Button (අලුතෙන් එකතු කරන ලදී) -->
+                    <a href="https://www.tiktok.com/@malith.dushantha2?_t=ZS-8zMkcrsyFtQ&_r=1" target="_blank" class="cta-button contact-btn">
+                        <i class="fab fa-tiktok"></i> <span data-key="contactTiktok">TikTok</span>
+                    </a>
+                </div>
             </div>
         </section>
     </main>
 
-     <footer class="footer">
+    <footer class="footer">
         <div class="container">
             <div class="footer-links">
                 <a href="privacy.html" data-key="footerPrivacy">Privacy Policy</a>
@@ -318,8 +555,17 @@
             <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
         </svg>
     </a>
+    
+    <!-- Theme Switcher (HTML වෙනස් කරන ලදී) -->
+    <div id="theme-switcher">
+        <button class="theme-btn active" data-theme="default"></button>
+        <button class="theme-btn" data-theme="theme1.jpg"></button>
+        <button class="theme-btn" data-theme="theme2.jpg"></button>
+        <button class="theme-btn" data-theme="theme3.jpg"></button>
+    </div>
 
-    <!-- Firebase SDK -->
+
+    <!-- Firebase SDK (ඔබේ පරණ file එකෙන්) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -343,9 +589,9 @@
             if (user) {
                 fetchAndDisplayComments();
             } else {
-                 signInAnonymously(auth).catch((error) => {
+                signInAnonymously(auth).catch((error) => {
                     console.error("Anonymous sign-in error:", error);
-                 });
+                });
             }
         });
         
@@ -445,6 +691,10 @@
             commentSubmit: { en: 'Submit Comment', si: 'අදහස යොමු කරන්න', ta: 'கருத்தை சமர்ப்பிக்கவும்' },
             contactTitle: { en: 'Get In Touch', si: 'සම්බන්ධ වන්න', ta: 'தொடர்பு கொள்ளுங்கள்' },
             contactDesc: { en: "Have a question or a project in mind? We'd love to hear from you. Reach out to us, and let's create something amazing together.", si: 'ඔබට ප්‍රශ්නයක් හෝ ව්‍යාපෘතියක් മനസ്സിൽ තිබේද? ඔබෙන් ඇසීමට අපි කැමතියි. අප හා සම්බන්ධ වන්න, අපි එක්ව පුදුමාකාර දෙයක් නිර්මාණය කරමු.', ta: 'உங்களுக்கு ஒரு கேள்வி அல்லது ஒரு திட்டம் உள்ளதா? உங்களிடமிருந்து கேட்க நாங்கள் விரும்பிறோம். எங்களைத் தொடர்புகொண்டு, நாம் ஒன்றிணைந்து அற்புதமான ஒன்றை உருவாக்குவோம்.'},
+            contactEmail: { en: 'Email Us', si: 'ඊමේල් කරන්න', ta: 'மின்னஞ்சல்' },
+            contactFacebook: { en: 'Facebook', si: 'ෆේස්බුක්', ta: 'முகநூல்' },
+            contactYoutube: { en: 'YouTube', si: 'යූටියුබ්', ta: 'யூடியூப்' },
+            contactTiktok: { en: 'TikTok', si: 'ටික්ටොක්', ta: ' டிக்டாக்' }, // TikTok සඳහා පරිවර්තන
             service1Title: { en: 'Custom Tool Development', si: 'විශේෂිත මෙවලම් සංවර්ධනය', ta: 'தனிப்பயன் கருவி மேம்பாடு' },
             service1Desc: { en: 'We build custom web tools tailored to your specific needs, focusing on efficiency and user-friendliness to save you time.', si: 'අපි ඔබගේ විශේෂිත අවශ්‍යතා සඳහාම ගැලපෙන වෙබ් මෙවලම් නිර්මාණය කරමු. එහිදී ඔබගේ කාලය ඉතිරි කිරීම සඳහා කාර්යක්ෂමතාව සහ පරිශීලක-හිතකාමී බව කෙරෙහි අවධානය යොමු කරමු.', ta: 'உங்கள் நேரத்தை சேமிக்க, செயல்திறன் மற்றும் பயனர் நட்பை மையமாகக் கொண்டு, உங்கள் குறிப்பிட்ட தேவைகளுக்கு ஏற்ப தனிப்பயன் இணையக் கருவிகளை நாங்கள் உருவாக்குகிறோம்.' },
             service2Title: { en: 'Modern Web Solutions', si: 'නවීන වෙබ් විසඳුම්', ta: 'நவீன வலை தீர்வுகள்' },
@@ -481,7 +731,9 @@
 
         function setLanguage(lang) {
             currentLang = lang;
-            languageBtn.textContent = lang.toUpperCase();
+            if(lang === 'en') languageBtn.textContent = 'English';
+            if(lang === 'si') languageBtn.textContent = 'සිංහල';
+            if(lang === 'ta') languageBtn.textContent = 'தமிழ்';
             languageOptions.style.display = 'none';
             document.documentElement.lang = lang;
 
@@ -499,13 +751,21 @@
                 }
             });
             
+             // Language switching for contact buttons
+            document.querySelectorAll('.contact-btn span').forEach(span => {
+                 const key = span.getAttribute('data-key');
+                 if (translations[key] && translations[key][lang]) {
+                    span.textContent = translations[key][lang];
+                }
+            });
+
             // Pass language to linked pages
             document.querySelectorAll('a[href*=".html"]').forEach(link => {
                  if(link.href.includes('.html')){
-                    const url = new URL(link.href, window.location.origin);
-                    url.searchParams.set('lang', lang);
-                    link.href = url.toString();
-                }
+                     const url = new URL(link.href, window.location.origin);
+                     url.searchParams.set('lang', lang);
+                     link.href = url.toString();
+                 }
             });
         }
 
@@ -539,6 +799,40 @@
         });
 
         document.addEventListener('DOMContentLoaded', () => {
+            const bgContainer = document.getElementById('background-container');
+            const themeSwitcher = document.getElementById('theme-switcher');
+            const themeBtns = document.querySelectorAll('.theme-btn');
+            
+            // --- Theme Switcher සඳහා වන අලුත් JavaScript කොටස ---
+            themeBtns.forEach(btn => {
+                const theme = btn.dataset.theme;
+                if (theme === 'default') {
+                    btn.style.backgroundImage = "linear-gradient(145deg, #1e3a8a 0%, #312e81 50%, #0b0f19 100%)";
+                } else {
+                    btn.style.backgroundImage = `url('${theme}')`;
+                }
+            });
+            // --- අලුත් JavaScript කොටස අවසානය ---
+
+            const themes = ['default', 'theme1.jpg', 'theme2.jpg', 'theme3.jpg'];
+            
+            // Set initial theme
+            bgContainer.style.backgroundImage = "linear-gradient(145deg, #1e3a8a 0%, #312e81 50%, #0b0f19 100%)";
+
+
+            themeBtns.forEach((btn, index) => {
+                btn.addEventListener('click', () => {
+                    themeBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const themeImage = themes[index];
+                    if (themeImage === 'default') {
+                        bgContainer.style.backgroundImage = "linear-gradient(145deg, #1e3a8a 0%, #312e81 50%, #0b0f19 100%)";
+                    } else {
+                        bgContainer.style.backgroundImage = `url('${themeImage}')`;
+                    }
+                });
+            });
+
             const bgAnimation = document.getElementById('background-animation');
             const numberOfOrbs = 15;
 
@@ -573,34 +867,88 @@
                 }
             });
 
-            const cursorDot = document.querySelector('.cursor-dot');
-            const cursorOutline = document.querySelector('.cursor-outline');
-
-            window.addEventListener('mousemove', function(e) {
-                const posX = e.clientX;
-                const posY = e.clientY;
-                cursorDot.style.left = `${posX}px`;
-                cursorDot.style.top = `${posY}px`;
-                cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
-            });
-
-            const interactiveElements = document.querySelectorAll('a, button, input, select, textarea');
-            interactiveElements.forEach(el => {
-                el.addEventListener('mouseenter', () => cursorOutline.classList.add('cursor-grow'));
-                el.addEventListener('mouseleave', () => cursorOutline.classList.remove('cursor-grow'));
-            });
-
             const backToTopButton = document.getElementById('back-to-top');
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 300) {
-                    backToTopButton.classList.add('visible');
+                    if(backToTopButton) backToTopButton.classList.add('visible');
                 } else {
-                    backToTopButton.classList.remove('visible');
+                    if(backToTopButton) backToTopButton.classList.remove('visible');
                 }
             });
+            
         });
 
         setLanguage(currentLang);
+    </script>
+    
+    <!-- Search and Filter සඳහා වන අලුත් JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('searchInput');
+            const filterContainer = document.getElementById('filterContainer');
+            const toolsGrid = document.getElementById('toolsGrid');
+            
+            if (!searchInput || !filterContainer || !toolsGrid) return; // අවශ්‍ය elements නැත්නම් script එක නවත්වන්න
+
+            const toolCards = toolsGrid.querySelectorAll('.tool-card');
+            const filterButtons = filterContainer.querySelectorAll('.filter-btn');
+
+            function updateToolsView() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                const activeFilter = filterContainer.querySelector('.active').dataset.filter;
+
+                toolCards.forEach(card => {
+                    const titleElement = card.querySelector('h4');
+                    const descriptionElement = card.querySelector('p');
+                    const cardCategory = card.dataset.category || '';
+
+                    // data-key එකෙන් text එක ගන්න, language switching වලට ගැලපෙන්න
+                    const titleKey = titleElement.dataset.key;
+                    const descKey = descriptionElement.dataset.key;
+                    
+                    const title_en = translations[titleKey]?.en.toLowerCase() || '';
+                    const title_si = translations[titleKey]?.si.toLowerCase() || '';
+                    const title_ta = translations[titleKey]?.ta.toLowerCase() || '';
+
+                    const desc_en = translations[descKey]?.en.toLowerCase() || '';
+                    const desc_si = translations[descKey]?.si.toLowerCase() || '';
+                    const desc_ta = translations[descKey]?.ta.toLowerCase() || '';
+
+
+                    // Filter එකට ගැලපෙනවද?
+                    const matchesFilter = (activeFilter === 'all') || cardCategory.includes(activeFilter);
+
+                    // Search term එකට ගැලපෙනවද? (භාෂා තුනෙන්ම)
+                    const matchesSearch = title_en.includes(searchTerm) || desc_en.includes(searchTerm) ||
+                                          title_si.includes(searchTerm) || desc_si.includes(searchTerm) ||
+                                          title_ta.includes(searchTerm) || desc_ta.includes(searchTerm);
+
+                    if (matchesFilter && matchesSearch) {
+                        card.classList.remove('hidden-card');
+                    } else {
+                        card.classList.add('hidden-card');
+                    }
+                });
+            }
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterContainer.querySelector('.active').classList.remove('active');
+                    button.classList.add('active');
+                    updateToolsView();
+                });
+            });
+
+            searchInput.addEventListener('input', updateToolsView);
+
+            // භාෂාව මාරු කරාට පස්සේ search එක update කරන්න
+             document.querySelectorAll('#language-options button').forEach(button => {
+                button.addEventListener('click', () => {
+                    // පොඩි delay එකක් දෙන්නේ text content එක update වෙන්න
+                    setTimeout(updateToolsView, 100); 
+                });
+            });
+        });
     </script>
 </body>
 </html>
