@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <!-- PWA සඳහා අලුතෙන් එකතු කරන ලදී -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0b0f19">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
     <!-- SEO Meta Tags (ඔබේ පරණ file එකෙන්) -->
     <title>Malith Studio® | Innovative Web Tools for Productivity</title>
     <meta name="description" content="Malith Studio offers a collection of free, innovative web tools like Voice Typing, OCR, Text Summarizers, and Font Converters to simplify your digital life.">
@@ -15,7 +20,7 @@
     <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/">
     <meta property="og:title" content="Malith Studio® | Innovative Web Tools for Productivity">
     <meta property="og:description" content="A collection of free web tools designed to simplify your digital life.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+    <meta property="og:image" content="https://images.unsplash.com/photo-155074۵۱۶۵-۹bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
 
     <!-- Twitter (ඔබේ පරණ file එකෙන්) -->
     <meta property="twitter:card" content="summary_large_image">
@@ -879,6 +884,18 @@
         });
 
         setLanguage(currentLang);
+        
+        // --- PWA Service Worker Registration ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // Path එක GitHub Pages වලට ගැලපෙන ලෙස වෙනස් කරන ලදී
+                navigator.serviceWorker.register('/Malith-Studio/sw.js').then(registration => {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
     </script>
     
     <!-- Search and Filter සඳහා වන අලුත් JavaScript -->

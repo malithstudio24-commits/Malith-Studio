@@ -1,0 +1,21 @@
+{
+    "name": "Malith Studio® Tools",
+    "short_name": "Malith Studio",
+    "description": "A collection of free web tools designed to simplify your digital life.",
+    "start_url": "/Malith-Studio/",
+    "display": "standalone",
+    "background_color": "#0b0f19",
+    "theme_color": "#0b0f19",
+    "icons": [
+        {
+            "src": "logo-192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "logo-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
+}
