@@ -501,7 +501,7 @@
         // --- Speech Recognition Logic ---
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         let recognition;
-        let baseTranscript = '';
+        let final_transcript = '';
         
         if (SpeechRecognition) {
             recognition = new SpeechRecognition();
@@ -516,6 +516,7 @@
             };
 
             recognition.onend = () => {
+                final_transcript = transcriptArea.value;
                 statusDiv.textContent = translations.statusStopped[currentLang];
                 startButton.disabled = false;
                 stopButton.disabled = true;
@@ -531,16 +532,17 @@
             };
             
             recognition.onresult = (event) => {
-                let interimTranscript = '';
-                let finalTranscriptFromSession = '';
-                for (let i = 0; i < event.results.length; ++i) {
+                let interim_transcript = '';
+                let session_final_transcript = '';
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
                     if (event.results[i].isFinal) {
-                        finalTranscriptFromSession += event.results[i][0].transcript;
+                        session_final_transcript += event.results[i][0].transcript;
                     } else {
-                        interimTranscript += event.results[i][0].transcript;
+                        interim_transcript += event.results[i][0].transcript;
                     }
                 }
-                transcriptArea.value = baseTranscript + finalTranscriptFromSession + interimTranscript;
+                final_transcript += session_final_transcript;
+                transcriptArea.value = final_transcript + interim_transcript;
             };
 
         } else {
@@ -557,10 +559,10 @@
         // --- Button Event Listeners ---
         startButton.addEventListener('click', () => {
             if (recognition) {
-                baseTranscript = transcriptArea.value;
-                if (baseTranscript.length > 0 && !baseTranscript.endsWith(' ')) {
-                    baseTranscript += ' ';
+                if (transcriptArea.value.length > 0 && !transcriptArea.value.endsWith(' ')) {
+                    transcriptArea.value += ' ';
                 }
+                final_transcript = transcriptArea.value;
                 recognition.lang = getLangCode(currentLang);
                 recognition.start();
             }
@@ -585,18 +587,19 @@
                 const trimmedText = currentText.trimEnd();
                 const lastSpaceIndex = trimmedText.lastIndexOf(' ');
                 
+                let newText = '';
                 if (lastSpaceIndex !== -1) {
-                    transcriptArea.value = trimmedText.substring(0, lastSpaceIndex);
-                } else {
-                    transcriptArea.value = '';
+                    newText = trimmedText.substring(0, lastSpaceIndex);
                 }
+                transcriptArea.value = newText;
+                final_transcript = newText;
             }
         });
         
         clearButton.addEventListener('click', () => {
             stopRecognition();
             transcriptArea.value = '';
-            baseTranscript = '';
+            final_transcript = '';
         });
 
         languageBtn.addEventListener('click', (e) => {
