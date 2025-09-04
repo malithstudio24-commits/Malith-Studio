@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="si">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sinhala Font Converter - Malith Studio®</title>
+    <title>Voice Typing Tool - Malith Studio®</title>
     <!-- Font Awesome (Icons සඳහා අලුතෙන් එකතු කරන ලදී) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -31,7 +31,7 @@
             backdrop-filter: blur(10px);
             color: #d1d5db;
             padding: 0.5rem 1rem;
-            border-radius: 9999px;
+            border-radius: 9999px; /* pill shape */
             text-decoration: none;
             font-weight: 600;
             z-index: 10;
@@ -48,7 +48,7 @@
         }
         .container {
             width: 100%;
-            max-width: 64rem; /* max-w-5xl */
+            max-width: 48rem; /* max-w-2xl */
             background-color: rgba(31, 41, 55, 0.8);
             backdrop-filter: blur(10px);
             border-radius: 1rem;
@@ -117,95 +117,76 @@
         .header { text-align: center; margin-bottom: 2rem; margin-top: 3rem; }
         .header h1 { font-size: 2.25rem; font-weight: 700; color: #93c5fd; }
         .header p { color: #d1d5db; margin-top: 0.5rem; }
-        .converter-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-        @media (min-width: 1024px) {
-            .converter-grid {
-                grid-template-columns: 1fr auto 1fr;
-                align-items: center;
-            }
-        }
-        .textarea-container {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        .textarea-container label {
-            font-weight: 600;
-            color: #d1d5db;
-        }
-        textarea {
+        #transcript {
             width: 100%;
-            height: 250px;
+            min-height: 200px;
             background-color: #111827;
             border: 1px solid #4b5563;
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
             padding: 1rem;
             color: #f9fafb;
-            font-size: 1rem;
+            font-size: 1.125rem;
+            line-height: 1.6;
             resize: vertical;
             box-sizing: border-box;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-        textarea:focus {
-            outline: none;
-            border-color: #8b5cf6;
-            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
+            margin-bottom: 1.5rem;
         }
         .controls {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
-            margin: 1rem 0;
         }
-         @media (min-width: 1024px) {
+        @media(min-width: 768px) {
             .controls {
-                flex-direction: column;
+                grid-template-columns: repeat(5, 1fr);
             }
         }
-        .convert-btn {
-            padding: 0.75rem 1.5rem;
-            font-weight: 600;
-            color: white;
-            background: linear-gradient(to right, #3b82f6, #8b5cf6);
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.3s;
+        .btn {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-        }
-        .convert-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
-        }
-        .output-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .action-btn {
-            width: 150px;
-            padding: 0.5rem;
-            border: none;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
             color: white;
-            border-radius: 0.375rem;
+            border: none;
+            border-radius: 0.5rem;
             cursor: pointer;
-            font-weight: 500;
-            transition: background-color 0.2s;
+            transition: all 0.3s;
         }
-        #copy-output-btn { background-color: #4b5563; }
-        #copy-output-btn:hover { background-color: #6b7280; }
-        #clear-output-btn { background-color: #991b1b; }
-        #clear-output-btn:hover { background-color: #b91c1c; }
+        .btn:hover:not(:disabled) {
+             transform: translateY(-2px);
+             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        #startButton { background: linear-gradient(to right, #2563eb, #3b82f6); }
+        #stopButton { background: linear-gradient(to right, #dc2626, #ef4444); }
+        #copyButton { background: linear-gradient(to right, #4b5563, #6b7280); }
+        #undoButton { background: linear-gradient(to right, #ca8a04, #eab308); }
+        #clearButton { background: linear-gradient(to right, #7f1d1d, #b91c1c); } /* Clear Button Style */
         
+        .status-container {
+            text-align: center;
+            margin-top: 1.5rem;
+            height: 1.5rem;
+        }
+        #status {
+            color: #9ca3af;
+        }
+        .glowing-border {
+            border-radius: 0.75rem;
+            padding: 2px;
+            animation: glow 4s linear infinite;
+            background: conic-gradient(from var(--angle), #6366f1, #a855f7, #ec4899, #f59e0b, #6366f1);
+        }
+        @keyframes glow {
+            0% { --angle: 0deg; }
+            100% { --angle: 360deg; }
+        }
+
         /* --- Share Buttons --- */
         .share-section {
             margin-top: 3rem;
@@ -310,27 +291,15 @@
         .modal-content li {
             margin-bottom: 0.75rem;
         }
-
-        @font-face {
-            font-family: 'FM-Abhaya';
-            src: url('https://www.fonts-top.com/server/fonts/FM-Abhaya_2.001_80f2303a74959f632a76f2b86d9a955c.ttf') format('truetype');
-        }
-        #input-text.fm-font, #output-text.fm-font {
-            font-family: 'FM-Abhaya', sans-serif;
-            font-size: 1.2rem;
-        }
-
     </style>
 </head>
 <body>
-
     <a href="index.html" class="back-btn">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
         </svg>
         <span data-key="backToHome">Back to Home</span>
     </a>
-
     <div class="container">
         <div class="header-controls">
             <div class="language-switcher">
@@ -344,35 +313,24 @@
             <button id="help-btn" class="help-btn" data-key="helpBtn" title="Help">?</button>
         </div>
         <div class="header">
-            <h1 data-key="title">Sinhala Font Converter</h1>
-            <p data-key="subtitle">Easily convert between FM fonts and Unicode.</p>
+            <h1 data-key="title">Voice Typing Tool</h1>
+            <p data-key="subtitle">Type in Sinhala, English or Tamil by just speaking.</p>
         </div>
 
-        <div class="converter-grid">
-            <div class="textarea-container">
-                <label for="input-text" data-key="inputLabel">Input Text (FM Font or Unicode)</label>
-                <textarea id="input-text" data-key-placeholder="inputPlaceholder" placeholder="Enter the text you want to convert here..."></textarea>
-            </div>
+        <div id="transcript-wrapper">
+            <textarea id="transcript" data-key-placeholder="placeholder" placeholder="Your speech will be transcribed here..."></textarea>
+        </div>
 
-            <div class="controls">
-                <button id="fm-to-uni-btn" class="convert-btn">
-                    <span data-key="fmToUni">FM ➔ Unicode</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                </button>
-                <button id="uni-to-fm-btn" class="convert-btn">
-                    <span data-key="uniToFm">Unicode ➔ FM</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                </button>
-            </div>
-
-            <div class="textarea-container">
-                <label for="output-text" data-key="outputLabel">Output Text</label>
-                <textarea id="output-text" readonly data-key-placeholder="outputPlaceholder" placeholder="See the converted text here..."></textarea>
-                <div class="output-buttons">
-                    <button id="copy-output-btn" class="action-btn" data-key="copyBtn">Copy Output</button>
-                    <button id="clear-output-btn" class="action-btn" data-key="clearBtn">Clear</button>
-                </div>
-            </div>
+        <div class="controls">
+            <button id="startButton" class="btn"><span data-key="start">Start Listening</span></button>
+            <button id="stopButton" class="btn" disabled><span data-key="stop">Stop</span></button>
+            <button id="copyButton" class="btn"><span data-key="copy">Copy Text</span></button>
+            <button id="undoButton" class="btn"><span data-key="undo">Undo</span></button>
+            <button id="clearButton" class="btn"><span data-key="clear">Clear</span></button>
+        </div>
+        
+        <div class="status-container">
+            <div id="status"></div>
         </div>
 
         <!-- Share Buttons Section START -->
@@ -393,7 +351,7 @@
     <div id="help-modal" class="modal-overlay">
         <div class="modal-content">
             <button id="close-modal-btn" class="modal-close">&times;</button>
-            <h2 data-key="helpTitle">How to Use Font Converter</h2>
+            <h2 data-key="helpTitle">How to Use Voice Typing</h2>
             <div data-key="helpContent">
                 <!-- Content will be inserted by JavaScript -->
             </div>
@@ -403,24 +361,47 @@
     <script>
         const translations = {
             backToHome: { en: 'Back to Home', si: 'මුල් පිටුවට', ta: 'முகப்புக்குச் செல்' },
-            title: { en: 'Sinhala Font Converter', si: 'සිංහල ෆොන්ට් පරිවර්තකය', ta: 'சிங்கள எழுத்துரு மாற்றி' },
-            subtitle: { en: 'Easily convert between FM fonts and Unicode.', si: 'FM ෆොන්ට් සහ යුනිකෝඩ් අතර පහසුවෙන් පරිවර්තනය කරන්න.', ta: 'FM எழுத்துருக்கள் மற்றும் யூனிகோட் இடையே எளிதாக மாற்றவும்.' },
-            inputLabel: { en: 'Input Text (FM Font or Unicode)', si: 'ආදාන පාඨය (FM ෆොන්ට් හෝ යුනිකෝඩ්)', ta: 'உள்ளீட்டு உரை (FM எழுத்துரு அல்லது யூனிகோட்)' },
-            inputPlaceholder: { en: 'Enter the text you want to convert here...', si: 'ඔබට පරිවර්තනය කිරීමට අවශ්‍ය පාඨය මෙහි යොදන්න...', ta: 'நீங்கள் மாற்ற விரும்பும் உரையை இங்கே உள்ளிடவும்...' },
-            fmToUni: { en: 'FM ➔ Unicode', si: 'FM ➔ යුනිකෝඩ්', ta: 'FM ➔ யூனிகோட்' },
-            uniToFm: { en: 'Unicode ➔ FM', si: 'යුනිකෝඩ් ➔ FM', ta: 'யூனிகோட் ➔ FM' },
-            outputLabel: { en: 'Output Text', si: 'ප්‍රතිදාන පාඨය', ta: 'வெளியீட்டு உரை' },
-            outputPlaceholder: { en: 'See the converted text here...', si: 'පරිවර්තනය කළ පාඨය මෙතැනින් බලන්න...', ta: 'மாற்றப்பட்ட உரையை இங்கே பார்க்கவும்...' },
-            copyBtn: { en: 'Copy Output', si: 'ප්‍රතිදානය පිටපත් කරන්න', ta: 'வெளியீட்டை நகலெடு' },
-            clearBtn: { en: 'Clear', si: 'මකන්න', ta: 'அழி' },
-            copied: { en: 'Copied!', si: 'පිටපත් කලා!', ta: 'நகலெடுக்கப்பட்டது!' },
+            title: { en: 'Voice Typing Tool', si: 'කටහඬින් ටයිප් කිරීමේ මෙවලම', ta: 'குரல் தட்டச்சு கருவி' },
+            subtitle: { en: 'Type in Sinhala, English or Tamil by just speaking.', si: 'මයික්‍රෆෝනය ඔබා කතා කිරීමෙන් සිංහල, ඉංග්‍රීසි හෝ දෙමළෙන් ටයිප් කරන්න.', ta: 'பேசுவதன் மூலம் சிங்களம், ஆங்கிலம் அல்லது தமிழில் தட்டச்சு செய்யவும்.' },
+            start: { en: 'Start Listening', si: 'සවන් දීම අරඹන්න', ta: 'கேட்கத் தொடங்கு' },
+            stop: { en: 'Stop', si: 'නවතින්න', ta: 'நிறுத்து' },
+            copy: { en: 'Copy Text', si: 'පෙළ පිටපත් කරන්න', ta: 'உரையை நகலெடு' },
+            undo: { en: 'Undo', si: 'අහෝසි කරන්න', ta: 'செயல்தவிர்' },
+            clear: { en: 'Clear', si: 'මකන්න', ta: 'அழி' },
+            placeholder: { en: 'Your speech will be transcribed here...', si: 'ඔබ කතා කරන දේ මෙතැන සටහන් වේවි...', ta: 'உங்கள் பேச்சு இங்கே படியெடுக்கப்படும்...' },
+            statusListening: { en: 'Listening...', si: 'සවන් දෙමින්...', ta: 'கேட்கிறது...' },
+            statusStopped: { en: 'Stopped. Press Start to begin again.', si: 'නැවතුනා. නැවත ආරම්භ කිරීමට බොත්තම ඔබන්න.', ta: 'நிறுத்தப்பட்டது. மீண்டும் தொடங்க தொடங்கு என்பதை அழுத்தவும்.' },
+            statusCopied: { en: 'Copied to clipboard!', si: 'පසුරු පුවරුවට පිටපත් කලා!', ta: 'கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது!' },
+            statusNothingToCopy: { en: 'There is nothing to copy.', si: 'පිටපත් කිරීමට කිසිවක් නැත.', ta: 'நகலெடுக்க எதுவும் இல்லை.'},
+            errorNetwork: { en: 'Network error. Please check your connection.', si: 'ජාල දෝෂයකි. කරුණාකර ඔබගේ සම්බන්ධතාවය පරීක්ෂා කරන්න.', ta: 'நெட்வொர்க் பிழை. உங்கள் இணைப்பைச் சரிபார்க்கவும்.'},
+            errorNoSpeech: { en: 'No speech detected. Please try again.', si: 'කථනයක් හඳුනාගත නොහැකි විය. කරුණාකර නැවත උත්සාහ කරන්න.', ta: 'பேச்சு எதுவும் கண்டறியப்படவில்லை. மீண்டும் முயல்க.'},
+            errorNotAllowed: { en: 'Microphone access denied. Please check browser settings.', si: 'මයික්‍රෆෝනයට ප්‍රවේශ වීමට අවසර නැත. කරුණාකර බ්‍රව්සර් සැකසුම් පරීක්ෂා කරන්න.', ta: 'மைக்ரோஃபோன் அணுகல் மறுக்கப்பட்டது. உலாவி அமைப்புகளைச் சரிபார்க்கவும்.'},
+            errorDefault: { en: 'An error occurred.', si: 'දෝෂයක් ඇතිවිය.', ta: 'ஒரு பிழை ஏற்பட்டது.'},
             shareTool: { en: 'Share this Tool', si: 'මෙම මෙවලම බෙදාගන්න', ta: 'இந்த கருவியைப் பகிரவும்' },
             linkCopied: { en: 'Link Copied!', si: 'ලින්ක් එක කොපි විය!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' },
-            helpTitle: { en: 'How to Use Font Converter', si: 'Font Converter භාවිතා කරන ආකාරය', ta: 'Font Converter பயன்படுத்துவது எப்படி' },
-            helpContent: {
-                en: `<ol><li>Paste or type your text (either legacy FM font or standard Unicode) into the left input box.</li><li>Click <strong>FM ➔ Unicode</strong> to convert a legacy font to standard Unicode.</li><li>Click <strong>Unicode ➔ FM</strong> to convert standard Unicode to a legacy font.</li><li>The converted text will appear in the right output box.</li><li>Use the <strong>Copy Output</strong> and <strong>Clear</strong> buttons to manage the result.</li></ol>`,
-                si: `<ol><li>ඔබගේ text එක (පැරණි FM ෆොන්ට් හෝ සම්මත යුනිකෝඩ්) වම් පස ඇති input box එකේ paste කරන්න හෝ type කරන්න.</li><li>පැරණි ෆොන්ට් එකක් සම්මත යුනිකෝඩ් බවට පත් කිරීමට <strong>FM ➔ යුනිකෝඩ්</strong> බොත්තම ඔබන්න.</li><li>සම්මත යුනිකෝඩ්, පැරණි ෆොන්ට් එකක් බවට පත් කිරීමට <strong>යුනිකෝඩ් ➔ FM</strong> බොත්තම ඔබන්න.</li><li>පරිවර්තනය වූ text එක දකුණු පස ඇති output box එකේ දිස්වනු ඇත.</li><li>ප්‍රතිඵලය කළමනාකරණය කිරීමට <strong>'ප්‍රතිදානය පිටපත් කරන්න'</strong> සහ <strong>'මකන්න'</strong> යන බොත්තම් භාවිතා කරන්න.</li></ol>`,
-                ta: `<ol><li>உங்கள் உரையை (பழைய FM எழுத்துரு அல்லது நிலையான யூனிகோட்) இடது உள்ளீட்டுப் பெட்டியில் ஒட்டவும் அல்லது தட்டச்சு செய்யவும்.</li><li>பழைய எழுத்துருவை நிலையான யூனிகோடாக மாற்ற <strong>FM ➔ யூனிகோட்</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>நிலையான யூனிகோடை பழைய எழுத்துருவாக மாற்ற <strong>யூனிகோட் ➔ FM</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>மாற்றப்பட்ட உரை வலது வெளியீட்டுப் பெட்டியில் தோன்றும்.</li><li>முடிவை நிர்வகிக்க <strong>'வெளியீட்டை நகலெடு'</strong> மற்றும் <strong>'அழி'</strong> பொத்தான்களைப் பயன்படுத்தவும்.</li></ol>`
+            helpTitle: { en: 'How to Use Voice Typing', si: 'භාවිතා කරන ආකාරය', ta: 'குரல் தட்டச்சு பயன்படுத்துவது எப்படி' },
+            helpContent: { 
+                en: `<ol>
+                        <li>Select your language (English, Sinhala, or Tamil) from the top right corner.</li>
+                        <li>Click the <strong>Start Listening</strong> button. Your browser may ask for microphone permission. Please allow it.</li>
+                        <li>Start speaking clearly. Your words will appear in the text box.</li>
+                        <li>Click the <strong>Stop</strong> button to pause.</li>
+                        <li>Use the <strong>Copy</strong>, <strong>Undo</strong>, <strong>Clear</strong>, and other buttons to manage your text.</li>
+                    </ol>`,
+                si: `<ol>
+                        <li>ඉහළ දකුණු කෙළවරේ ඇති භාෂා මෙනුවෙන් ඔබගේ භාෂාව (සිංහල, English, හෝ தமிழ்) තෝරාගන්න.</li>
+                        <li><strong>'සවන් දීම අරඹන්න'</strong> බොත්තම ඔබන්න. ඔබේ බ්‍රව්සරය මයික්‍රෆෝනය සඳහා අවසර ඉල්ලනු ඇත. කරුණාකර එයට ඉඩ දෙන්න.</li>
+                        <li>පැහැදිලිව කතා කිරීම අරඹන්න. ඔබ පවසන දේ text box එකේ සටහන් වනු ඇත.</li>
+                        <li>නැවැත්වීමට <strong>'නවතින්න'</strong> බොත්තම ඔබන්න.</li>
+                        <li>ඔබ ටයිප් කළ දේ කළමනාකරණය කිරීමට <strong>'පිටපත් කරන්න'</strong>, <strong>'අහෝසි කරන්න'</strong>, සහ <strong>'මකන්න'</strong> යන බොත්තම් භාවිතා කරන්න.</li>
+                    </ol>`,
+                ta: `<ol>
+                        <li>மேல் வலது மூலையில் உள்ள மொழி மெனுவிலிருந்து உங்கள் மொழியை (தமிழ், ஆங்கிலம், அல்லது சிங்களம்) தேர்ந்தெடுக்கவும்.</li>
+                        <li><strong>'கேட்கத் தொடங்கு'</strong> பொத்தானைக் கிளிக் செய்யவும். உங்கள் உலாவி மைக்ரோஃபோன் அனுமதி கேட்கலாம். தயவுசெய்து அதை அனுமதிக்கவும்.</li>
+                        <li>தெளிவாகப் பேசத் தொடங்குங்கள். உங்கள் வார்த்தைகள் உரைப்பெட்டியில் தோன்றும்.</li>
+                        <li>இடைநிறுத்த <strong>'நிறுத்து'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li>
+                        <li>உங்கள் உரையை நிர்வகிக்க <strong>'நகலெடு'</strong>, <strong>'செயல்தவிர்'</strong>, <strong>'அழி'</strong> மற்றும் பிற பொத்தான்களைப் பயன்படுத்தவும்.</li>
+                    </ol>`
             }
         };
 
@@ -429,16 +410,19 @@
         // --- UI Elements ---
         const languageBtn = document.getElementById('language-btn');
         const languageOptions = document.getElementById('language-options');
-        const inputText = document.getElementById('input-text');
-        const outputText = document.getElementById('output-text');
-        const fmToUniBtn = document.getElementById('fm-to-uni-btn');
-        const uniToFmBtn = document.getElementById('uni-to-fm-btn');
-        const copyOutputBtn = document.getElementById('copy-output-btn');
-        const clearOutputBtn = document.getElementById('clear-output-btn');
+        const transcriptWrapper = document.getElementById('transcript-wrapper');
+        const transcriptArea = document.getElementById('transcript');
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+        const copyButton = document.getElementById('copyButton');
+        const undoButton = document.getElementById('undoButton');
+        const clearButton = document.getElementById('clearButton');
+        const statusDiv = document.getElementById('status');
         const helpBtn = document.getElementById('help-btn');
         const helpModal = document.getElementById('help-modal');
         const closeModalBtn = document.getElementById('close-modal-btn');
         
+        // --- Language and UI Update ---
         function setLanguage(lang) {
             currentLang = lang;
             if(lang === 'en') languageBtn.textContent = 'English';
@@ -456,12 +440,7 @@
                     }
                 }
             });
-            document.querySelectorAll('[data-key-placeholder]').forEach(element => {
-                const key = element.getAttribute('data-key-placeholder');
-                if (translations[key] && translations[key][lang]) {
-                    element.placeholder = translations[key][lang];
-                }
-            });
+            transcriptArea.placeholder = translations.placeholder[lang];
 
             const backBtn = document.querySelector('.back-btn');
             if (backBtn) {
@@ -470,13 +449,20 @@
                 backBtn.href = homeUrl.toString();
             }
         }
-        
+
+        // Get language code from URL parameter
         function getLangFromURL() {
             const params = new URLSearchParams(window.location.search);
             const lang = params.get('lang');
-            return ['en', 'si', 'ta'].includes(lang) ? lang : 'en';
+            return ['en', 'si', 'ta'].includes(lang) ? lang : 'en'; // Default
         }
 
+        function getLangCode(lang) {
+            if (lang === 'si') return 'si-LK';
+            if (lang === 'ta') return 'ta-LK';
+            return 'en-US';
+        }
+        
         // --- Share Button Logic ---
         function initializeShareButtons() {
             const pageUrl = window.location.href;
@@ -512,143 +498,105 @@
             });
         }
         
-        // --- FONT CONVERSION LOGIC (BUG FIXED & ENHANCED) ---
-        // This is a more robust conversion engine.
-        function convertFMToUnicode(text) {
-             text = text.replace(/f([lLGpPcCgGvVKlLdoOmMnNhrydYIiysL<])/g, 'เ$1');
-             text = text.replace(/%/g, '්‍ර');
-             text = text.replace(/C/g, 'ඣ');
-             text = text.replace(/c/g, 'ජ');
-             text = text.replace(/í/g, 'ඤ');
-             text = text.replace(/P/g, 'ඡ');
-             text = text.replace(/p/g, 'ච');
-             text = text.replace(/<x/g, 'ඟ');
-             text = text.replace(/<X/g, 'ඞ');
-             text = text.replace(/<g/g, 'ඝ');
-             text = text.replace(/<G/g, 'ඛ');
-             text = text.replace(/<l/g, 'ක');
-             text = text.replace(/Ë/g, 'ඬ');
-             text = text.replace(/V/g, 'ඪ');
-             text = text.replace(/v/g, 'ඩ');
-             text = text.replace(/:/g, 'ඨ');
-             text = text.replace(/;/g, 'ට');
-             text = text.replace(/Þ/g, 'ඳ');
-             text = text.replace(/O/g, 'ධ');
-             text = text.replace(/o/g, 'ද');
-             text = text.replace(/L/g, 'ථ');
-             text = text.replace(/k/g, 'ත');
-             text = text.replace(/N/g, 'භ');
-             text = text.replace(/n/g, 'බ');
-             text = text.replace(/M/g, 'ඵ');
-             text = text.replace(/m/g, 'ප');
-             text = text.replace(/U/g, 'ඹ');
-             text = text.replace(/u/g, 'ම');
-             text = text.replace(/h/g, 'ය');
-             text = text.replace(/r/g, 'ර');
-             text = text.replace(/,/g, 'ල');
-             text = text.replace(/j/g, 'ව');
-             text = text.replace(/Y/g, 'ශ');
-             text = text.replace(/I/g, 'ෂ');
-             text = text.replace(/i/g, 'ස');
-             text = text.replace(/y/g, 'හ');
-             text = text.replace(/</g, 'ළ');
-             text = text.replace(/f/g, 'ෆ');
-             text = text.replace(/Ê/g, 'ක්');
-             text = text.replace(/Ï/g, 'ර්');
-             text = text.replace(/Ì/g, 'බ්‍ර');
-             text = text.replace(/ú/g, 'දු');
-             text = text.replace(/Æ/g, 'ඳු');
-             text = text.replace(/Ç/g, 'රු');
-             text = text.replace(/É/g, 'ෘ');
-             text = text.replace(/¿/g, 'ෑ');
-             text = text.replace(/½/g, '');
-             text = text.replace(/s/g, 'ි');
-             text = text.replace(/S/g, 'ී');
-             text = text.replace(/q/g, 'ු');
-             text = text.replace(/Q/g, 'ූ');
-             text = text.replace(/d/g, 'ා');
-             text = text.replace(/e/g, 'ැ');
-             text = text.replace(/E/g, 'ෑ');
-             text = text.replace(/a/g, '්');
-             text = text.replace(/x/g, 'ං');
-             text = text.replace(/B/g, 'ඊ');
-             text = text.replace(/b/g, 'ඉ');
-             text = text.replace(/U/g, 'ඌ');
-             text = text.replace(/u/g, 'උ');
-             text = text.replace(/tA/g, 'ඓ');
-             text = text.replace(/ta/g, 'ඒ');
-             text = text.replace(/t/g, 'එ');
-             text = text.replace(/fA/g, 'ඖ');
-             text = text.replace(/fa/g, 'ඕ');
-             text = text.replace(/f/g, 'ඔ');
-             text = text.replace(/wE/g, 'ඈ');
-             text = text.replace(/we/g, 'ඇ');
-             text = text.replace(/wd/g, 'ආ');
-             text = text.replace(/w/g, 'අ');
-             text = text.replace(/เ([ක-ෆ])/g, '$1ෙ');
-             return text;
-        }
-
-        function convertUnicodeToFM(text) {
-             text = text.replace(/ෙ([ක-ෆ])/g, 'f$1');
-             text = text.replace(/([ක-ෆ])ো/g, 'fa$1');
-             text = text.replace(/([ක-ෆ])ේ/g, 'fA$1');
-             text = text.replace(/([ක-ෆ])ො/g, 'fI$1');
-             text = text.replace(/([ක-ෆ])ෝ/g, 'fIa$1');
-             text = text.replace(/([ක-ෆ])ෞ/g, 'fIA$1');
-             var u_vowel = ["ා", "ැ", "ෑ", "ි", "ී", "ු", "ූ", "ෘ", "ං", "ඃ", "්", "ๆ"];
-             var n_vowel = ["d", "e", "E", "s", "S", "q", "Q", "\/", "x", "y", "a", ""];
-             var u = ["ක", "ඛ", "ග", "ඝ", "ඞ", "ඟ", "ච", "ඡ", "ජ", "ඣ", "ඤ", "ඥ", "ට", "ඨ", "ඩ", "ඪ", "ණ", "ඬ", "ත", "ථ", "ද", "ධ", "න", "ඳ", "ප", "ඵ", "බ", "භ", "ම", "ඹ", "ය", "ර", "ල", "ව", "ශ", "ෂ", "ස", "හ", "ළ", "ෆ", "අ", "ආ", "ඇ", "ඈ", "ඉ", "ඊ", "උ", "ඌ", "ඍ", "ඎ", "එ", "ඒ", "ඓ", "ඔ", "ඕ", "ඖ"];
-             var n = ["l", "L", "g", "G", "›", "ü", "p", "P", "c", "C", "í", "CO", ";", ":", "v", "V", "K", "Ý", "k", "L", "o", "O", "n", "þ", "m", "M", "n", "N", "u", "U", "h", "r", ",", "j", "Y", "I", "i", "y", "<", "f", "w", "wd", "we", "wE", "b", "B", "u", "U", "T", "á", "t", "ta", "tA", "f", "fa", "fA"];
-             for (var i = 0; i < u.length; i++) {
-                 for (var j = 0; j < u_vowel.length; j++) {
-                     var s = u[i] + u_vowel[j];
-                     var r = new RegExp(s, "g");
-                     text = text.replace(r, n[i] + n_vowel[j]);
-                 }
-             }
-             for (var i = 0; i < u.length; i++) {
-                 var regex = new RegExp(u[i], "g");
-                 text = text.replace(regex, n[i]);
-             }
-             text = text.replace(/්‍ර/g, '%');
-             text = text.replace(/්‍ය/g, 'H');
-             text = text.replace(/ර්‍/g, 're');
-             text = text.replace(/ශ්‍රී/g, 'Y%S');
-             return text;
-        }
-
-        fmToUniBtn.addEventListener('click', () => {
-            inputText.classList.add('fm-font');
-            outputText.classList.remove('fm-font');
-            outputText.value = convertFMToUnicode(inputText.value);
-        });
+        // --- Speech Recognition Logic ---
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition;
+        let baseTranscript = '';
         
-        uniToFmBtn.addEventListener('click', () => {
-            inputText.classList.remove('fm-font');
-            outputText.classList.add('fm-font');
-            outputText.value = convertUnicodeToFM(inputText.value);
-        });
+        if (SpeechRecognition) {
+            recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
 
-        copyOutputBtn.addEventListener('click', () => {
-            if (outputText.value) {
-                outputText.select();
-                outputText.setSelectionRange(0, 99999);
-                try {
-                    document.execCommand('copy');
-                    copyOutputBtn.textContent = translations.copied[currentLang];
-                    setTimeout(() => {
-                        copyOutputBtn.textContent = translations.copyBtn[currentLang];
-                    }, 2000);
-                } catch (err) {
-                    console.error('Failed to copy text: ', err);
+            recognition.onstart = () => {
+                statusDiv.textContent = translations.statusListening[currentLang];
+                startButton.disabled = true;
+                stopButton.disabled = false;
+                transcriptWrapper.classList.add('glowing-border');
+            };
+
+            recognition.onend = () => {
+                statusDiv.textContent = translations.statusStopped[currentLang];
+                startButton.disabled = false;
+                stopButton.disabled = true;
+                transcriptWrapper.classList.remove('glowing-border');
+            };
+
+            recognition.onerror = (event) => {
+                let errorKey = 'errorDefault';
+                if (event.error === 'network') errorKey = 'errorNetwork';
+                if (event.error === 'no-speech') errorKey = 'errorNoSpeech';
+                if (event.error === 'not-allowed' || event.error === 'service-not-allowed') errorKey = 'errorNotAllowed';
+                statusDiv.textContent = translations[errorKey][currentLang];
+            };
+            
+            recognition.onresult = (event) => {
+                let interimTranscript = '';
+                let finalTranscriptFromSession = '';
+                for (let i = 0; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        finalTranscriptFromSession += event.results[i][0].transcript;
+                    } else {
+                        interimTranscript += event.results[i][0].transcript;
+                    }
                 }
-                window.getSelection().removeAllRanges();
+                transcriptArea.value = baseTranscript + finalTranscriptFromSession + interimTranscript;
+            };
+
+        } else {
+            startButton.disabled = true;
+            statusDiv.textContent = "Sorry, your browser doesn't support speech recognition.";
+        }
+
+        function stopRecognition() {
+             if (recognition && startButton.disabled) {
+                 recognition.stop();
+            }
+        }
+        
+        // --- Button Event Listeners ---
+        startButton.addEventListener('click', () => {
+            if (recognition) {
+                baseTranscript = transcriptArea.value;
+                if (baseTranscript.length > 0 && !baseTranscript.endsWith(' ')) {
+                    baseTranscript += ' ';
+                }
+                recognition.lang = getLangCode(currentLang);
+                recognition.start();
             }
         });
-        clearOutputBtn.addEventListener('click', () => {
-            outputText.value = '';
-            inputText.value = '';
+
+        stopButton.addEventListener('click', stopRecognition);
+
+        copyButton.addEventListener('click', () => {
+            if (transcriptArea.value) {
+                navigator.clipboard.writeText(transcriptArea.value);
+                statusDiv.textContent = translations.statusCopied[currentLang];
+                setTimeout(() => statusDiv.textContent = '', 2000);
+            } else {
+                statusDiv.textContent = translations.statusNothingToCopy[currentLang];
+                setTimeout(() => statusDiv.textContent = '', 2000);
+            }
+        });
+
+        undoButton.addEventListener('click', () => {
+            const currentText = transcriptArea.value;
+            if (currentText.length > 0) {
+                const trimmedText = currentText.trimEnd();
+                const lastSpaceIndex = trimmedText.lastIndexOf(' ');
+                
+                if (lastSpaceIndex !== -1) {
+                    transcriptArea.value = trimmedText.substring(0, lastSpaceIndex);
+                } else {
+                    transcriptArea.value = '';
+                }
+            }
+        });
+        
+        clearButton.addEventListener('click', () => {
+            stopRecognition();
+            transcriptArea.value = '';
+            baseTranscript = '';
         });
 
         languageBtn.addEventListener('click', (e) => {
@@ -657,6 +605,7 @@
         });
         document.querySelectorAll('#language-options button').forEach(button => {
             button.addEventListener('click', () => {
+                stopRecognition();
                 setLanguage(button.getAttribute('data-lang'));
             });
         });
@@ -666,6 +615,7 @@
             }
         });
 
+        // --- Modal Listeners ---
         helpBtn.addEventListener('click', () => {
             helpModal.style.display = 'flex';
         });
@@ -682,7 +632,6 @@
         const initialLang = getLangFromURL();
         setLanguage(initialLang);
         initializeShareButtons();
-
     </script>
 </body>
 </html>
