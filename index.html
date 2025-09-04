@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <!-- PWA සඳහා අලුතෙන් එකතු කරන ලදී -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0b0f19">
     <meta name="apple-mobile-web-app-capable" content="yes">
 
+    <!-- Google tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-H7WQ3CSB4E"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -17,23 +19,27 @@
       gtag('config', 'G-H7WQ3CSB4E'); // <-- ID එක මෙතනට යාවත්කාලීන කරන ලදී
     </script>
     
+    <!-- SEO Meta Tags (ඔබේ පරණ file එකෙන්) -->
     <title>Malith Studio® | Innovative Web Tools for Productivity</title>
     <meta name="description" content="Malith Studio offers a collection of free, innovative web tools like Voice Typing, OCR, Text Summarizers, and Font Converters to simplify your digital life.">
     <meta name="keywords" content="Malith Studio, web tools, free tools, sinhala tools, productivity, voice typing, ocr, text summarizer, font converter, sri lanka">
     <meta name="author" content="Malith Studio®">
 
+    <!-- Open Graph / Facebook (ඔබේ පරණ file එකෙන්) -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/">
     <meta property="og:title" content="Malith Studio® | Innovative Web Tools for Productivity">
     <meta property="og:description" content="A collection of free web tools designed to simplify your digital life.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
 
+    <!-- Twitter (ඔබේ පරණ file එකෙන්) -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/">
     <meta property="twitter:title" content="Malith Studio® | Innovative Web Tools for Productivity">
     <meta property="twitter:description" content="A collection of free web tools designed to simplify your digital life.">
     <meta property="twitter:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
 
+    <!-- Font Awesome CDN (Icons සඳහා අලුතෙන් එකතු කරන ලදී) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
@@ -224,7 +230,6 @@
         @media (min-width: 768px) { .about-content { flex-direction: row; } }
         .about-image { position: relative; }
         .about-image .logo-wrapper { width: 240px; height: 240px; }
-        .about-text { max-width: 600px; }
         
         #contact { text-align: center; }
         #contact p { max-width: 600px; margin: 0 auto 2rem auto; font-size: 1.125rem; color: #9ca3af; }
@@ -466,6 +471,7 @@
                             <p data-key="project9Desc">Create engaging social media posts in seconds for various platforms.</p>
                         </div>
                     </a>
+                    <!-- Resume Builder Tool Card START -->
                     <a href="resume-builder.html" class="tool-card" data-category="utility text">
                         <img src="tool-resumebuilder.jpg" alt="Resume Builder Tool">
                         <div class="tool-card-content">
@@ -473,7 +479,8 @@
                             <p data-key="project10Desc">Create a professional resume quickly with our easy-to-use builder.</p>
                         </div>
                     </a>
-                    </div>
+                    <!-- Resume Builder Tool Card END -->
+                </div>
             </div>
         </section>
         
@@ -533,7 +540,8 @@
                        <button type="submit" id="submit-comment" class="cta-button" data-key="commentSubmit">Submit Comment</button>
                  </form>
                  <div id="comments-list">
-                       </div>
+                       <!-- Comments will be dynamically inserted here -->
+                 </div>
             </div>
         </section>
 
@@ -582,6 +590,7 @@
     </div>
 
 
+    <!-- Firebase SDK (ඔබේ පරණ file එකෙන්) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -730,7 +739,7 @@
             commentMessagePlaceholder: { en: 'Your Comment', si: 'ඔබේ අදහස', ta: 'உங்கள் கருத்து' },
             commentSubmit: { en: 'Submit Comment', si: 'අදහස යොමු කරන්න', ta: 'கருத்தை சமர்ப்பிக்கவும்' },
             contactTitle: { en: 'Get In Touch', si: 'සම්බන්ධ වන්න', ta: 'தொடர்பு கொள்ளுங்கள்' },
-            contactDesc: { en: "Have a question or a project in mind? We'd love to hear from you. Reach out to us, and let's create something amazing together.", si: 'ඔබට ප්‍රශ්නයක් හෝ ව්‍යාපෘතියක් മനസ്സിൽ තිබේද? ඔබෙන් ඇසීමට අපි කැමතියි. අප හා සම්බන්ධ වන්න, අපි එක්ව පුදුමාකාර දෙයක් නිර්මාණය කරමු.', ta: 'உங்களுக்கு ஒரு கேள்வி அல்லது ஒரு திட்டம் உள்ளதா? உங்களிடமிருந்து கேட்க நாங்கள் விரும்பிறோம். எங்களைத் தொடர்புகொண்டு, நாம் ஒன்றிணைந்து அற்புதமான ஒன்றை உருவாக்குவோம்.'},
+            contactDesc: { en: "Have a question or a project in mind? We'd love to hear from you. Reach out to us, let's create something amazing together, and connect with us on our other social networks here.", si: 'ප්‍රශ්නයක් හෝ ව්‍යාපෘතියක් සිතේ තිබේද? අපි ඔබෙන් අසන්නට කැමතියි. අප හා සම්බන්ධ වන්න, අපි එක්ව විශ්මිත දෙයක් නිර්මාණය කරමු සහ අපගේ අනෙකුත් සමාජ ජාල වෙත මෙතනින් සම්බන්ධ වෙන්න', ta: 'உங்களுக்கு ஒரு கேள்வி அல்லது திட்டம் உள்ளதா? உங்களிடமிருந்து கேட்க நாங்கள் விரும்புகிறோம். எங்களைத் தொடர்புகொண்டு, நாம் ஒன்றிணைந்து அற்புதமான ஒன்றை உருவாக்குவோம், மேலும் எங்கள் பிற சமூக வலைப்பின்னல்களில் இங்கே எங்களுடன் இணையுங்கள்.'},
             contactEmail: { en: 'Email Us', si: 'ඊමේල් කරන්න', ta: 'மின்னஞ்சல்' },
             contactFacebook: { en: 'Facebook', si: 'ෆේස්බුක්', ta: 'முகநூல்' },
             contactYoutube: { en: 'YouTube', si: 'යූටියුබ්', ta: 'யூடியூப்' },
@@ -929,6 +938,7 @@
         }
     </script>
     
+    <!-- Search and Filter සඳහා වන අලුත් JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const searchInput = document.getElementById('searchInput');

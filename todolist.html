@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do List Tool</title>
+    <title>To-Do List - Malith Studio®</title>
+    <!-- Font Awesome (Icons සඳහා අලුතෙන් එකතු කරන ලදී) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body {
@@ -16,6 +18,7 @@
             min-height: 100vh;
             margin: 0;
             padding: 1rem;
+            box-sizing: border-box;
         }
         .back-btn {
             position: fixed;
@@ -50,10 +53,68 @@
             backdrop-filter: blur(10px);
             border-radius: 1rem;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
-            padding: 2rem;
+            padding: 2.5rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
         }
-        .header { text-align: center; margin-bottom: 2rem; }
+
+        /* --- Header Controls (Language + Help) --- */
+        .header-controls {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .language-switcher {
+            position: relative;
+        }
+        #language-btn {
+            background-color: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        #language-options {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 0.5rem;
+            background-color: #1f2937;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            width: 100px;
+            z-index: 20;
+        }
+        #language-options.show { display: block; }
+        #language-options button {
+            display: block; background: none; border: none; color: white;
+            padding: 0.5rem 1rem; width: 100%; text-align: left;
+            cursor: pointer; border-radius: 0.25rem; box-sizing: border-box;
+        }
+        #language-options button:hover { background-color: #4b5563; }
+        .help-btn {
+            background-color: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header { text-align: center; margin-bottom: 2rem; margin-top: 3rem; }
         .header h1 { font-size: 2.25rem; font-weight: 700; color: #93c5fd; }
         .header p { color: #d1d5db; margin-top: 0.5rem; }
         .input-form {
@@ -154,6 +215,111 @@
             border-color: #8b5cf6;
             color: white;
         }
+
+        /* --- Share Buttons --- */
+        .share-section {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #4b5563;
+        }
+        .share-section h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #d1d5db;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .share-buttons-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .share-btn:hover {
+            transform: scale(1.1);
+            opacity: 0.9;
+        }
+        .share-btn.facebook { background-color: #1877F2; }
+        .share-btn.twitter { background-color: #1DA1F2; }
+        .share-btn.whatsapp { background-color: #25D366; }
+        .share-btn.copy-link { background-color: #6b7280; }
+        #copy-message {
+            margin-top: 1rem;
+            text-align: center;
+            color: #a5b4fc;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        #copy-message.visible {
+            opacity: 1;
+        }
+
+        /* --- Help Modal Styles --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #1f2937;
+            padding: 2rem;
+            border: 1px solid #4b5563;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: #9ca3af;
+            font-size: 1.75rem;
+            font-weight: bold;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .modal-close:hover,
+        .modal-close:focus {
+            color: #e5e7eb;
+            text-decoration: none;
+        }
+        .modal-content h2 {
+            margin-top: 0;
+            color: #93c5fd;
+        }
+        .modal-content ol {
+            padding-left: 1.5rem;
+            line-height: 1.8;
+        }
+        .modal-content li {
+            margin-bottom: 0.75rem;
+        }
     </style>
 </head>
 <body>
@@ -166,6 +332,17 @@
     </a>
 
     <div class="container">
+        <div class="header-controls">
+            <div class="language-switcher">
+                <button id="language-btn">English</button>
+                <div id="language-options">
+                    <button data-lang="en">English</button>
+                    <button data-lang="si">සිංහල</button>
+                    <button data-lang="ta">தமிழ்</button>
+                </div>
+            </div>
+            <button id="help-btn" class="help-btn" data-key="helpBtn" title="Help">?</button>
+        </div>
         <div class="header">
             <h1 data-key="title">To-Do List</h1>
             <p data-key="subtitle">Organize your day, one task at a time.</p>
@@ -182,18 +359,50 @@
             <button class="filter-btn" data-filter="active" data-key="filterActive">Active</button>
             <button class="filter-btn" data-filter="completed" data-key="filterCompleted">Completed</button>
         </div>
+        
+        <!-- Share Buttons Section START -->
+        <div class="share-section">
+            <h3 data-key="shareTool">Share this Tool</h3>
+            <div class="share-buttons-container">
+                <a id="share-facebook" class="share-btn facebook" target="_blank" title="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a id="share-twitter" class="share-btn twitter" target="_blank" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                <a id="share-whatsapp" class="share-btn whatsapp" target="_blank" title="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <button id="copy-link" class="share-btn copy-link" title="Copy Link"><i class="fas fa-link"></i></button>
+            </div>
+            <p id="copy-message" data-key="linkCopied">Link Copied!</p>
+        </div>
+        <!-- Share Buttons Section END -->
+    </div>
+
+    <!-- Help Modal -->
+    <div id="help-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-modal-btn" class="modal-close">&times;</button>
+            <h2 data-key="helpTitle">How to Use To-Do List</h2>
+            <div data-key="helpContent">
+                <!-- Content will be inserted by JavaScript -->
+            </div>
+        </div>
     </div>
 
     <script>
         const translations = {
              backToHome: { en: 'Back to Home', si: 'මුල් පිටුවට', ta: 'முகப்புக்குச் செல்' },
-            title: { en: 'To-Do List', si: 'කළ යුතු දේ ලැයිස්තුව', ta: 'செய்ய வேண்டிய பட்டியல்' },
-            subtitle: { en: 'Organize your day, one task at a time.', si: 'ඔබේ දවස සංවිධානය කරන්න, එකින් එක කාර්යය.', ta: 'உங்கள் நாளை ஒழுங்கமைக்கவும், ஒரு நேரத்தில் ஒரு பணி.' },
-            placeholder: { en: 'e.g., Finish the project report', si: 'උදා: ව්‍යාපෘති වාර්තාව අවසන් කරන්න', ta: 'எ.கா., திட்ட அறிக்கையை முடிக்கவும்' },
-            addBtn: { en: 'Add Task', si: 'කාර්යය එක් කරන්න', ta: 'பணியைச் சேர்' },
-            filterAll: { en: 'All', si: 'සියල්ල', ta: 'அனைத்தும்' },
-            filterActive: { en: 'Active', si: 'ක්‍රියාකාරී', ta: 'செயலில்' },
-            filterCompleted: { en: 'Completed', si: 'අවසන් කළ', ta: 'முடிந்தது' }
+             title: { en: 'To-Do List', si: 'කළ යුතු දේ ලැයිස්තුව', ta: 'செய்ய வேண்டிய பட்டியல்' },
+             subtitle: { en: 'Organize your day, one task at a time.', si: 'ඔබේ දවස සංවිධානය කරන්න, එකින් එක කාර්යය.', ta: 'உங்கள் நாளை ஒழுங்கமைக்கவும், ஒரு நேரத்தில் ஒரு பணி.' },
+             placeholder: { en: 'e.g., Finish the project report', si: 'උදා: ව්‍යාපෘති වාර්තාව අවසන් කරන්න', ta: 'எ.கா., திட்ட அறிக்கையை முடிக்கவும்' },
+             addBtn: { en: 'Add Task', si: 'කාර්යය එක් කරන්න', ta: 'பணியைச் சேர்' },
+             filterAll: { en: 'All', si: 'සියල්ල', ta: 'அனைத்தும்' },
+             filterActive: { en: 'Active', si: 'ක්‍රියාකාරී', ta: 'செயலில்' },
+             filterCompleted: { en: 'Completed', si: 'අවසන් කළ', ta: 'முடிந்தது' },
+             shareTool: { en: 'Share this Tool', si: 'මෙම මෙවලම බෙදාගන්න', ta: 'இந்த கருவியைப் பகிரவும்' },
+             linkCopied: { en: 'Link Copied!', si: 'ලින්ක් එක කොපි විය!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' },
+             helpTitle: { en: 'How to Use To-Do List', si: 'To-Do List භාවිතා කරන ආකාරය', ta: 'To-Do List பயன்படுத்துவது எப்படி' },
+             helpContent: {
+                 en: `<ol><li>Type a new task in the input box.</li><li>Click the <strong>Add Task</strong> button to add it to your list.</li><li>Click the checkbox next to a task to mark it as complete.</li><li>Use the filter buttons (<strong>All</strong>, <strong>Active</strong>, <strong>Completed</strong>) to view different sets of tasks.</li><li>Click the trash can icon to delete a task.</li><li>Your tasks are automatically saved in your browser for your next visit.</li></ol>`,
+                 si: `<ol><li>Input box එකේ අලුත් කාර්යයක් type කරන්න.</li><li>එය list එකට එකතු කිරීමට <strong>'කාර්යය එක් කරන්න'</strong> බොත්තම ඔබන්න.</li><li>කාර්යයක් සම්පූර්ණ වූ පසු, එය ඉදිරියේ ඇති checkbox එක click කරන්න.</li><li>විවිධ කාර්යයන් බැලීමට <strong>'සියල්ල'</strong>, <strong>'ක්‍රියාකාරී'</strong>, <strong>'අවසන් කළ'</strong> යන filter බොත්තම් භාවිතා කරන්න.</li><li>කාර්යයක් මකා දැමීමට කුණු කූඩයේ icon එක click කරන්න.</li><li>ඔබේ කාර්යයන්, නැවත පැමිණෙන විට බැලීම සඳහා ස්වයංක්‍රීයව ඔබගේ බ්‍රව්සරයේ save වේ.</li></ol>`,
+                 ta: `<ol><li>உள்ளீட்டுப் பெட்டியில் ஒரு புதிய பணியைத் தட்டச்சு செய்யவும்.</li><li>உங்கள் பட்டியலில் சேர்க்க <strong>'பணியைச் சேர்'</strong> பொத்தானைக் கிளிக் செய்யவும்.</li><li>ஒரு பணியை முடித்ததாகக் குறிக்க, அதற்கடுத்த சரிபார்ப்புப் பெட்டியைக் கிளிக் செய்யவும்.</li><li>பல்வேறு பணிகளைக் காண <strong>'அனைத்தும்'</strong>, <strong>'செயலில்'</strong>, <strong>'முடிந்தது'</strong> போன்ற வடிகட்டி பொத்தான்களைப் பயன்படுத்தவும்.</li><li>ஒரு பணியை நீக்க குப்பைத் தொட்டி ஐகானைக் கிளிக் செய்யவும்.</li><li>உங்கள் அடுத்த வருகைக்காக உங்கள் பணிகள் தானாகவே உங்கள் உலாவியில் சேமிக்கப்படும்.</li></ol>`
+             }
         };
 
         let currentLang = 'en';
@@ -203,14 +412,28 @@
         const taskInput = document.getElementById('task-input');
         const taskList = document.getElementById('task-list');
         const filterBtns = document.querySelectorAll('.filter-btn');
+        const languageBtn = document.getElementById('language-btn');
+        const languageOptions = document.getElementById('language-options');
+        const helpBtn = document.getElementById('help-btn');
+        const helpModal = document.getElementById('help-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
         
         // --- Language and UI Update ---
-        function updateUIText(lang) {
+        function setLanguage(lang) {
             currentLang = lang;
+            if(lang === 'en') languageBtn.textContent = 'English';
+            if(lang === 'si') languageBtn.textContent = 'සිංහල';
+            if(lang === 'ta') languageBtn.textContent = 'தமிழ்';
+            languageOptions.classList.remove('show');
+            
             document.querySelectorAll('[data-key]').forEach(element => {
                 const key = element.getAttribute('data-key');
                 if (translations[key] && translations[key][lang]) {
-                    element.textContent = translations[key][lang];
+                    if (key === 'helpContent') {
+                        element.innerHTML = translations[key][lang];
+                    } else {
+                        element.textContent = translations[key][lang];
+                    }
                 }
             });
              document.querySelectorAll('[data-key-placeholder]').forEach(element => {
@@ -219,15 +442,44 @@
                     element.placeholder = translations[key][lang];
                 }
             });
+            const backBtn = document.querySelector('.back-btn');
+            if (backBtn) {
+                const homeUrl = new URL(backBtn.href, window.location.origin);
+                homeUrl.searchParams.set('lang', lang);
+                backBtn.href = homeUrl.toString();
+            }
         }
         
         function getLangFromURL() {
             const params = new URLSearchParams(window.location.search);
             const lang = params.get('lang');
-            if (['en', 'si', 'ta'].includes(lang)) {
-                return lang;
-            }
-            return 'en';
+            return ['en', 'si', 'ta'].includes(lang) ? lang : 'en';
+        }
+
+        // --- Share Button Logic ---
+        function initializeShareButtons() {
+            const pageUrl = window.location.href;
+            const pageTitle = document.title;
+            const textToShare = `Check out this tool: ${pageTitle}`;
+
+            const facebookBtn = document.getElementById('share-facebook');
+            const twitterBtn = document.getElementById('share-twitter');
+            const whatsappBtn = document.getElementById('share-whatsapp');
+            const copyBtn = document.getElementById('copy-link');
+
+            facebookBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
+            twitterBtn.href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(textToShare)}`;
+            whatsappBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + " " + pageUrl)}`;
+
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(pageUrl).then(() => {
+                    const copyMessage = document.getElementById('copy-message');
+                    copyMessage.classList.add('visible');
+                    setTimeout(() => {
+                        copyMessage.classList.remove('visible');
+                    }, 2000);
+                }).catch(err => console.error('Failed to copy text: ', err));
+            });
         }
         
         // --- State ---
@@ -313,11 +565,39 @@
             });
         });
 
+        languageBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            languageOptions.classList.toggle('show');
+        });
+        document.querySelectorAll('#language-options button').forEach(button => {
+            button.addEventListener('click', () => {
+                setLanguage(button.getAttribute('data-lang'));
+            });
+        });
+        window.addEventListener('click', (e) => {
+            if (languageBtn && !languageBtn.parentElement.contains(e.target)) {
+                languageOptions.classList.remove('show');
+            }
+        });
+
+        helpBtn.addEventListener('click', () => {
+            helpModal.style.display = 'flex';
+        });
+        closeModalBtn.addEventListener('click', () => {
+            helpModal.style.display = 'none';
+        });
+        helpModal.addEventListener('click', (e) => {
+            if (e.target === helpModal) {
+                helpModal.style.display = 'none';
+            }
+        });
+
         // --- Initial Load ---
         const initialLang = getLangFromURL();
-        updateUIText(initialLang);
+        setLanguage(initialLang);
         renderTasks();
-
+        initializeShareButtons();
     </script>
 </body>
 </html>
+
