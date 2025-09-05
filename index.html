@@ -4,46 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- PWA සඳහා අලුතෙන් එකතු කරන ලදී -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0b0f19">
     <meta name="apple-mobile-web-app-capable" content="yes">
 
-    <!-- Google tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-H7WQ3CSB4E"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
     
-      gtag('config', 'G-H7WQ3CSB4E'); // <-- ID එක මෙතනට යාවත්කාලීන කරන ලදී
+      gtag('config', 'G-H7WQ3CSB4E');
     </script>
     
-    <!-- SEO Meta Tags (ඔබේ පරණ file එකෙන්) -->
+    <!-- SEO Meta Tags -->
     <title>Malith Studio® | Innovative Web Tools for Productivity</title>
     <meta name="description" content="Malith Studio offers a collection of free, innovative web tools like Voice Typing, OCR, Text Summarizers, and Font Converters to simplify your digital life.">
     <meta name="keywords" content="Malith Studio, web tools, free tools, sinhala tools, productivity, voice typing, ocr, text summarizer, font converter, sri lanka">
     <meta name="author" content="Malith Studio®">
 
-    <!-- Open Graph / Facebook (ඔබේ පරණ file එකෙන්) -->
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/">
     <meta property="og:title" content="Malith Studio® | Innovative Web Tools for Productivity">
     <meta property="og:description" content="A collection of free web tools designed to simplify your digital life.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&id=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
 
-    <!-- Twitter (ඔබේ පරණ file එකෙන්) -->
+    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/">
     <meta property="twitter:title" content="Malith Studio® | Innovative Web Tools for Productivity">
     <meta property="twitter:description" content="A collection of free web tools designed to simplify your digital life.">
-    <meta property="twitter:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&id=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
 
-    <!-- Font Awesome CDN (Icons සඳහා අලුතෙන් එකතු කරන ලදී) -->
+    <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        /* --- ඔබේ පරණ CSS Styles --- */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         :root {
             --glow-color: hsl(231, 79%, 58%);
@@ -98,21 +95,16 @@
         .animated-text { font-size: 3rem; font-weight: 800; background-image: linear-gradient(90deg, #a855f7, #ec4899, #f59e0b, #a855f7); background-size: 200% auto; color: transparent; -webkit-background-clip: text; background-clip: text; animation: text-animation 5s linear infinite; }
         @keyframes text-animation { to { background-position: 200% center; } }
         .hero-content p { max-width: 600px; margin: 1.5rem auto; font-size: 1.125rem; color: #9ca3af; }
-        .cta-button { display: inline-block; background-image: linear-gradient(to right, #6366f1, #8b5cf6); color: white; padding: 0.75rem 2rem; border-radius: 0.5rem; text-decoration: none; font-weight: 700; transition: transform 0.3s, box-shadow 0.3s; }
+        .cta-button { display: inline-block; background-image: linear-gradient(to right, #6366f1, #8b5cf6); color: white; padding: 0.75rem 2rem; border-radius: 0.5rem; text-decoration: none; font-weight: 700; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; border: none;}
         .cta-button:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(139, 92, 246, 0.6); }
         
         section { padding: 6rem 0; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
         section.visible { opacity: 1; transform: translateY(0); }
         .section-title { text-align: center; font-size: 2.5rem; font-weight: 800; margin-bottom: 3rem; color: #c7d2fe; }
         
-        /* --- Search, Filter, සහ නව Tool Cards සඳහා වන අලුත් Styles (Image සහිතව) --- */
-        .feature-tags-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.75rem;
-            margin-bottom: 2.5rem;
-        }
+        .feature-tags-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-bottom: 2.5rem; }
+        
+        /* UPDATED: Added transition for the glow effect */
         .feature-tag {
             background-color: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -124,98 +116,37 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, box-shadow 0.5s ease, border-color 0.5s ease;
         }
-        .feature-tag:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+        .feature-tag:hover { background-color: rgba(255, 255, 255, 0.1); }
+        
+        /* NEW: Added glowing style for the light effect */
+        .feature-tag.glowing {
+            border-color: var(--glow-color);
+            box-shadow: 0 0 20px 2px var(--glow-color);
         }
-        .search-filter-section {
-            max-width: 800px;
-            margin: 0 auto 3rem auto;
-        }
-        .search-bar-wrapper {
-            position: relative;
-            margin-bottom: 1rem;
-        }
-        .search-bar-wrapper .fa-search {
-            position: absolute;
-            top: 50%;
-            left: 1.25rem;
-            transform: translateY(-50%);
-            color: #9ca3af;
-        }
-        #searchInput {
-            width: 100%;
-            background-color: rgba(31, 41, 55, 0.5);
-            border: 1px solid #374151;
-            border-radius: 9999px;
-            padding: 0.9rem 1rem 0.9rem 3.5rem;
-            color: #f9fafb;
-            font-size: 1rem;
-            box-sizing: border-box;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-        #searchInput:focus {
-            outline: none;
-            border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
-        }
-        .filter-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-        .filter-btn {
-            background-color: rgba(31, 41, 55, 0.5);
-            border: 1px solid #374151;
-            color: #d1d5db;
-            padding: 0.5rem 1.25rem;
-            border-radius: 9999px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        .filter-btn:hover {
-            background-color: #374151;
-        }
-        .filter-btn.active {
-            background-color: #6366f1;
-            border-color: #6366f1;
-            color: white;
-        }
+        
+        .search-filter-section { max-width: 800px; margin: 0 auto 3rem auto; }
+        .search-bar-wrapper { position: relative; margin-bottom: 1rem; }
+        .search-bar-wrapper .fa-search { position: absolute; top: 50%; left: 1.25rem; transform: translateY(-50%); color: #9ca3af; }
+        #searchInput { width: 100%; background-color: rgba(31, 41, 55, 0.5); border: 1px solid #374151; border-radius: 9999px; padding: 0.9rem 1rem 0.9rem 3.5rem; color: #f9fafb; font-size: 1rem; box-sizing: border-box; transition: border-color 0.3s, box-shadow 0.3s; }
+        #searchInput:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3); }
+        .filter-buttons { display: flex; justify-content: center; gap: 0.5rem; }
+        .filter-btn { background-color: rgba(31, 41, 55, 0.5); border: 1px solid #374151; color: #d1d5db; padding: 0.5rem 1.25rem; border-radius: 9999px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
+        .filter-btn:hover { background-color: #374151; }
+        .filter-btn.active { background-color: #6366f1; border-color: #6366f1; color: white; }
 
         .projects-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 2rem; }
         @media (min-width: 640px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (min-width: 1024px) { .projects-grid { grid-template-columns: repeat(3, 1fr); } }
         
-        .tool-card { 
-            background-color: rgba(31, 41, 55, 0.5); 
-            backdrop-filter: blur(10px); 
-            border: 1px solid #374151; 
-            border-radius: 0.75rem; 
-            overflow: hidden; 
-            transition: transform 0.3s, box-shadow 0.3s; 
-            text-decoration: none; 
-            color: inherit; 
-            display: flex; 
-            flex-direction: column;
-        }
+        .tool-card { background-color: rgba(31, 41, 55, 0.5); backdrop-filter: blur(10px); border: 1px solid #374151; border-radius: 0.75rem; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
         .tool-card:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
-        .tool-card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-        .tool-card-content {
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
+        .tool-card img { width: 100%; height: 180px; object-fit: cover; }
+        .tool-card-content { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
         .tool-card-content h4 { font-size: 1.25rem; font-weight: 700; color: white; margin: 0 0 0.5rem 0; }
         .tool-card-content p { color: #9ca3af; margin: 0; flex-grow: 1; }
         .tool-card.hidden-card { display: none; }
-        /* --- අලුත් Styles අවසානය --- */
         
         .services-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 2rem; }
         @media (min-width: 768px) { .services-grid { grid-template-columns: repeat(3, 1fr); } }
@@ -234,19 +165,8 @@
         #contact { text-align: center; }
         #contact p { max-width: 600px; margin: 0 auto 2rem auto; font-size: 1.125rem; color: #9ca3af; }
 
-        /* --- Contact Buttons සඳහා වන Styles --- */
-        .contact-buttons-container {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap; /* To handle smaller screens */
-        }
-        .contact-btn {
-            display: flex !important;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        /* --- Styles අවසානය --- */
+        .contact-buttons-container { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+        .contact-btn { display: flex !important; align-items: center; gap: 0.5rem; }
 
         .language-switcher { position: relative; }
         #language-btn { background: none; border: 1px solid #4b5563; color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer; font-weight: 600; }
@@ -261,7 +181,7 @@
         #submit-comment { width: 100%; }
         #comments-list { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
         @media (min-width: 768px) { #comments-list { grid-template-columns: repeat(2, 1fr); } }
-        .comment-card { background-color: rgba(31, 41, 55, 0.5); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #374151; overflow: hidden; /* Reply එකේ border-radius එකට */ }
+        .comment-card { background-color: rgba(31, 41, 55, 0.5); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #374151; overflow: hidden; }
         .comment-card p { margin: 0 0 1rem 0; color: #d1d5db; }
         .comment-footer { display: flex; justify-content: space-between; align-items: center; }
         .comment-author { font-weight: 600; color: #9ca3af; }
@@ -270,32 +190,65 @@
         .reaction-btn:hover { transform: scale(1.1); }
         .reaction-btn span { margin-left: 0.25rem; font-size: 0.875rem; font-weight: 500; }
         
-        /* --- Auto Reply සඳහා වන CSS --- */
-        .comment-reply {
-            background-color: rgba(17, 24, 39, 0.7);
-            border-top: 1px solid #4b5563;
-            padding: 1rem;
-            margin: 1.5rem -1.5rem -1.5rem -1.5rem; /* Card එකේ full-width වෙන්න */
-        }
-        .reply-header {
+        .comment-actions {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.75rem;
-            font-size: 0.875rem;
-            color: #c7d2fe;
+            margin-top: 1rem;
         }
-        .reply-avatar {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
+        .toggle-reply-btn {
+            background: none;
+            border: none;
+            color: #a5b4fc;
+            cursor: pointer;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
         }
-        .comment-reply p {
-            margin: 0;
+        .toggle-reply-btn:hover {
+            text-decoration: underline;
+        }
+        .reply-form-container {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #374151;
+        }
+        .reply-form-container input, .reply-form-container textarea {
+            width: 100%;
+            background-color: #111827;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: #f9fafb;
             font-size: 0.9rem;
-            color: #d1d5db;
+            box-sizing: border-box;
+            margin-bottom: 0.75rem;
         }
-        /* --- CSS අවසානය --- */
+        .reply-form-container textarea { resize: vertical; }
+        .submit-reply-btn {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+        .replies-list {
+            margin-top: 1.5rem;
+            padding-left: 1rem;
+            border-left: 2px solid #374151;
+        }
+        .user-reply-card {
+            background-color: rgba(17, 24, 39, 0.7);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .user-reply-card p {
+            margin: 0 0 0.75rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .comment-reply { background-color: rgba(17, 24, 39, 0.7); border-top: 1px solid #4b5563; padding: 1rem; margin: 1.5rem -1.5rem -1.5rem -1.5rem; }
+        .reply-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.875rem; color: #c7d2fe; }
+        .reply-avatar { width: 24px; height: 24px; border-radius: 50%; }
+        .comment-reply p { margin: 0; font-size: 0.9rem; color: #d1d5db; }
         
         #back-to-top { position: fixed; bottom: 2rem; right: 2rem; background-color: rgba(139, 92, 246, 0.8); backdrop-filter: blur(5px); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0.4s, transform 0.4s; z-index: 100; }
         #back-to-top.visible { opacity: 1; visibility: visible; }
@@ -315,26 +268,9 @@
         .mt-12 { margin-top: 3rem; }
 
         #theme-switcher { position: fixed; bottom: 2rem; left: 2rem; display: flex; background-color: rgba(31, 41, 55, 0.5); backdrop-filter: blur(10px); border-radius: 9999px; padding: 0.5rem; border: 1px solid #374151; z-index: 100; gap: 0.5rem; }
-        .theme-btn { 
-            border: 2px solid #4b5563;
-            background: none; 
-            padding: 0;
-            border-radius: 50%; 
-            width: 32px;
-            height: 32px; 
-            cursor: pointer;
-            transition: all 0.3s;
-            background-size: cover;
-            background-position: center;
-        }
-        .theme-btn:hover {
-            border-color: #6366f1;
-        }
-        .theme-btn.active { 
-            border-color: #8b5cf6;
-            transform: scale(1.1);
-            box-shadow: 0 0 10px rgba(139, 92, 246, 0.7);
-        }
+        .theme-btn {  border: 2px solid #4b5563; background: none; padding: 0; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; transition: all 0.3s; background-size: cover; background-position: center; }
+        .theme-btn:hover { border-color: #6366f1; }
+        .theme-btn.active { border-color: #8b5cf6; transform: scale(1.1); box-shadow: 0 0 10px rgba(139, 92, 246, 0.7); }
     </style>
 </head>
 <body>
@@ -408,78 +344,16 @@
                     </div>
                 </div>
                 <div id="toolsGrid" class="projects-grid">
-                    <a href="voicetype.html" class="tool-card" data-category="ai text utility">
-                        <img src="tool-voicetype.jpg" alt="Voice Typing Tool">
-                        <div class="tool-card-content">
-                            <h4 data-key="project1Title">Voice Typing Tool</h4>
-                            <p data-key="project1Desc">A modern tool designed to type using voice in Sinhala, English, and Tamil.</p>
-                        </div>
-                    </a>
-                    <a href="imagetotext.html" class="tool-card" data-category="ai text utility">
-                        <img src="tool-imagetotext.jpg" alt="Image to Text (OCR)">
-                        <div class="tool-card-content">
-                            <h4 data-key="project2Title">Image to Text (OCR)</h4>
-                            <p data-key="project2Desc">Easily convert text in a photo into editable text.</p>
-                        </div>
-                    </a>
-                    <a href="textsummarizer.html" class="tool-card" data-category="ai text">
-                        <img src="tool-textsummarizer.jpg" alt="Text Summarizer">
-                        <div class="tool-card-content">
-                            <h4 data-key="project3Title">Text Summarizer</h4>
-                            <p data-key="project3Desc">Don't waste time reading long articles, just summarize the most important points.</p>
-                        </div>
-                    </a>
-                    <a href="todolist.html" class="tool-card" data-category="utility">
-                        <img src="tool-todolist.jpg" alt="To-Do List">
-                        <div class="tool-card-content">
-                            <h4 data-key="project4Title">To-Do List</h4>
-                            <p data-key="project4Desc">Organize your daily tasks simply and efficiently. Your list is saved in your browser.</p>
-                        </div>
-                    </a>
-                    <a href="qrcodegenerator.html" class="tool-card" data-category="utility">
-                        <img src="tool-qrcodegenerator.jpg" alt="QR Code Generator">
-                        <div class="tool-card-content">
-                            <h4 data-key="project5Title">QR Code Generator</h4>
-                            <p data-key="project5Desc">Create QR codes for URLs, phone numbers, and text instantly.</p>
-                        </div>
-                    </a>
-                    <a href="passwordgenerator.html" class="tool-card" data-category="utility">
-                        <img src="tool-passwordgenerator.jpg" alt="Password Generator">
-                        <div class="tool-card-content">
-                            <h4 data-key="project6Title">Password Generator</h4>
-                            <p data-key="project6Desc">Generate strong, secure, and random passwords to protect your online accounts.</p>
-                        </div>
-                    </a>
-                    <a href="presentationideagenerator.html" class="tool-card" data-category="ai">
-                        <img src="tool-presentationideagenerator.jpg" alt="AI Presentation Ideas">
-                        <div class="tool-card-content">
-                            <h4 data-key="project7Title">AI Presentation Ideas</h4>
-                            <p data-key="project7Desc">Get creative and structured ideas for your next presentation with the help of AI.</p>
-                        </div>
-                    </a>
-                    <a href="fontconverter.html" class="tool-card" data-category="text utility">
-                        <img src="tool-fontconverter.jpg" alt="Sinhala Font Converter">
-                        <div class="tool-card-content">
-                            <h4 data-key="project8Title">Sinhala Font Converter</h4>
-                            <p data-key="project8Desc">Easily convert between legacy Sinhala fonts (FM) and standard Unicode.</p>
-                        </div>
-                    </a>
-                    <a href="socialpostgenerator.html" class="tool-card" data-category="ai text">
-                        <img src="tool-socialpostgenerator.jpg" alt="AI Social Media Post Generator">
-                        <div class="tool-card-content">
-                            <h4 data-key="project9Title">AI Social Media Post Generator</h4>
-                            <p data-key="project9Desc">Create engaging social media posts in seconds for various platforms.</p>
-                        </div>
-                    </a>
-                    <!-- Resume Builder Tool Card START -->
-                    <a href="resume-builder.html" class="tool-card" data-category="utility text">
-                        <img src="tool-resumebuilder.jpg" alt="Resume Builder Tool">
-                        <div class="tool-card-content">
-                            <h4 data-key="project10Title">Resume Builder</h4>
-                            <p data-key="project10Desc">Create a professional resume quickly with our easy-to-use builder.</p>
-                        </div>
-                    </a>
-                    <!-- Resume Builder Tool Card END -->
+                    <a href="voicetype.html" class="tool-card" data-category="ai text utility"><img src="tool-voicetype.jpg" alt="Voice Typing Tool"><div class="tool-card-content"><h4 data-key="project1Title">Voice Typing Tool</h4><p data-key="project1Desc">A modern tool designed to type using voice in Sinhala, English, and Tamil.</p></div></a>
+                    <a href="imagetotext.html" class="tool-card" data-category="ai text utility"><img src="tool-imagetotext.jpg" alt="Image to Text (OCR)"><div class="tool-card-content"><h4 data-key="project2Title">Image to Text (OCR)</h4><p data-key="project2Desc">Easily convert text in a photo into editable text.</p></div></a>
+                    <a href="textsummarizer.html" class="tool-card" data-category="ai text"><img src="tool-textsummarizer.jpg" alt="Text Summarizer"><div class="tool-card-content"><h4 data-key="project3Title">Text Summarizer</h4><p data-key="project3Desc">Don't waste time reading long articles, just summarize the most important points.</p></div></a>
+                    <a href="todolist.html" class="tool-card" data-category="utility"><img src="tool-todolist.jpg" alt="To-Do List"><div class="tool-card-content"><h4 data-key="project4Title">To-Do List</h4><p data-key="project4Desc">Organize your daily tasks simply and efficiently. Your list is saved in your browser.</p></div></a>
+                    <a href="qrcodegenerator.html" class="tool-card" data-category="utility"><img src="tool-qrcodegenerator.jpg" alt="QR Code Generator"><div class="tool-card-content"><h4 data-key="project5Title">QR Code Generator</h4><p data-key="project5Desc">Create QR codes for URLs, phone numbers, and text instantly.</p></div></a>
+                    <a href="passwordgenerator.html" class="tool-card" data-category="utility"><img src="tool-passwordgenerator.jpg" alt="Password Generator"><div class="tool-card-content"><h4 data-key="project6Title">Password Generator</h4><p data-key="project6Desc">Generate strong, secure, and random passwords to protect your online accounts.</p></div></a>
+                    <a href="presentationideagenerator.html" class="tool-card" data-category="ai"><img src="tool-presentationideagenerator.jpg" alt="AI Presentation Ideas"><div class="tool-card-content"><h4 data-key="project7Title">AI Presentation Ideas</h4><p data-key="project7Desc">Get creative and structured ideas for your next presentation with the help of AI.</p></div></a>
+                    <a href="fontconverter.html" class="tool-card" data-category="text utility"><img src="tool-fontconverter.jpg" alt="Sinhala Font Converter"><div class="tool-card-content"><h4 data-key="project8Title">Sinhala Font Converter</h4><p data-key="project8Desc">Easily convert between legacy Sinhala fonts (FM) and standard Unicode.</p></div></a>
+                    <a href="socialpostgenerator.html" class="tool-card" data-category="ai text"><img src="tool-socialpostgenerator.jpg" alt="AI Social Media Post Generator"><div class="tool-card-content"><h4 data-key="project9Title">AI Social Media Post Generator</h4><p data-key="project9Desc">Create engaging social media posts in seconds for various platforms.</p></div></a>
+                    <a href="resume-builder.html" class="tool-card" data-category="utility text"><img src="tool-resumebuilder.jpg" alt="Resume Builder Tool"><div class="tool-card-content"><h4 data-key="project10Title">Resume Builder</h4><p data-key="project10Desc">Create a professional resume quickly with our easy-to-use builder.</p></div></a>
                 </div>
             </div>
         </section>
@@ -495,24 +369,28 @@
             </div>
         </section>
         
-         <section id="blog">
+        <!-- === UPDATED BLOG SECTION === -->
+        <section id="blog">
              <div class="container">
                  <h2 class="section-title" data-key="blogTitle">Recent Updates</h2>
                  <div class="projects-grid">
-                       <a href="blog.html" class="blog-post-preview">
-                           <h4 data-key="blog1Title">The Journey Begins: The Story of Malith Studio</h4>
-                           <p data-key="blog1Desc">Our journey started with a simple idea: to create powerful, easy-to-use digital tools that save time for busy people...</p>
-                       </a>
-                       <a href="blog.html" class="blog-post-preview">
-                           <h4 data-key="blog2Title">Why AI is a Game-Changer for Everyday Productivity</h4>
-                           <p data-key="blog2Desc">Artificial Intelligence is no longer just a buzzword; it's a practical tool that can significantly enhance our daily productivity...</p>
-                       </a>
+                         <!-- Newest Post Preview -->
+                         <a href="blog.html#post-ai-game-changer" class="blog-post-preview">
+                             <h4 data-key="blogNewestTitle">Why AI is a Game-Changer for Everyday Productivity</h4>
+                             <p data-key="blogNewestDesc">Artificial Intelligence is no longer just a buzzword; it's a practical tool that can significantly enhance our daily productivity...</p>
+                         </a>
+                         <!-- Second Newest Post Preview -->
+                         <a href="blog.html#post-resume-builder" class="blog-post-preview">
+                             <h4 data-key="blogSecondNewestTitle">Announcing Our Newest Tool: The Resume Builder!</h4>
+                             <p data-key="blogSecondNewestDesc">We are thrilled to announce the latest addition to the Malith Studio® family of tools: the Resume Builder! Create a polished, effective CV in minutes.</p>
+                         </a>
                  </div>
                  <div class="text-center mt-12">
-                       <a href="blog.html" class="cta-button" data-key="blogViewAll">View All Posts</a>
+                     <a href="blog.html" class="cta-button" data-key="blogViewAll">View All Posts</a>
                  </div>
             </div>
         </section>
+        <!-- ========================== -->
 
         <section id="about">
             <div class="container">
@@ -531,16 +409,15 @@
             <div class="container">
                  <h2 class="section-title" data-key="commentsTitle">Comments</h2>
                  <form id="comments-form">
-                       <div class="form-group">
-                           <input type="text" id="comment-name" required data-key-placeholder="commentNamePlaceholder" placeholder="Your Name">
-                       </div>
-                       <div class="form-group">
-                           <textarea id="comment-message" required data-key-placeholder="commentMessagePlaceholder" placeholder="Your Comment"></textarea>
-                       </div>
-                       <button type="submit" id="submit-comment" class="cta-button" data-key="commentSubmit">Submit Comment</button>
+                         <div class="form-group">
+                             <input type="text" id="comment-name" required data-key-placeholder="commentNamePlaceholder" placeholder="Your Name">
+                         </div>
+                         <div class="form-group">
+                             <textarea id="comment-message" required data-key-placeholder="commentMessagePlaceholder" placeholder="Your Comment"></textarea>
+                         </div>
+                         <button type="submit" id="submit-comment" class="cta-button" data-key="commentSubmit">Submit Comment</button>
                  </form>
                  <div id="comments-list">
-                       <!-- Comments will be dynamically inserted here -->
                  </div>
             </div>
         </section>
@@ -548,20 +425,12 @@
         <section id="contact">
             <div class="container">
                 <h2 class="section-title" data-key="contactTitle">Get In Touch</h2>
-                <p data-key="contactDesc">Have a question or a project in mind? We'd love to hear from you. Reach out to us, and let's create something amazing together.</p>
+                <p data-key="contactDesc">Have a question or a project in mind? We'd love to hear from you. Reach out to us, let's create something amazing together, and connect with us on our other social networks here.</p>
                 <div class="contact-buttons-container">
-                    <a href="mailto:malithstudio24@gmail.com" class="cta-button contact-btn">
-                        <i class="fas fa-envelope"></i> <span data-key="contactEmail">Email Us</span>
-                    </a>
-                    <a href="https://www.facebook.com/groups/1889931538411601/?ref=share&mibextid=NSMWBT" target="_blank" class="cta-button contact-btn">
-                        <i class="fab fa-facebook"></i> <span data-key="contactFacebook">Facebook</span>
-                    </a>
-                    <a href="https://youtube.com/@malithmusicstudio-i5h?si=GyHX3wVz3e8M6eCw" target="_blank" class="cta-button contact-btn">
-                        <i class="fab fa-youtube"></i> <span data-key="contactYoutube">YouTube</span>
-                    </a>
-                    <a href="https://www.tiktok.com/@malith.dushantha2?_t=ZS-8zMkcrsyFtQ&_r=1" target="_blank" class="cta-button contact-btn">
-                        <i class="fab fa-tiktok"></i> <span data-key="contactTiktok">TikTok</span>
-                    </a>
+                    <a href="mailto:malithstudio24@gmail.com" class="cta-button contact-btn"><i class="fas fa-envelope"></i> <span data-key="contactEmail">Email Us</span></a>
+                    <a href="https://www.facebook.com/groups/1889931538411601/?ref=share&mibextid=NSMWBT" target="_blank" class="cta-button contact-btn"><i class="fab fa-facebook"></i> <span data-key="contactFacebook">Facebook</span></a>
+                    <a href="https://youtube.com/@malithmusicstudio-i5h?si=GyHX3wVz3e8M6eCw" target="_blank" class="cta-button contact-btn"><i class="fab fa-youtube"></i> <span data-key="contactYoutube">YouTube</span></a>
+                    <a href="https://www.tiktok.com/@malith.dushantha2?_t=ZS-8zMkcrsyFtQ&_r=1" target="_blank" class="cta-button contact-btn"><i class="fab fa-tiktok"></i> <span data-key="contactTiktok">TikTok</span></a>
                 </div>
             </div>
         </section>
@@ -577,9 +446,7 @@
     </footer>
 
     <a href="#home" id="back-to-top">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/></svg>
     </a>
     
     <div id="theme-switcher">
@@ -590,40 +457,42 @@
     </div>
 
 
-    <!-- Firebase SDK (ඔබේ පරණ file එකෙන්) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, increment, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, increment, query, orderBy, arrayUnion, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyADnliIjHN4uvK7T-olUg9m2-NGEF0sp_g",
-            authDomain: "malith-web-studio.firebaseapp.com",
-            projectId: "malith-web-studio",
-            storageBucket: "malith-web-studio.appspot.com",
-            messagingSenderId: "849649331288",
-            appId: "1:849649331288:web:d905ff8dc23620b0b2ae2d",
-            measurementId: "G-1RNH3CL1E2"
-        };
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
         
+        const authUser = async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Authentication error:", error);
+            }
+        };
+        
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                fetchAndDisplayComments();
-            } else {
-                signInAnonymously(auth).catch((error) => {
-                    console.error("Anonymous sign-in error:", error);
-                });
+                const docRef = doc(db, "artifacts", appId, "public", "data", "testimonials", "all-comments");
+                fetchAndDisplayComments(docRef);
             }
         });
         
+        authUser();
+
         const commentsForm = document.getElementById('comments-form');
         const commentsList = document.getElementById('comments-list');
-        const testimonialsCollection = collection(db, "testimonials");
-
+        
         commentsForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('comment-name').value;
@@ -631,20 +500,26 @@
 
             if (name.trim() && message.trim()) {
                 try {
-                    // Auto-reply පණිවිඩය මෙතන නිර්මාණය කරයි
                     const replyMessage = `Hi ${name}, thank you so much for your feedback! We really appreciate you taking the time to share your thoughts.`;
                     
-                    await addDoc(testimonialsCollection, {
+                    const newComment = {
+                        id: 'id-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9),
                         name: name,
                         message: message,
                         timestamp: new Date(),
                         reactions: { like: 0, love: 0, idea: 0 },
-                        // Reply object එක comment එකත් සමගම Firestore එකට යවයි
                         reply: {
                             text: replyMessage,
                             timestamp: new Date()
-                        }
+                        },
+                        user_replies: [] 
+                    };
+
+                    const docRef = doc(db, "artifacts", appId, "public", "data", "testimonials", "all-comments");
+                    await updateDoc(docRef, {
+                        comments: arrayUnion(newComment)
                     });
+
                     commentsForm.reset();
                 } catch (error) {
                     console.error("Error adding document: ", error);
@@ -652,68 +527,128 @@
             }
         });
 
-        function fetchAndDisplayComments() {
-             const q = query(testimonialsCollection, orderBy("timestamp", "desc"));
-             onSnapshot(q, (snapshot) => {
+        function fetchAndDisplayComments(docRef) {
+             onSnapshot(docRef, (docSnap) => {
                  commentsList.innerHTML = '';
-                 snapshot.docs.forEach(docSnap => {
-                     const comment = docSnap.data();
-                     const commentCard = document.createElement('div');
-                     commentCard.className = 'comment-card';
-                     
-                     // Reply එකට අදාල HTML කොටස මෙතන නිර්මාණය කරයි
-                     let replyHTML = '';
-                     if (comment.reply && comment.reply.text) {
-                         replyHTML = `
-                             <div class="comment-reply">
-                                 <div class="reply-header">
-                                     <img src="logo.jpg" alt="Admin" class="reply-avatar">
-                                     <strong>Malith Studio (Admin)</strong>
-                                 </div>
-                                 <p>${comment.reply.text}</p>
-                             </div>
-                         `;
-                     }
-                     
-                     // Comment card එකේ HTML එකට reply එකත් එකතු කරයි
-                     commentCard.innerHTML = `
-                         <p>"${comment.message}"</p>
-                         <div class="comment-footer">
-                             <span class="comment-author">- ${comment.name}</span>
-                             <div class="reactions">
-                                 <button class="reaction-btn" data-doc-id="${docSnap.id}" data-reaction="like">👍<span>${comment.reactions.like || 0}</span></button>
-                                 <button class="reaction-btn" data-doc-id="${docSnap.id}" data-reaction="love">❤️<span>${comment.reactions.love || 0}</span></button>
-                                 <button class="reaction-btn" data-doc-id="${docSnap.id}" data-reaction="idea">💡<span>${comment.reactions.idea || 0}</span></button>
-                             </div>
-                         </div>
-                         ${replyHTML}
-                     `;
-                     commentsList.appendChild(commentCard);
-                 });
+                 if (docSnap.exists() && docSnap.data().comments) {
+                    const allComments = docSnap.data().comments;
+                    allComments.sort((a,b) => b.timestamp.toDate() - a.timestamp.toDate());
+
+                    allComments.forEach(comment => {
+                        const commentCard = document.createElement('div');
+                        commentCard.className = 'comment-card';
+                        
+                        let adminReplyHTML = '';
+                        if (comment.reply && comment.reply.text) {
+                            adminReplyHTML = `
+                                <div class="comment-reply">
+                                    <div class="reply-header">
+                                        <img src="logo.jpg" alt="Admin" class="reply-avatar">
+                                        <strong>Malith Studio (Admin)</strong>
+                                    </div>
+                                    <p>${comment.reply.text}</p>
+                                </div>
+                            `;
+                        }
+
+                        let userRepliesHTML = '<div class="replies-list">';
+                        if (comment.user_replies && comment.user_replies.length > 0) {
+                           comment.user_replies.sort((a, b) => a.timestamp.toDate() - b.timestamp.toDate());
+                           comment.user_replies.forEach(reply => {
+                                userRepliesHTML += `
+                                   <div class="user-reply-card">
+                                       <p>"${reply.message}"</p>
+                                       <div class="comment-footer">
+                                           <span class="comment-author">- ${reply.name}</span>
+                                       </div>
+                                   </div>
+                                `;
+                           });
+                        }
+                        userRepliesHTML += '</div>';
+
+                        commentCard.innerHTML = `
+                            <p>"${comment.message}"</p>
+                            <div class="comment-footer">
+                                <span class="comment-author">- ${comment.name}</span>
+                            </div>
+                            <div class="comment-actions">
+                                <div class="reactions">
+                                    <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="like">👍<span>${comment.reactions.like || 0}</span></button>
+                                    <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="love">❤️<span>${comment.reactions.love || 0}</span></button>
+                                    <button class="reaction-btn" data-comment-id="${comment.id}" data-reaction="idea">💡<span>${comment.reactions.idea || 0}</span></button>
+                                </div>
+                                <button class="toggle-reply-btn" data-comment-id="${comment.id}" data-key="replyBtn">Reply</button>
+                            </div>
+                            <div class="reply-form-container" style="display: none;">
+                               <form class="reply-form" data-comment-id="${comment.id}">
+                                   <input type="text" class="reply-name" data-key-placeholder="commentNamePlaceholder" placeholder="Your Name" required>
+                                   <textarea class="reply-message" data-key-placeholder="replyMessagePlaceholder" placeholder="Your Reply" required></textarea>
+                                   <button type="submit" class="submit-reply-btn cta-button" data-key="replySubmitBtn">Submit Reply</button>
+                               </form>
+                            </div>
+                            ${userRepliesHTML}
+                            ${adminReplyHTML}
+                        `;
+                        commentsList.appendChild(commentCard);
+                    });
+                 }
+                 setLanguage(currentLang, false); 
              }, (error) => {
                  console.error("Snapshot listener error:", error);
              });
         }
 
         commentsList.addEventListener('click', async (e) => {
-            const btn = e.target.closest('.reaction-btn');
-            if(btn) {
-                const docId = btn.dataset.docId;
-                const reaction = btn.dataset.reaction;
-                const docRef = doc(db, "testimonials", docId);
-                try {
-                    await updateDoc(docRef, {
-                       [`reactions.${reaction}`]: increment(1)
-                    });
-                } catch (error) {
-                    console.error("Error updating reaction: ", error);
+            const docRef = doc(db, "artifacts", appId, "public", "data", "testimonials", "all-comments");
+            const docSnap = await getDoc(docRef);
+            if (!docSnap.exists()) return;
+            const allComments = docSnap.data().comments || [];
+
+            const reactionBtn = e.target.closest('.reaction-btn');
+            if(reactionBtn) {
+                const commentId = reactionBtn.dataset.commentId;
+                const reaction = reactionBtn.dataset.reaction;
+                
+                const commentIndex = allComments.findIndex(c => c.id === commentId);
+                if (commentIndex > -1) {
+                    allComments[commentIndex].reactions[reaction]++;
+                    await updateDoc(docRef, { comments: allComments });
                 }
+                return;
+            }
+
+            const toggleBtn = e.target.closest('.toggle-reply-btn');
+            if (toggleBtn) {
+                const formContainer = toggleBtn.parentElement.nextElementSibling;
+                if (formContainer) {
+                    formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
+                }
+                return;
+            }
+
+            const replyForm = e.target.closest('.reply-form');
+            if(replyForm) {
+                 e.preventDefault();
+                 const commentId = replyForm.dataset.commentId;
+                 const name = replyForm.querySelector('.reply-name').value;
+                 const message = replyForm.querySelector('.reply-message').value;
+
+                 if (name.trim() && message.trim() && commentId) {
+                    const newReply = { name: name, message: message, timestamp: new Date() };
+                    const commentIndex = allComments.findIndex(c => c.id === commentId);
+                    if (commentIndex > -1) {
+                        allComments[commentIndex].user_replies.push(newReply);
+                        await updateDoc(docRef, { comments: allComments });
+                        replyForm.reset();
+                        replyForm.parentElement.style.display = 'none';
+                    }
+                 }
             }
         });
     </script>
 
     <script>
-        // All JavaScript, including translations, scroll observer, etc.
         const translations = {
             navHome: { en: 'Home', si: 'මුල් පිටුව', ta: 'முகப்பு' },
             navProjects: { en: 'Projects', si: 'නිර්මාණ', ta: 'திட்டங்கள்' },
@@ -729,10 +664,12 @@
             servicesTitle: { en: 'Our Services', si: 'අපගේ සේවාවන්', ta: 'எங்கள் சேவைகள்' },
             blogTitle: { en: 'Recent Updates', si: 'නවතම ලිපි', ta: 'சமீபத்திய புதுப்பிப்புகள்' },
             blogViewAll: { en: 'View All Posts', si: 'සියලුම ලිපි බලන්න', ta: 'அனைத்து பதிவுகளையும் காண்க' },
-            blog1Title: { en: 'The Journey Begins: The Story of Malith Studio', si: 'ගමන අරඹමු: මලිත් ස්ටුඩියෝ කතාව', ta: 'பயணம் தொடங்குகிறது: மலித் ஸ்டுடியோவின் கதை' },
-            blog1Desc: { en: 'Our journey started with a simple idea: to create powerful, easy-to-use digital tools that save time for busy people...', si: 'අපගේ ගමන ආරම්භ වූයේ සරල අදහසකිනි: කාර්යබහුල පුද්ගලයින් සඳහා කාලය ඉතිරි කරන බලවත්, භාවිතයට පහසු ඩිජිටල් මෙවලම් නිර්මාණය කිරීම...', ta: 'எங்கள் பயணம் ஒரு எளிய யோசனையுடன் தொடங்கியது: பிஸியான நபர்களுக்கு நேரத்தை சேமிக்கும் சக்திவாய்ந்த, பயன்படுத்த எளிதான டிஜிட்டல் கருவிகளை உருவாக்குவது...' },
-            blog2Title: { en: 'Why AI is a Game-Changer for Everyday Productivity', si: 'දෛනික ඵලදායිතාව සඳහා AI වෙනසක් ඇති කරන්නේ ඇයි?', ta: 'தினசரி உற்பத்தித்திறனுக்கு AI ஒரு கேம்-சேஞ்சர் ஏன்?' },
-            blog2Desc: { en: 'Artificial Intelligence is no longer just a buzzword; it\'s a practical tool that can significantly enhance our daily productivity...', si: 'කෘත්‍රිම බුද්ධිය තවදුරටත් හුදු වචනයක් නොවේ; එය අපගේ දෛනික ඵලදායිතාව සැලකිය යුතු ලෙස වැඩිදියුණු කළ හැකි ප්‍රායෝගික මෙවලමකි...', ta: 'செயற்கை நுண்ணறிவு என்பது ஒரு சலசலப்பான வார்த்தை மட்டுமல்ல; இது நமது அன்றாட உற்பத்தித்திறனை கணிசமாக மேம்படுத்தக்கூடிய ஒரு நடைமுறைக் கருவியாகும்...' },
+            
+            blogNewestTitle: { en: 'Why AI is a Game-Changer for Everyday Productivity', si: 'දෛනික ඵලදායිතාව සඳහා AI වෙනසක් ඇති කරන්නේ ඇයි?', ta: 'தினசரி உற்பத்தித்திறனுக்கு AI ஏன் ஒரு கேம்-சேஞ்சர்?' },
+            blogNewestDesc: { en: "Artificial Intelligence is no longer just a buzzword; it's a practical tool that can significantly enhance our daily productivity...", si: 'කෘත්‍රිම බුද්ධිය තවදුරටත් හුදු වචනයක් නොවේ; එය අපගේ දෛනික ඵලදායිතාව සැලකිය යුතු ලෙස වැඩිදියුණු කළ හැකි ප්‍රායෝගික මෙවලමකි...', ta: 'செயற்கை நுண்ணறிவு என்பது ஒரு சலசலப்பான வார்த்தை மட்டுமல்ல; இது நமது அன்றாட உற்பத்தித்திறனை கணிசமாக மேம்படுத்தக்கூடிய ஒரு நடைமுறைக் கருவியாகும்...' },
+            blogSecondNewestTitle: { en: 'Announcing Our Newest Tool: The Resume Builder!', si: 'අපගේ නවතම මෙවලම හඳුන්වාදීම: Resume Builder!', ta: 'எங்கள் புதிய கருவியை அறிவிக்கிறோம்: ரெஸ்யூம் பில்டர்!' },
+            blogSecondNewestDesc: { en: 'We are thrilled to announce the latest addition to the Malith Studio® family of tools: the Resume Builder! Create a polished, effective CV in minutes.', si: 'Malith Studio® මෙවලම් පවුලට අලුතින්ම එකතු වූ සාමාජිකයා, "Resume Builder" හඳුන්වා දීමට ලැබීම අපට මහත් සතුටක්! විනාඩි කිහිපයකින් අලංකාර CV එකක් හදාගන්න.', ta: 'Malith Studio® கருவிகளின் குடும்பத்தில் சமீபத்திய கூடுதலாக ரெஸ்யூம் பில்டரை அறிவிப்பதில் நாங்கள் மகிழ்ச்சியடைகிறோம்! சில நிமிடங்களில் ஒரு நேர்த்தியான CV ஐ உருவாக்கவும்.' },
+
             aboutTitle: { en: 'About Us', si: 'අප ගැන', ta: 'எங்களை பற்றி' },
             commentsTitle: { en: 'Comments', si: 'අදහස්', ta: 'கருத்துக்கள்' },
             commentNamePlaceholder: { en: 'Your Name', si: 'ඔබේ නම', ta: 'உங்கள் பெயர்' },
@@ -774,13 +711,16 @@
             project10Desc: { en: 'Create a professional resume quickly with our easy-to-use builder.', si: 'අපගේ භාවිතයට පහසු මෙවලම භාවිතයෙන් වෘත්තීය මට්ටමේ Resume පත්‍රිකාවක් ඉක්මනින් සාදාගන්න.', ta: 'பயன்படுத்த எளிதான எங்கள் கருவி மூலம் ஒரு தொழில்முறை ரெஸ்யூமை விரைவாக உருவாக்கவும்.' },
             footerPrivacy: { en: 'Privacy Policy', si: 'රහස්‍යතා ප්‍රතිපත්තිය', ta: 'தனியுரிமைக் கொள்கை' },
             footerCopyright: { en: '© 2025 Malith Studio®. All rights reserved.', si: '© 2025 මලිත් ස්ටුඩියෝ®. सर्व हक्क राखीव.', ta: '© 2025 மலித் ஸ்டுடியோ®. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.' },
+            replyBtn: { en: 'Reply', si: 'පිළිතුරු දෙන්න', ta: 'பதிலளி' },
+            replyMessagePlaceholder: { en: 'Your Reply', si: 'ඔබේ පිළිතුර', ta: 'உங்கள் பதில்' },
+            replySubmitBtn: { en: 'Submit Reply', si: 'පිළිතුර යොමු කරන්න', ta: 'பதிலைச் சமர்ப்பி' },
         };
 
         const languageBtn = document.getElementById('language-btn');
         const languageOptions = document.getElementById('language-options');
         let currentLang = 'en';
 
-        function setLanguage(lang) {
+        function setLanguage(lang, updateLinks = true) {
             currentLang = lang;
             if(lang === 'en') languageBtn.textContent = 'English';
             if(lang === 'si') languageBtn.textContent = 'සිංහල';
@@ -800,7 +740,7 @@
                 if (translations[key] && translations[key][lang]) {
                     element.placeholder = translations[key][lang];
                 }
-            });
+             });
             
              document.querySelectorAll('.contact-btn span').forEach(span => {
                  const key = span.getAttribute('data-key');
@@ -809,136 +749,136 @@
                  }
              });
 
-            document.querySelectorAll('a[href*=".html"]').forEach(link => {
-                 if(link.href.includes('.html')){
-                     const url = new URL(link.href, window.location.origin);
-                     url.searchParams.set('lang', lang);
-                     link.href = url.toString();
+            if (updateLinks) {
+                document.querySelectorAll('a[href*=".html"]').forEach(link => {
+                     if(link.href.includes('.html')){
+                         const url = new URL(link.href, window.location.origin);
+                         url.searchParams.set('lang', lang);
+                         link.href = url.toString();
+                     }
+                });
+            }
+        }
+        
+         languageBtn.addEventListener('click', () => {
+             languageOptions.style.display = languageOptions.style.display === 'block' ? 'none' : 'block';
+         });
+
+         document.querySelectorAll('#language-options button').forEach(button => {
+             button.addEventListener('click', () => {
+                 setLanguage(button.getAttribute('data-lang'));
+             });
+         });
+
+         document.addEventListener('click', (e) => {
+             if (!languageBtn.contains(e.target)) {
+                 languageOptions.style.display = 'none';
+             }
+         });
+        
+         const sections = document.querySelectorAll('section');
+         const observer = new IntersectionObserver((entries) => {
+             entries.forEach(entry => {
+                 if (entry.isIntersecting) {
+                     entry.target.classList.add('visible');
                  }
-            });
-        }
+             });
+         }, { threshold: 0.1 });
 
-        languageBtn.addEventListener('click', () => {
-            languageOptions.style.display = languageOptions.style.display === 'block' ? 'none' : 'block';
-        });
+         sections.forEach(section => {
+             observer.observe(section);
+         });
 
-        document.querySelectorAll('#language-options button').forEach(button => {
-            button.addEventListener('click', () => {
-                setLanguage(button.getAttribute('data-lang'));
-            });
-        });
+         document.addEventListener('DOMContentLoaded', () => {
+             const bgContainer = document.getElementById('background-container');
+             const themeSwitcher = document.getElementById('theme-switcher');
+             const themeBtns = document.querySelectorAll('.theme-btn');
+            
+             themeBtns.forEach(btn => {
+                 const theme = btn.dataset.theme;
+                 if (theme === 'default') {
+                     btn.style.backgroundImage = "linear-gradient(145deg, #1e3a8a 0%, #312e81 50%, #0b0f19 100%)";
+                 } else {
+                     btn.style.backgroundImage = `url('${theme}')`;
+                 }
+             });
 
-        document.addEventListener('click', (e) => {
-            if (!languageBtn.contains(e.target)) {
-                languageOptions.style.display = 'none';
-            }
-        });
+             const themes = ['default', 'theme1.jpg', 'theme2.jpg', 'theme3.jpg'];
+            
+             bgContainer.style.backgroundImage = "linear-gradient(145deg, #1e3a8a 0%, #312e81 50%, #0b0f19 100%)";
+
+
+             themeBtns.forEach((btn, index) => {
+                 btn.addEventListener('click', () => {
+                     themeBtns.forEach(b => b.classList.remove('active'));
+                     btn.classList.add('active');
+                     const themeImage = themes[index];
+                     if (themeImage === 'default') {
+                         bgContainer.style.backgroundImage = "linear-gradient(145deg, #1e3a8a 0%, #312e81 50%, #0b0f19 100%)";
+                     } else {
+                         bgContainer.style.backgroundImage = `url('${themeImage}')`;
+                     }
+                 });
+             });
+
+             const bgAnimation = document.getElementById('background-animation');
+             const numberOfOrbs = 15;
+
+             for (let i = 0; i < numberOfOrbs; i++) {
+                 const orb = document.createElement('div');
+                 orb.classList.add('orb');
+                 const size = Math.random() * 200 + 50;
+                 orb.style.width = `${size}px`;
+                 orb.style.height = `${size}px`;
+                 orb.style.top = `${Math.random() * 100}vh`;
+                 orb.style.left = `${Math.random() * 100}vw`;
+                 orb.style.animationDuration = `${Math.random() * 20 + 20}s`;
+                 orb.style.animationDelay = `-${Math.random() * 10}s`;
+                 const orbAnim = document.createElement('style');
+                 orbAnim.innerHTML = `
+                     @keyframes float-orb-${i} {
+                         0% { transform: translate(0, 0) scale(1); }
+                         33% { transform: translate(${Math.random() * 40 - 20}vw, ${Math.random() * 40 - 20}vh) scale(1.2); }
+                         66% { transform: translate(${Math.random() * 40 - 20}vw, ${Math.random() * 40 - 20}vh) scale(0.8); }
+                         100% { transform: translate(0, 0) scale(1); }
+                     }
+                 `;
+                 document.head.appendChild(orbAnim);
+                 orb.style.animationName = `float-orb-${i}`;
+                 bgAnimation.appendChild(orb);
+             }
+            
+             window.addEventListener('load', function() {
+                 const preloader = document.getElementById('preloader');
+                 if (preloader) {
+                     preloader.classList.add('loaded');
+                 }
+             });
+
+             const backToTopButton = document.getElementById('back-to-top');
+             window.addEventListener('scroll', () => {
+                 if (window.scrollY > 300) {
+                     if(backToTopButton) backToTopButton.classList.add('visible');
+                 } else {
+                     if(backToTopButton) backToTopButton.classList.remove('visible');
+                 }
+             });
+            
+         });
+
+         setLanguage(currentLang);
         
-        const sections = document.querySelectorAll('section');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        sections.forEach(section => {
-            observer.observe(section);
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const bgContainer = document.getElementById('background-container');
-            const themeSwitcher = document.getElementById('theme-switcher');
-            const themeBtns = document.querySelectorAll('.theme-btn');
-            
-            themeBtns.forEach(btn => {
-                const theme = btn.dataset.theme;
-                if (theme === 'default') {
-                    btn.style.backgroundImage = "linear-gradient(145deg, #1e3a8a 0%, #312e81 50%, #0b0f19 100%)";
-                } else {
-                    btn.style.backgroundImage = `url('${theme}')`;
-                }
-            });
-
-            const themes = ['default', 'theme1.jpg', 'theme2.jpg', 'theme3.jpg'];
-            
-            bgContainer.style.backgroundImage = "linear-gradient(145deg, #1e3a8a 0%, #312e81 50%, #0b0f19 100%)";
-
-
-            themeBtns.forEach((btn, index) => {
-                btn.addEventListener('click', () => {
-                    themeBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    const themeImage = themes[index];
-                    if (themeImage === 'default') {
-                        bgContainer.style.backgroundImage = "linear-gradient(145deg, #1e3a8a 0%, #312e81 50%, #0b0f19 100%)";
-                    } else {
-                        bgContainer.style.backgroundImage = `url('${themeImage}')`;
-                    }
-                });
-            });
-
-            const bgAnimation = document.getElementById('background-animation');
-            const numberOfOrbs = 15;
-
-            for (let i = 0; i < numberOfOrbs; i++) {
-                const orb = document.createElement('div');
-                orb.classList.add('orb');
-                const size = Math.random() * 200 + 50;
-                orb.style.width = `${size}px`;
-                orb.style.height = `${size}px`;
-                orb.style.top = `${Math.random() * 100}vh`;
-                orb.style.left = `${Math.random() * 100}vw`;
-                orb.style.animationDuration = `${Math.random() * 20 + 20}s`;
-                orb.style.animationDelay = `-${Math.random() * 10}s`;
-                const orbAnim = document.createElement('style');
-                orbAnim.innerHTML = `
-                    @keyframes float-orb-${i} {
-                        0% { transform: translate(0, 0) scale(1); }
-                        33% { transform: translate(${Math.random() * 40 - 20}vw, ${Math.random() * 40 - 20}vh) scale(1.2); }
-                        66% { transform: translate(${Math.random() * 40 - 20}vw, ${Math.random() * 40 - 20}vh) scale(0.8); }
-                        100% { transform: translate(0, 0) scale(1); }
-                    }
-                `;
-                document.head.appendChild(orbAnim);
-                orb.style.animationName = `float-orb-${i}`;
-                bgAnimation.appendChild(orb);
-            }
-            
-            window.addEventListener('load', function() {
-                const preloader = document.getElementById('preloader');
-                if (preloader) {
-                    preloader.classList.add('loaded');
-                }
-            });
-
-            const backToTopButton = document.getElementById('back-to-top');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 300) {
-                    if(backToTopButton) backToTopButton.classList.add('visible');
-                } else {
-                    if(backToTopButton) backToTopButton.classList.remove('visible');
-                }
-            });
-            
-        });
-
-        setLanguage(currentLang);
-        
-        // --- PWA Service Worker Registration ---
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/Malith-Studio/sw.js').then(registration => {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, err => {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            });
-        }
+         if ('serviceWorker' in navigator) {
+             window.addEventListener('load', () => {
+                 navigator.serviceWorker.register('/Malith-Studio/sw.js').then(registration => {
+                     console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                 }, err => {
+                     console.log('ServiceWorker registration failed: ', err);
+                 });
+             });
+         }
     </script>
     
-    <!-- Search and Filter සඳහා වන අලුත් JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const searchInput = document.getElementById('searchInput');
@@ -999,7 +939,58 @@
                      setTimeout(updateToolsView, 100); 
                  });
              });
+
+            // --- NEW GLOWING TAGS EFFECT ---
+            const featureTagsContainer = document.querySelector('.feature-tags-container');
+            if (featureTagsContainer) {
+                const tags = featureTagsContainer.querySelectorAll('.feature-tag');
+                const glowColors = [
+                    'hsl(231, 79%, 68%)', // Light Blue
+                    'hsl(280, 80%, 70%)', // Light Purple
+                    'hsl(330, 85%, 65%)', // Light Pink
+                    'hsl(160, 80%, 55%)', // Light Teal
+                    'hsl(45, 90%, 65%)',  // Light Gold
+                    'hsl(190, 80%, 60%)'  // Cyan
+                ];
+                let currentTagIndex = -1;
+
+                const startGlowEffect = () => {
+                    // Immediately light up the first one
+                    let firstTagIndex = Math.floor(Math.random() * tags.length);
+                    currentTagIndex = firstTagIndex;
+                    const firstTag = tags[firstTagIndex];
+                    const firstColor = glowColors[Math.floor(Math.random() * glowColors.length)];
+                    if (firstTag) {
+                        firstTag.style.setProperty('--glow-color', firstColor);
+                        firstTag.classList.add('glowing');
+                    }
+
+                    // Then start the interval to change it
+                    setInterval(() => {
+                        if (currentTagIndex !== -1 && tags[currentTagIndex]) {
+                            tags[currentTagIndex].classList.remove('glowing');
+                        }
+
+                        let newTagIndex;
+                        do {
+                            newTagIndex = Math.floor(Math.random() * tags.length);
+                        } while (newTagIndex === currentTagIndex && tags.length > 1);
+                        
+                        currentTagIndex = newTagIndex;
+                        const randomColor = glowColors[Math.floor(Math.random() * glowColors.length)];
+                        const newTag = tags[currentTagIndex];
+
+                        if (newTag) {
+                            newTag.style.setProperty('--glow-color', randomColor);
+                            newTag.classList.add('glowing');
+                        }
+                    }, 5000); // Change every 5 seconds
+                };
+                startGlowEffect();
+            }
+            // --- END GLOWING TAGS EFFECT ---
         });
     </script>
 </body>
 </html>
+
