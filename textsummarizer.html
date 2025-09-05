@@ -3,8 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Text Summarizer - Malith Studio®</title>
-    <!-- Font Awesome (Icons සඳහා අලුතෙන් එකතු කරන ලදී) -->
+    
+    <!-- SEO Meta Tags for Text Summarizer Page -->
+    <title>AI Text Summarizer Tool - Malith Studio® | Summarize Articles Free</title>
+    <meta name="description" content="Save time by summarizing long articles, reports, and texts in Sinhala, English, or Tamil with Malith Studio's free AI-powered summarization tool.">
+    <meta name="keywords" content="text summarizer, ai summarizer, article summarizer, sinhala text summarizer, free summarizer, malith studio, sri lanka">
+    <meta name="author" content="Malith Studio®">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/textsummarizer.html">
+    <meta property="og:title" content="AI Text Summarizer Tool - Malith Studio® | Summarize Articles Free">
+    <meta property="og:description" content="Save time by summarizing long articles and texts with our free AI-powered tool.">
+    <meta property="og:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-textsummarizer.jpg">
+
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/textsummarizer.html">
+    <meta property="twitter:title" content="AI Text Summarizer Tool - Malith Studio® | Summarize Articles Free">
+    <meta property="twitter:description" content="Save time by summarizing long articles and texts with our free AI-powered tool.">
+    <meta property="twitter:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-textsummarizer.jpg">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -57,8 +76,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
         }
-
-        /* --- Header Controls (Language + Help) --- */
         .header-controls {
             position: absolute;
             top: 1.5rem;
@@ -197,8 +214,6 @@
             height: 1.5rem;
             margin-top: 1rem;
         }
-
-        /* --- Share Buttons --- */
         .share-section {
             margin-top: 3rem;
             padding-top: 1.5rem;
@@ -251,8 +266,6 @@
         #copy-message.visible {
             opacity: 1;
         }
-
-        /* --- Help Modal Styles --- */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -306,7 +319,7 @@
 </head>
 <body>
 
-    <a href="index.html" class="back-btn">
+    <a href="index.html#projects" class="back-btn">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
         </svg>
@@ -343,7 +356,6 @@
         </div>
         <div id="status"></div>
 
-        <!-- Share Buttons Section START -->
         <div class="share-section">
             <h3 data-key="shareTool">Share this Tool</h3>
             <div class="share-buttons-container">
@@ -354,16 +366,13 @@
             </div>
             <p id="copy-message" data-key="linkCopied">Link Copied!</p>
         </div>
-        <!-- Share Buttons Section END -->
     </div>
     
-    <!-- Help Modal -->
     <div id="help-modal" class="modal-overlay">
         <div class="modal-content">
             <button id="close-modal-btn" class="modal-close">&times;</button>
             <h2 data-key="helpTitle">How to Use Text Summarizer</h2>
             <div data-key="helpContent">
-                <!-- Content will be inserted by JavaScript -->
             </div>
         </div>
     </div>
@@ -392,7 +401,6 @@
 
         let currentLang = 'en';
 
-        // --- UI Elements ---
         const inputText = document.getElementById('inputText');
         const outputText = document.getElementById('outputText');
         const summarizeBtn = document.getElementById('summarizeBtn');
@@ -406,7 +414,6 @@
         const helpModal = document.getElementById('help-modal');
         const closeModalBtn = document.getElementById('close-modal-btn');
         
-        // --- Language and UI Update ---
         function setLanguage(lang) {
             currentLang = lang;
             if(lang === 'en') languageBtn.textContent = 'English';
@@ -443,8 +450,7 @@
             const lang = params.get('lang');
             return ['en', 'si', 'ta'].includes(lang) ? lang : 'en';
         }
-        
-        // --- Share Button Logic ---
+
         function initializeShareButtons() {
             const pageUrl = window.location.href;
             const pageTitle = document.title;
@@ -470,7 +476,6 @@
             });
         }
 
-        // --- API Logic ---
         const apiKey = "AIzaSyDk_3fFXF1Jxq7F1rPXTf5q95ssu_HfYt4";
         const model = 'gemini-1.5-flash';
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
@@ -541,7 +546,6 @@
             }
         });
 
-        // --- Event Listeners ---
         languageBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             languageOptions.classList.toggle('show');
@@ -568,7 +572,6 @@
             }
         });
         
-        // Initial setup on page load
         const initialLang = getLangFromURL();
         setLanguage(initialLang);
         initializeShareButtons();

@@ -1,10 +1,29 @@
 <!DOCTYPE html>
-<html lang="si">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voice Typing Tool - Malith Studio®</title>
-    <!-- Font Awesome (Icons සඳහා අලුතෙන් එකතු කරන ලදී) -->
+    
+    <!-- SEO Meta Tags for Voice Typing Page -->
+    <title>Sinhala, Tamil & English Voice Typing Tool - Malith Studio®</title>
+    <meta name="description" content="Type in Sinhala, English, or Tamil just by speaking. Our free online voice-to-text tool makes typing fast and easy. Perfect for users in Sri Lanka.">
+    <meta name="keywords" content="voice typing, sinhala voice typing, tamil voice typing, voice to text, speech to text, online typing tool, malith studio, sri lanka">
+    <meta name="author" content="Malith Studio®">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/voicetype.html">
+    <meta property="og:title" content="Sinhala, Tamil & English Voice Typing Tool - Malith Studio®">
+    <meta property="og:description" content="Type in Sinhala, English, or Tamil just by speaking. Our free online voice-to-text tool makes typing fast and easy.">
+    <meta property="og:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-voicetype.jpg">
+
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/voicetype.html">
+    <meta property="twitter:title" content="Sinhala, Tamil & English Voice Typing Tool - Malith Studio®">
+    <meta property="twitter:description" content="Type in Sinhala, English, or Tamil just by speaking. Our free online voice-to-text tool makes typing fast and easy.">
+    <meta property="twitter:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-voicetype.jpg">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -31,7 +50,7 @@
             backdrop-filter: blur(10px);
             color: #d1d5db;
             padding: 0.5rem 1rem;
-            border-radius: 9999px; /* pill shape */
+            border-radius: 9999px;
             text-decoration: none;
             font-weight: 600;
             z-index: 10;
@@ -48,7 +67,7 @@
         }
         .container {
             width: 100%;
-            max-width: 48rem; /* max-w-2xl */
+            max-width: 48rem;
             background-color: rgba(31, 41, 55, 0.8);
             backdrop-filter: blur(10px);
             border-radius: 1rem;
@@ -57,8 +76,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
         }
-        
-        /* --- Header Controls (Language + Help) --- */
         .header-controls {
             position: absolute;
             top: 1.5rem;
@@ -113,7 +130,6 @@
             align-items: center;
             justify-content: center;
         }
-
         .header { text-align: center; margin-bottom: 2rem; margin-top: 3rem; }
         .header h1 { font-size: 2.25rem; font-weight: 700; color: #93c5fd; }
         .header p { color: #d1d5db; margin-top: 0.5rem; }
@@ -166,7 +182,7 @@
         #stopButton { background: linear-gradient(to right, #dc2626, #ef4444); }
         #copyButton { background: linear-gradient(to right, #4b5563, #6b7280); }
         #undoButton { background: linear-gradient(to right, #ca8a04, #eab308); }
-        #clearButton { background: linear-gradient(to right, #7f1d1d, #b91c1c); } /* Clear Button Style */
+        #clearButton { background: linear-gradient(to right, #7f1d1d, #b91c1c); }
         
         .status-container {
             text-align: center;
@@ -186,8 +202,6 @@
             0% { --angle: 0deg; }
             100% { --angle: 360deg; }
         }
-
-        /* --- Share Buttons --- */
         .share-section {
             margin-top: 3rem;
             padding-top: 1.5rem;
@@ -240,8 +254,6 @@
         #copy-message.visible {
             opacity: 1;
         }
-
-        /* --- Help Modal Styles --- */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -294,7 +306,7 @@
     </style>
 </head>
 <body>
-    <a href="index.html" class="back-btn">
+    <a href="index.html#projects" class="back-btn">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
         </svg>
@@ -333,7 +345,6 @@
             <div id="status"></div>
         </div>
 
-        <!-- Share Buttons Section START -->
         <div class="share-section">
             <h3 data-key="shareTool">Share this Tool</h3>
             <div class="share-buttons-container">
@@ -344,16 +355,13 @@
             </div>
             <p id="copy-message" data-key="linkCopied">Link Copied!</p>
         </div>
-        <!-- Share Buttons Section END -->
     </div>
 
-    <!-- Help Modal -->
     <div id="help-modal" class="modal-overlay">
         <div class="modal-content">
             <button id="close-modal-btn" class="modal-close">&times;</button>
             <h2 data-key="helpTitle">How to Use Voice Typing</h2>
             <div data-key="helpContent">
-                <!-- Content will be inserted by JavaScript -->
             </div>
         </div>
     </div>
@@ -407,7 +415,6 @@
 
         let currentLang = 'en';
 
-        // --- UI Elements ---
         const languageBtn = document.getElementById('language-btn');
         const languageOptions = document.getElementById('language-options');
         const transcriptWrapper = document.getElementById('transcript-wrapper');
@@ -422,7 +429,6 @@
         const helpModal = document.getElementById('help-modal');
         const closeModalBtn = document.getElementById('close-modal-btn');
         
-        // --- Language and UI Update ---
         function setLanguage(lang) {
             currentLang = lang;
             if(lang === 'en') languageBtn.textContent = 'English';
@@ -449,12 +455,11 @@
                 backBtn.href = homeUrl.toString();
             }
         }
-
-        // Get language code from URL parameter
+        
         function getLangFromURL() {
             const params = new URLSearchParams(window.location.search);
             const lang = params.get('lang');
-            return ['en', 'si', 'ta'].includes(lang) ? lang : 'en'; // Default
+            return ['en', 'si', 'ta'].includes(lang) ? lang : 'en';
         }
 
         function getLangCode(lang) {
@@ -463,7 +468,6 @@
             return 'en-US';
         }
         
-        // --- Share Button Logic ---
         function initializeShareButtons() {
             const pageUrl = window.location.href;
             const pageTitle = document.title;
@@ -479,26 +483,16 @@
             whatsappBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + " " + pageUrl)}`;
 
             copyBtn.addEventListener('click', () => {
-                const tempTextArea = document.createElement('textarea');
-                tempTextArea.value = pageUrl;
-                document.body.appendChild(tempTextArea);
-                tempTextArea.select();
-                tempTextArea.setSelectionRange(0, 99999);
-                try {
-                    document.execCommand('copy');
+                navigator.clipboard.writeText(pageUrl).then(() => {
                     const copyMessage = document.getElementById('copy-message');
                     copyMessage.classList.add('visible');
                     setTimeout(() => {
                         copyMessage.classList.remove('visible');
                     }, 2000);
-                } catch (err) {
-                    console.error('Failed to copy link: ', err);
-                }
-                document.body.removeChild(tempTextArea);
+                }).catch(err => console.error('Failed to copy text: ', err));
             });
         }
         
-        // --- Speech Recognition Logic ---
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         let recognition;
         let final_transcript = '';
@@ -516,7 +510,7 @@
             };
 
             recognition.onend = () => {
-                final_transcript = transcriptArea.value;
+                final_transcript = transcriptArea.value; 
                 statusDiv.textContent = translations.statusStopped[currentLang];
                 startButton.disabled = false;
                 stopButton.disabled = true;
@@ -556,7 +550,6 @@
             }
         }
         
-        // --- Button Event Listeners ---
         startButton.addEventListener('click', () => {
             if (recognition) {
                 if (transcriptArea.value.length > 0 && !transcriptArea.value.endsWith(' ')) {
@@ -592,14 +585,14 @@
                     newText = trimmedText.substring(0, lastSpaceIndex);
                 }
                 transcriptArea.value = newText;
-                final_transcript = newText;
+                final_transcript = newText; 
             }
         });
         
         clearButton.addEventListener('click', () => {
             stopRecognition();
             transcriptArea.value = '';
-            final_transcript = '';
+            final_transcript = ''; 
         });
 
         languageBtn.addEventListener('click', (e) => {
@@ -618,7 +611,6 @@
             }
         });
 
-        // --- Modal Listeners ---
         helpBtn.addEventListener('click', () => {
             helpModal.style.display = 'flex';
         });
@@ -631,7 +623,6 @@
             }
         });
 
-        // --- Initial Load ---
         const initialLang = getLangFromURL();
         setLanguage(initialLang);
         initializeShareButtons();

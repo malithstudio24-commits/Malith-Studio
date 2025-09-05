@@ -3,8 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image to Text (AI OCR) - Malith Studio®</title>
-    <!-- Font Awesome (Icons සඳහා අලුතෙන් එකතු කරන ලදී) -->
+    
+    <!-- SEO Meta Tags for Image to Text Page -->
+    <title>AI Image to Text (OCR) Converter - Malith Studio®</title>
+    <meta name="description" content="Extract text from images in Sinhala, English, and Tamil with Malith Studio's free AI-powered OCR tool. Convert photos to editable text instantly.">
+    <meta name="keywords" content="image to text, ocr, sinhala ocr, photo to text, ai ocr, malith studio, sri lanka, free tool">
+    <meta name="author" content="Malith Studio®">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/imagetotext.html">
+    <meta property="og:title" content="AI Image to Text (OCR) Converter - Malith Studio®">
+    <meta property="og:description" content="Extract text from images in Sinhala, English, and Tamil with our free AI-powered OCR tool.">
+    <meta property="og:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-imagetotext.jpg">
+
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/imagetotext.html">
+    <meta property="twitter:title" content="AI Image to Text (OCR) Converter - Malith Studio®">
+    <meta property="twitter:description" content="Extract text from images in Sinhala, English, and Tamil with our free AI-powered OCR tool.">
+    <meta property="twitter:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-imagetotext.jpg">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -57,8 +76,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
         }
-
-        /* --- Header Controls (Language + Help) --- */
         .header-controls {
             position: absolute;
             top: 1.5rem;
@@ -113,7 +130,6 @@
             align-items: center;
             justify-content: center;
         }
-
         .header { text-align: center; margin-bottom: 2rem; margin-top: 3rem;}
         .header h1 { font-size: 2.25rem; font-weight: 700; color: #93c5fd; }
         .header p { color: #d1d5db; margin-top: 0.5rem; }
@@ -152,9 +168,8 @@
             margin-top: 0.5rem;
         }
         #image-input { display: none; }
-
         #image-display-area {
-             display: none; /* Initially hidden */
+             display: none;
              text-align: center;
              margin-bottom: 1.5rem;
         }
@@ -165,13 +180,11 @@
             border: 1px solid #4b5563;
             margin-bottom: 1rem;
         }
-
         .action-buttons {
             display: flex;
             gap: 1rem;
             justify-content: center;
         }
-
         .main-btn, .secondary-btn {
             padding: 0.8rem 1.5rem;
             font-size: 1rem;
@@ -244,8 +257,6 @@
             height: 1.5rem;
             margin-top: 1rem;
         }
-
-        /* --- Share Buttons --- */
         .share-section {
             margin-top: 3rem;
             padding-top: 1.5rem;
@@ -298,8 +309,6 @@
         #copy-message.visible {
             opacity: 1;
         }
-
-        /* --- Help Modal Styles --- */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -353,7 +362,7 @@
 </head>
 <body>
 
-    <a href="index.html" class="back-btn">
+    <a href="index.html#projects" class="back-btn">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
         <span data-key="backToHome">Back to Home</span>
     </a>
@@ -402,7 +411,6 @@
         
         <div id="status"></div>
 
-        <!-- Share Buttons Section START -->
         <div class="share-section">
             <h3 data-key="shareTool">Share this Tool</h3>
             <div class="share-buttons-container">
@@ -413,16 +421,13 @@
             </div>
             <p id="copy-message" data-key="linkCopied">Link Copied!</p>
         </div>
-        <!-- Share Buttons Section END -->
     </div>
 
-    <!-- Help Modal -->
     <div id="help-modal" class="modal-overlay">
         <div class="modal-content">
             <button id="close-modal-btn" class="modal-close">&times;</button>
             <h2 data-key="helpTitle">How to Use Image to Text</h2>
             <div data-key="helpContent">
-                <!-- Content will be inserted by JavaScript -->
             </div>
         </div>
     </div>
@@ -453,7 +458,6 @@
 
         let currentLang = 'en';
 
-        // --- UI Elements ---
         const uploadArea = document.getElementById('upload-area');
         const imageInput = document.getElementById('image-input');
         const imageDisplayArea = document.getElementById('image-display-area');
@@ -527,12 +531,11 @@
             uploadArea.style.display = 'flex';
             imageDisplayArea.style.display = 'none';
             resultBox.style.display = 'none';
-            imageInput.value = ''; // Clear file input
+            imageInput.value = '';
             fileAsBase64 = null;
             fileMimeType = null;
         }
 
-        // --- Share Button Logic ---
         function initializeShareButtons() {
             const pageUrl = window.location.href;
             const pageTitle = document.title;
@@ -558,8 +561,6 @@
             });
         }
 
-        // --- Event Listeners ---
-        // BUG FIX: Removed redundant click listener on uploadArea
         imageInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) handleFile(file);

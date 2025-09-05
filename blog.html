@@ -3,8 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog - Malith Studio®</title>
-    <!-- Font Awesome (Icons සඳහා අලුතෙන් එකතු කරන ලදී) -->
+    
+    <!-- SEO Meta Tags for Blog Page -->
+    <title>Blog - Malith Studio® | Updates & Insights on Digital Tools</title>
+    <meta name="description" content="Read the latest updates, stories, and insights from Malith Studio®. Learn about our journey, new web tools, and thoughts on technology and productivity in Sri Lanka.">
+    <meta name="keywords" content="Malith Studio blog, web development Sri Lanka, AI tools, productivity tips, technology blog, digital tools, free web tools">
+    <meta name="author" content="Malith Studio®">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/blog.html">
+    <meta property="og:title" content="Blog - Malith Studio® | Updates & Insights on Digital Tools">
+    <meta property="og:description" content="Learn about our journey, new web tools, and thoughts on technology and productivity.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/blog.html">
+    <meta property="twitter:title" content="Blog - Malith Studio® | Updates & Insights on Digital Tools">
+    <meta property="twitter:description" content="Learn about our journey, new web tools, and thoughts on technology and productivity.">
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG9otby1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
@@ -41,7 +60,6 @@
         .back-btn:hover { background-color: rgba(55, 65, 81, 0.9); color: white; }
         .back-btn svg { width: 1rem; height: 1rem; }
 
-        /* --- Language Switcher Styles --- */
         .language-switcher {
             position: fixed;
             top: 1.5rem;
@@ -102,11 +120,46 @@
         }
         .post-card h2 { font-size: 1.75rem; color: #c7d2fe; margin-top: 0; }
         .post-meta { color: #9ca3af; margin-bottom: 1.5rem; }
+        .post-image {
+            width: 100%;
+            height: auto;
+            max-height: 350px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
         .post-content p { line-height: 1.7; color: #d1d5db; }
         .post-content a { color: #a5b4fc; text-decoration: none; }
         .post-content a:hover { text-decoration: underline; }
 
-        /* --- Share Buttons සඳහා වන අලුත් CSS Styles --- */
+        /* === AUTHOR BOX STYLES === */
+        .author-box {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #374151;
+        }
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .author-info span {
+            display: block;
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+        .author-info h4 {
+            margin: 0.25rem 0 0 0;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #e5e7eb;
+        }
+        /* ========================== */
+
         .share-section {
             margin-top: 2rem;
             padding-top: 1.5rem;
@@ -155,7 +208,7 @@
             font-weight: 500;
             opacity: 0;
             transition: opacity 0.5s;
-            height: 1em; /* Layout shift වළක්වා ගැනීමට */
+            height: 1em; 
         }
         .copy-message.visible {
             opacity: 1;
@@ -184,16 +237,26 @@
         </div>
 
         <div class="posts-container">
-             <!-- New Post: Resume Builder -->
             <article class="post-card" id="post-resume-builder">
                 <h2 data-key="post3Title">Announcing Our Newest Tool: The Resume Builder!</h2>
                 <p class="post-meta" data-key="post3Meta">Published on September 3, 2025</p>
+                <img src="tool-resumebuilder.jpg" alt="Resume Builder Tool Showcase" class="post-image">
                 <div class="post-content">
                     <p data-key="post3Para1">We are thrilled to announce the latest addition to the Malith Studio® family of tools: the Resume Builder! Creating a professional resume can be a challenging task, so we've built a tool that simplifies the entire process, allowing you to create a polished, effective CV in just a few minutes.</p>
                     <p data-key="post3Para2">Our new Resume Builder is designed with you in mind. It features a clean, step-by-step interface, modern and classic templates to choose from, and the ability to add a professional photo. Most importantly, your privacy is our priority. All the information you enter is processed directly in your browser and is never sent to our servers. Your data remains your own, from start to finish.</p>
                     <p data-key="post3Para3">Ready to create your perfect resume? Give the new tool a try and let us know what you think in the comments section on our homepage. We are always working to improve and your feedback is invaluable to us. Happy building!</p>
                 </div>
-                <!-- Share Buttons Section -->
+                
+                <!-- === AUTHOR BOX ADDED HERE === -->
+                <div class="author-box">
+                    <img src="logo.jpg" alt="Malith Studio Logo" class="author-avatar">
+                    <div class="author-info">
+                        <span data-key="authorLabel">Written by</span>
+                        <h4>Malith Studio®</h4>
+                    </div>
+                </div>
+                <!-- ============================ -->
+
                 <div class="share-section">
                     <h3 data-key="sharePost">Share this Post</h3>
                     <div class="share-buttons-container">
@@ -206,15 +269,25 @@
                 </div>
             </article>
 
-            <!-- Sample Post 1 -->
             <article class="post-card" id="post-journey-begins">
                 <h2 data-key="post1Title">The Journey Begins: The Story of Malith Studio</h2>
                 <p class="post-meta" data-key="post1Meta">Published on August 31, 2025</p>
+                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Team working on a project" class="post-image">
                 <div class="post-content">
                     <p data-key="post1Para1">Welcome to the official blog of Malith Studio®! Our journey started with a simple idea: to create powerful, easy-to-use digital tools that save time for busy people. In a world filled with complex software, we wanted to build solutions that are both intuitive and efficient.</p>
                     <p data-key="post1Para2">Our first tool, the Voice Typing application, was born out of this desire. From there, we expanded our collection to include a range of productivity tools, each designed to tackle a specific daily challenge. This website is the home for all our creations, and we are incredibly excited to share them with you.</p>
                 </div>
-                 <!-- Share Buttons Section -->
+
+                <!-- === AUTHOR BOX ADDED HERE === -->
+                <div class="author-box">
+                    <img src="logo.jpg" alt="Malith Studio Logo" class="author-avatar">
+                    <div class="author-info">
+                        <span data-key="authorLabel">Written by</span>
+                        <h4>Malith Studio®</h4>
+                    </div>
+                </div>
+                <!-- ============================ -->
+
                  <div class="share-section">
                     <h3 data-key="sharePost">Share this Post</h3>
                     <div class="share-buttons-container">
@@ -227,15 +300,25 @@
                 </div>
             </article>
 
-            <!-- Sample Post 2 -->
             <article class="post-card" id="post-ai-game-changer">
                 <h2 data-key="post2Title">Why AI is a Game-Changer for Everyday Productivity</h2>
                 <p class="post-meta" data-key="post2Meta">Published on September 5, 2025</p>
+                <img src="https://images.unsplash.com/photo-1620712943543-bcc4622f8429?q=80&w=1964&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Abstract AI concept image" class="post-image">
                 <div class="post-content">
                     <p data-key="post2Para1">Artificial Intelligence is no longer just a buzzword; it's a practical tool that can significantly enhance our daily productivity. At Malith Studio, we've integrated AI into tools like our Text Summarizer and Presentation Idea Generator to automate complex tasks.</p>
                     <p data-key="post2Para2">Imagine summarizing a long report in seconds or getting a complete presentation outline just by typing a topic. This is the power of AI we are harnessing. It's not about replacing human creativity but augmenting it, allowing you to focus on what truly matters. We believe this is just the beginning, and we're excited to explore more ways AI can simplify our lives.</p>
                 </div>
-                 <!-- Share Buttons Section -->
+
+                <!-- === AUTHOR BOX ADDED HERE === -->
+                <div class="author-box">
+                    <img src="logo.jpg" alt="Malith Studio Logo" class="author-avatar">
+                    <div class="author-info">
+                        <span data-key="authorLabel">Written by</span>
+                        <h4>Malith Studio®</h4>
+                    </div>
+                </div>
+                <!-- ============================ -->
+
                  <div class="share-section">
                     <h3 data-key="sharePost">Share this Post</h3>
                     <div class="share-buttons-container">
@@ -247,8 +330,6 @@
                     <p class="copy-message" data-key="linkCopied">Link Copied!</p>
                 </div>
             </article>
-            
-            <!-- To add a new post, copy the entire <article> block above and paste it here -->
 
         </div>
     </div>
@@ -260,6 +341,7 @@
             blogSubtitle: { en: 'Updates, thoughts, and insights on our journey.', si: 'අපගේ ගමන පිළිබඳ යාවත්කාලීන, සිතුවිලි සහ තොරතුරු.', ta: 'எங்கள் பயணம் குறித்த புதுப்பிப்புகள், எண்ணங்கள் மற்றும் நுண்ணறிவுகள்.' },
             sharePost: { en: 'Share this Post', si: 'මෙම ලිපිය බෙදාගන්න', ta: 'இந்த பதிவைப் பகிரவும்' },
             linkCopied: { en: 'Link Copied!', si: 'ලින්ක් එක කොපි විය!', ta: 'இணைப்பு நகலெடுக்கப்பட்டது!' },
+            authorLabel: { en: 'Written by', si: 'ලියුවේ', ta: 'எழுதியவர்' },
 
             post3Title: { en: 'Announcing Our Newest Tool: The Resume Builder!', si: 'අපගේ නවතම මෙවලම හඳුන්වාදීම: Resume Builder!', ta: 'எங்கள் புதிய கருவியை அறிவிக்கிறோம்: ரெஸ்யூம் பில்டர்!' },
             post3Meta: { en: 'Published on September 3, 2025', si: '2025 සැප්තැම්බර් 3 දින ප්‍රකාශිතයි', ta: 'வெளியிடப்பட்டது செப்டம்பர் 3, 2025' },
@@ -328,13 +410,22 @@
                 whatsappBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(postTitle + " " + postUrl)}`;
 
                 copyBtn.addEventListener('click', () => {
-                    navigator.clipboard.writeText(postUrl).then(() => {
-                        const copyMessage = post.querySelector('.copy-message');
+                    const tempTextArea = document.createElement('textarea');
+                    tempTextArea.value = postUrl;
+                    document.body.appendChild(tempTextArea);
+                    tempTextArea.select();
+                    tempTextArea.setSelectionRange(0, 99999);
+                    try {
+                        document.execCommand('copy');
+                         const copyMessage = post.querySelector('.copy-message');
                         copyMessage.classList.add('visible');
                         setTimeout(() => {
                             copyMessage.classList.remove('visible');
                         }, 2000);
-                    }).catch(err => console.error('Failed to copy text: ', err));
+                    } catch (err) {
+                        console.error('Failed to copy text: ', err)
+                    }
+                    document.body.removeChild(tempTextArea);
                 });
             });
         }

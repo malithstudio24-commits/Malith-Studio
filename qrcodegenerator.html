@@ -3,10 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Generator - Malith Studio®</title>
+    
+    <!-- SEO Meta Tags for QR Code Generator Page -->
+    <title>Free QR Code Generator (Text, URL, Phone) - Malith Studio®</title>
+    <meta name="description" content="Create custom QR codes instantly for text, URLs, and phone numbers with Malith Studio's free online generator. Download your QR code as a PNG or PDF file.">
+    <meta name="keywords" content="qr code generator, create qr code, free qr tool, qr code for url, qr code for phone, malith studio, sri lanka, online qr generator">
+    <meta name="author" content="Malith Studio®">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/qrcodegenerator.html">
+    <meta property="og:title" content="Free QR Code Generator (Text, URL, Phone) - Malith Studio®">
+    <meta property="og:description" content="Create custom QR codes instantly for text, URLs, and phone numbers with our free online tool.">
+    <meta property="og:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-qrcodegenerator.jpg">
+
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/qrcodegenerator.html">
+    <meta property="twitter:title" content="Free QR Code Generator (Text, URL, Phone) - Malith Studio®">
+    <meta property="twitter:description" content="Create custom QR codes instantly for text, URLs, and phone numbers with our free online tool.">
+    <meta property="twitter:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-qrcodegenerator.jpg">
+
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator/qrcode.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <!-- Font Awesome (Icons සඳහා අලුතෙන් එකතු කරන ලදී) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -60,7 +79,6 @@
             position: relative;
         }
 
-        /* --- Header Controls (Language + Help) --- */
         .header-controls {
             position: absolute;
             top: 1.5rem;
@@ -224,7 +242,6 @@
             background-color: #6b7280;
         }
         
-        /* --- Share Buttons --- */
         .share-section {
             margin-top: 3rem;
             padding-top: 1.5rem;
@@ -278,7 +295,6 @@
             opacity: 1;
         }
 
-        /* --- Help Modal Styles --- */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -332,7 +348,7 @@
 </head>
 <body>
 
-    <a href="index.html" class="back-btn">
+    <a href="index.html#projects" class="back-btn">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
         </svg>
@@ -384,7 +400,6 @@
             </div>
         </div>
 
-        <!-- Share Buttons Section START -->
         <div class="share-section">
             <h3 data-key="shareTool">Share this Tool</h3>
             <div class="share-buttons-container">
@@ -395,16 +410,13 @@
             </div>
             <p id="copy-message" data-key="linkCopied">Link Copied!</p>
         </div>
-        <!-- Share Buttons Section END -->
     </div>
 
-    <!-- Help Modal -->
     <div id="help-modal" class="modal-overlay">
         <div class="modal-content">
             <button id="close-modal-btn" class="modal-close">&times;</button>
             <h2 data-key="helpTitle">How to Use QR Code Generator</h2>
             <div data-key="helpContent">
-                <!-- Content will be inserted by JavaScript -->
             </div>
         </div>
     </div>
@@ -435,7 +447,6 @@
 
         let currentLang = 'en';
 
-        // --- UI Elements ---
         const tabBtns = document.querySelectorAll('.tab-btn');
         const tabContents = document.querySelectorAll('.tab-content');
         const generateBtn = document.getElementById('generate-btn');
@@ -453,7 +464,6 @@
         const closeModalBtn = document.getElementById('close-modal-btn');
         let activeTab = 'text';
         
-        // --- Language and UI Update ---
         function setLanguage(lang) {
             currentLang = lang;
             if(lang === 'en') languageBtn.textContent = 'English';
@@ -491,26 +501,22 @@
             return ['en', 'si', 'ta'].includes(lang) ? lang : 'en';
         }
 
-        // --- Country Codes ---
         const countryCodes = [
             { "name": "Sri Lanka", "code": "LK", "dial_code": "+94" },
             { "name": "India", "code": "IN", "dial_code": "+91" },
             { "name": "United States", "code": "US", "dial_code": "+1" },
             { "name": "United Kingdom", "code": "GB", "dial_code": "+44" },
-            // Add more countries as needed
         ];
 
         function populateCountryCodes() {
             countryCodes.forEach(country => {
                 const option = document.createElement('option');
                 option.value = country.dial_code;
-                // Simple flag emojis based on code - might not be accurate for all
                 option.textContent = `${country.code.toUpperCase().replace(/./g, char => String.fromCodePoint(char.charCodeAt(0) + 127397))} ${country.name} (${country.dial_code})`;
                 countryCodeEl.appendChild(option);
             });
         }
         
-        // --- Share Button Logic ---
         function initializeShareButtons() {
             const pageUrl = window.location.href;
             const pageTitle = document.title;
@@ -526,17 +532,25 @@
             whatsappBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + " " + pageUrl)}`;
 
             copyBtn.addEventListener('click', () => {
-                navigator.clipboard.writeText(pageUrl).then(() => {
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = pageUrl;
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select();
+                tempTextArea.setSelectionRange(0, 99999);
+                try {
+                    document.execCommand('copy');
                     const copyMessage = document.getElementById('copy-message');
                     copyMessage.classList.add('visible');
                     setTimeout(() => {
                         copyMessage.classList.remove('visible');
                     }, 2000);
-                }).catch(err => console.error('Failed to copy text: ', err));
+                } catch (err) {
+                    console.error('Failed to copy link: ', err);
+                }
+                document.body.removeChild(tempTextArea);
             });
         }
         
-        // --- Event Listeners ---
         tabBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 tabBtns.forEach(b => b.classList.remove('active'));
@@ -567,7 +581,7 @@
                 const qr = qrcode(0, 'M');
                 qr.addData(dataToEncode);
                 qr.make();
-                qrcodeEl.innerHTML = qr.createImgTag(6, 8); // (size, margin)
+                qrcodeEl.innerHTML = qr.createImgTag(6, 8);
                 qrResultEl.style.display = 'block';
             }
         });
@@ -625,7 +639,6 @@
             }
         });
 
-        // --- Initial Load ---
         const initialLang = getLangFromURL();
         setLanguage(initialLang);
         populateCountryCodes();

@@ -3,9 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Presentation Idea Generator - Malith Studio®</title>
+    
+    <!-- SEO Meta Tags for Presentation Idea Generator Page -->
+    <title>AI Presentation Idea & Outline Generator - Malith Studio®</title>
+    <meta name="description" content="Get creative and structured ideas for your next presentation in Sinhala, English, or Tamil. Malith Studio's free AI tool helps you generate complete presentation outlines instantly.">
+    <meta name="keywords" content="presentation idea generator, ai presentation maker, presentation outline, free ai tool, malith studio, sri lanka, presentation ideas">
+    <meta name="author" content="Malith Studio®">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/presentationideagenerator.html">
+    <meta property="og:title" content="AI Presentation Idea & Outline Generator - Malith Studio®">
+    <meta property="og:description" content="Get creative and structured ideas for your next presentation in Sinhala, English, or Tamil with our free AI tool.">
+    <meta property="og:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-presentationideagenerator.jpg">
+
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/presentationideagenerator.html">
+    <meta property="twitter:title" content="AI Presentation Idea & Outline Generator - Malith Studio®">
+    <meta property="twitter:description" content="Get creative and structured ideas for your next presentation in Sinhala, English, or Tamil with our free AI tool.">
+    <meta property="twitter:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-presentationideagenerator.jpg">
+
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <!-- Font Awesome (Icons සඳහා අලුතෙන් එකතු කරන ලදී) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -59,7 +78,6 @@
             position: relative;
         }
         
-        /* --- Header Controls (Language + Help) --- */
         .header-controls {
             position: absolute;
             top: 1.5rem;
@@ -201,7 +219,6 @@
             max-height: 400px;
             overflow-y: auto;
         }
-        /* Styling for markdown content */
         #result-container h2 { font-size: 1.5rem; color: #93c5fd; border-bottom: 1px solid #4b5563; padding-bottom: 0.5rem; margin-top: 1.5rem; }
         #result-container h3 { font-size: 1.2rem; color: #a5b4fc; margin-top: 1.5rem; }
         #result-container ul, #result-container ol { padding-left: 1.5rem; }
@@ -235,7 +252,6 @@
             margin-top: 1rem;
         }
 
-        /* --- Share Buttons --- */
         .share-section {
             margin-top: 3rem;
             padding-top: 1.5rem;
@@ -289,7 +305,6 @@
             opacity: 1;
         }
 
-        /* --- Help Modal Styles --- */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -343,7 +358,7 @@
 </head>
 <body>
 
-    <a href="index.html" class="back-btn">
+    <a href="index.html#projects" class="back-btn">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
         </svg>
@@ -394,7 +409,6 @@
         </div>
         <div id="status"></div>
 
-        <!-- Share Buttons Section START -->
         <div class="share-section">
             <h3 data-key="shareTool">Share this Tool</h3>
             <div class="share-buttons-container">
@@ -405,16 +419,13 @@
             </div>
             <p id="copy-message" data-key="linkCopied">Link Copied!</p>
         </div>
-        <!-- Share Buttons Section END -->
     </div>
 
-    <!-- Help Modal -->
     <div id="help-modal" class="modal-overlay">
         <div class="modal-content">
             <button id="close-modal-btn" class="modal-close">&times;</button>
             <h2 data-key="helpTitle">How to Use Idea Generator</h2>
             <div data-key="helpContent">
-                <!-- Content will be inserted by JavaScript -->
             </div>
         </div>
     </div>
@@ -448,7 +459,6 @@
 
         let currentLang = 'en';
 
-        // --- UI Elements ---
         const topicInput = document.getElementById('topic-input');
         const languageSelect = document.getElementById('language-select');
         const generateBtn = document.getElementById('generate-btn');
@@ -499,7 +509,6 @@
             return ['en', 'si', 'ta'].includes(lang) ? lang : 'en';
         }
 
-        // --- Share Button Logic ---
         function initializeShareButtons() {
             const pageUrl = window.location.href;
             const pageTitle = document.title;
@@ -525,7 +534,6 @@
             });
         }
 
-        // --- Event Listeners ---
         languageBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             languageOptions.classList.toggle('show');

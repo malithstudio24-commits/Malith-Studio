@@ -3,7 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume/CV Builder - Malith Studio®</title>
+    
+    <!-- SEO Meta Tags for Resume Builder Page -->
+    <title>Free Online Resume/CV Builder - Malith Studio®</title>
+    <meta name="description" content="Create a professional resume or CV in minutes with our free online builder. Choose templates, add your details, and download as a PDF. Perfect for job seekers in Sri Lanka.">
+    <meta name="keywords" content="resume builder, cv maker, free resume builder, online cv creator, malith studio, sri lanka, job application, curriculum vitae, sinhala cv">
+    <meta name="author" content="Malith Studio®">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://malithstudio24-commits.github.io/Malith-Studio/resume-builder.html">
+    <meta property="og:title" content="Free Online Resume/CV Builder - Malith Studio®">
+    <meta property="og:description" content="Create a professional resume in minutes with modern templates and download as a PDF for free.">
+    <meta property="og:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-resumebuilder.jpg">
+
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://malithstudio24-commits.github.io/Malith-Studio/resume-builder.html">
+    <meta property="twitter:title" content="Free Online Resume/CV Builder - Malith Studio®">
+    <meta property="twitter:description" content="Create a professional resume in minutes with modern templates and download as a PDF for free.">
+    <meta property="twitter:image" content="https://malithstudio24-commits.github.io/Malith-Studio/tool-resumebuilder.jpg">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,7 +49,6 @@
             --input-bg: #111827;
         }
 
-        /* --- Back to Home බොත්තම සඳහා වන Styles --- */
         .back-btn {
             position: fixed;
             top: 1.5rem;
@@ -87,7 +105,6 @@
             position: relative;
         }
         
-        /* --- Header Controls (Language + Help) --- */
         .header-controls {
             position: absolute;
             top: 1.5rem;
@@ -154,7 +171,6 @@
             background-clip: text;
         }
 
-        /* Accordion Styles */
         .accordion-item { margin-bottom: 1rem; border-radius: 0.5rem; overflow: hidden; border: 1px solid var(--border-color); }
         .accordion-header {
             background-color: var(--card-bg); padding: 1rem; cursor: pointer; display: flex;
@@ -168,7 +184,6 @@
         .accordion-item.active .accordion-content { max-height: 2500px; padding: 1.5rem; }
         .accordion-item.active .accordion-header i.fa-chevron-down { transform: rotate(180deg); }
         
-        /* Form Element Styles */
         .form-group { margin-bottom: 1.25rem; }
         .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-secondary); }
         .form-group input, .form-group textarea, .form-group select {
@@ -181,7 +196,6 @@
         }
         input[type="file"] { padding: 0.5rem; }
 
-        /* Dynamic Add/Remove Styles */
         .dynamic-section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
         .add-btn {
             background: none; border: 1px solid var(--border-color); color: var(--text-secondary);
@@ -195,7 +209,6 @@
             color: var(--text-secondary); cursor: pointer; font-size: 1rem;
         }
 
-        /* Template Selector */
         .template-selector { text-align: center; margin-bottom: 2rem; }
         .template-selector h3 { margin-bottom: 1rem; font-weight: 600; color: var(--text-secondary); }
         .template-options { display: flex; justify-content: center; gap: 1rem; }
@@ -205,7 +218,6 @@
         }
         .template-btn.active, .template-btn:hover { background-color: var(--primary-blue); border-color: var(--primary-blue); color: white; }
 
-        /* Download Button */
         .action-buttons { display: flex; justify-content: center; margin-top: 2rem; position: relative; }
         #download-pdf-btn {
             background-image: linear-gradient(to right, var(--primary-blue), var(--primary-purple));
@@ -215,13 +227,11 @@
         }
         #download-pdf-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(139, 92, 246, 0.6); }
         
-        /* Exam Results Section */
         .exam-results-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
         .subject-result-item { display: flex; align-items: center; justify-content: space-between; }
         .subject-result-item label { margin-bottom: 0; }
         .subject-result-item select { width: 60px; padding: 0.25rem; }
 
-        /* --- Preview Section (Right Side) --- */
         .preview-section {
             width: 55%; padding: 2rem; overflow-y: auto;
             display: flex; justify-content: center; align-items: flex-start;
@@ -252,7 +262,6 @@
         .preview-results-table td:first-child { width: 80%; }
         .preview-results-table td:last-child { width: 20%; text-align: center; font-weight: bold; }
 
-        /* Template Styles */
         .template-modern .preview-section-title { font-weight: 600; color: #222; border-bottom: 1px solid #ccc; padding-bottom: 0.25rem; }
         .template-modern .preview-entry h4 { font-weight: 600; }
         .template-modern .preview-skills-list { list-style: none; padding: 0; margin: 0; }
@@ -264,7 +273,6 @@
         .template-classic .preview-skills-list li { margin-bottom: 0.25rem; }
         .template-classic .header-photo { border: 2px solid #333; }
 
-        /* Language and Font Specific Styles */
         body.lang-si #resume-preview { font-family: 'Noto Sans Sinhala', 'Iskola pota', serif; font-size: 13pt; }
         body.lang-en #resume-preview.template-classic, body.lang-ta #resume-preview.template-classic { font-family: 'Times New Roman', Times, serif; font-size: 12pt; }
         body.lang-en #resume-preview.template-modern, body.lang-ta #resume-preview.template-modern { font-family: 'Poppins', sans-serif; font-size: 10pt; }
@@ -293,7 +301,6 @@
             font-weight: bold;
         }
         
-        /* Crop Modal Styles */
         #crop-modal {
             display: none; position: fixed; z-index: 1001; left: 0; top: 0;
             width: 100%; height: 100%; background-color: rgba(0,0,0,0.8);
@@ -312,7 +319,6 @@
         #crop-btn { background-color: var(--primary-blue); color: white; }
         #cancel-crop-btn { background-color: #374151; color: var(--text-primary); }
 
-        /* Responsive Styles */
         @media (max-width: 1200px) {
             .app-container { flex-direction: column; }
             .form-section, .preview-section { width: 100%; height: auto; box-sizing: border-box; }
@@ -320,7 +326,6 @@
             .exam-results-grid { grid-template-columns: 1fr; }
         }
         
-        /* --- Share Buttons --- */
         .share-section {
             margin-top: 3rem;
             padding-top: 1.5rem;
@@ -374,7 +379,6 @@
             opacity: 1;
         }
 
-        /* --- Help Modal Styles --- */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -428,8 +432,7 @@
 </head>
 <body class="lang-en">
 
-    <!-- Back to Home Button -->
-    <a href="index.html" class="back-btn">
+    <a href="index.html#projects" class="back-btn">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
         </svg>
@@ -437,7 +440,6 @@
     </a>
 
     <div class="app-container">
-        <!-- Form Section -->
         <div class="form-section">
              <div class="header-controls">
                 <div class="language-switcher">
@@ -459,7 +461,6 @@
                 </div>
             </div>
             <div id="accordion">
-                <!-- Personal Details Section -->
                 <div class="accordion-item active">
                     <div class="accordion-header"><span data-key="personalDetails"><i class="fas fa-user"></i> පුද්ගලික විස්තර</span><i class="fas fa-chevron-down"></i></div>
                     <div class="accordion-content">
@@ -470,7 +471,6 @@
                         <div class="form-group"><label for="address" data-key="addressLabel">ලිපිනය</label><input type="text" id="address" data-key-placeholder="addressPlaceholder" placeholder="උදා: කොළඹ, ශ්‍රී ලංකාව"></div>
                     </div>
                 </div>
-                <!-- Other accordion items -->
                 <div class="accordion-item">
                     <div class="accordion-header"><span data-key="experience"><i class="fas fa-briefcase"></i> රැකියා පළපුරුද්ද</span><i class="fas fa-chevron-down"></i></div>
                     <div class="accordion-content">
@@ -505,7 +505,6 @@
                 <button id="download-pdf-btn"><i class="fas fa-file-pdf"></i> <span data-key="downloadBtn">PDF ලෙස බාගන්න</span></button>
             </div>
 
-            <!-- Share Buttons Section START -->
             <div class="share-section">
                 <h3 data-key="shareTool">Share this Tool</h3>
                 <div class="share-buttons-container">
@@ -516,10 +515,8 @@
                 </div>
                 <p id="copy-message" data-key="linkCopied">Link Copied!</p>
             </div>
-            <!-- Share Buttons Section END -->
         </div>
 
-        <!-- Preview Section -->
         <div class="preview-section">
             <div id="resume-preview" class="template-modern">
                 <h1 class="preview-cv-title" data-key="cvTitle">CURRICULUM VITAE</h1>
@@ -544,7 +541,6 @@
         </div>
     </div>
 
-    <!-- Crop Modal HTML -->
     <div id="crop-modal">
         <div class="modal-content">
             <h2 data-key="cropImageTitle">ඡායාරූපය සකසන්න</h2>
@@ -558,20 +554,17 @@
         </div>
     </div>
 
-    <!-- Help Modal -->
     <div id="help-modal" class="modal-overlay">
         <div class="modal-content">
             <button id="close-modal-btn" class="modal-close">&times;</button>
             <h2 data-key="helpTitle">How to Use Resume Builder</h2>
             <div data-key="helpContent">
-                <!-- Content will be inserted by JavaScript -->
             </div>
         </div>
     </div>
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // --- DATA AND CONSTANTS ---
         const olSubjects = [
             'Sinhala Language & Literature', 'Mathematics', 'Science', 'English Language', 'History', 'Religion',
             'Business & Accounting Studies', 'Geography', 'Citizenship Education', 'Music (Oriental)', 'Music (Western)', 'Art', 'Dancing (Oriental)', 'Drama and Theatre', 'Information & Communication Technology (ICT)', 'Agriculture & Food Technology', 'Health & Physical Education', 'Home Economics'
@@ -637,12 +630,10 @@
         let experienceCount = 0;
         let educationCount = 0;
         let cropper;
-        // BUG FIX: Declare modal variables
         const helpBtn = document.getElementById('help-btn');
         const helpModal = document.getElementById('help-modal');
         const closeModalBtn = document.getElementById('close-modal-btn');
 
-        // --- LANGUAGE FUNCTIONS ---
         const languageBtn = document.getElementById('language-btn');
         const languageOptions = document.getElementById('language-options');
         function setLanguage(lang) {
@@ -669,7 +660,6 @@
                 if(key) label.innerText = translations[key][lang];
             });
 
-            // Update the back button's href to include the current language parameter
             const backBtn = document.querySelector('.back-btn');
             if (backBtn) {
                 const homeUrl = new URL(backBtn.href, window.location.origin);
@@ -678,7 +668,6 @@
             }
         }
 
-        // --- LIVE PREVIEW FUNCTIONS ---
         function updatePreview() {
             document.getElementById('preview-name').innerText = document.getElementById('name').value || '';
             document.getElementById('preview-email').innerText = document.getElementById('email').value || '';
@@ -742,7 +731,6 @@
             mainContainer.style.display = (hasOlResults || hasAlResults) ? 'block' : 'none';
         }
 
-        // --- DYNAMIC SECTION CREATION ---
         function addDynamicEntry(type) {
             const count = type === 'experience' ? experienceCount++ : educationCount++;
             const list = document.getElementById(`${type}-list`);
@@ -758,7 +746,6 @@
             list.appendChild(entryDiv);
         }
 
-        // --- SHARE BUTTONS FUNCTION ---
         function initializeShareButtons() {
             const pageUrl = window.location.href;
             const pageTitle = document.title;
@@ -769,7 +756,7 @@
             const whatsappBtn = document.getElementById('share-whatsapp');
             const copyBtn = document.getElementById('copy-link');
 
-            if (!facebookBtn) return; // Exit if buttons are not on the page
+            if (!facebookBtn) return; 
 
             facebookBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
             twitterBtn.href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(textToShare)}`;
@@ -795,7 +782,6 @@
             });
         }
 
-        // --- EVENT LISTENERS ---
         languageBtn.addEventListener('click', (e) => { e.stopPropagation(); languageOptions.classList.toggle('show'); });
         document.querySelectorAll('#language-options button').forEach(button => button.addEventListener('click', () => setLanguage(button.dataset.lang)));
         document.querySelectorAll('.accordion-header').forEach(h => h.addEventListener('click', () => h.parentElement.classList.toggle('active')));
@@ -812,7 +798,6 @@
         document.querySelector('.form-section').addEventListener('keyup', updatePreview);
         document.querySelector('.form-section').addEventListener('change', updatePreview);
         
-        // Photo Crop Listeners
         const photoInput = document.getElementById('photo');
         const cropModal = document.getElementById('crop-modal');
         const imageToCrop = document.getElementById('image-to-crop');
@@ -841,7 +826,6 @@
             cropModal.style.display = 'none';
         });
 
-        // Download Button
         document.getElementById('download-pdf-btn').addEventListener('click', () => {
             const resumeElement = document.getElementById('resume-preview');
             const name = document.getElementById('name').value.trim() || 'resume';
@@ -864,7 +848,6 @@
         
         window.addEventListener('click', (e) => { if (!languageBtn.parentElement.contains(e.target)) languageOptions.classList.remove('show'); });
         
-        // --- Modal Listeners ---
         helpBtn.addEventListener('click', () => {
             helpModal.style.display = 'flex';
         });
@@ -877,7 +860,6 @@
             }
         });
 
-        // --- INITIALIZATION ---
         function init() {
             const langFromUrl = new URLSearchParams(window.location.search).get('lang');
             setLanguage(['en', 'si', 'ta'].includes(langFromUrl) ? langFromUrl : 'en');
