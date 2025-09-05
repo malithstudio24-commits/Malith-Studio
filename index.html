@@ -48,6 +48,7 @@
         html {
             scroll-behavior: smooth;
         }
+        /* Default Dark Mode Styles */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #0b0f19;
@@ -55,6 +56,7 @@
             margin: 0;
             overflow-x: hidden;
             background-size: 200% 200%;
+            transition: background-color 0.5s, color 0.5s;
         }
         
         #preloader {
@@ -77,34 +79,53 @@
         @keyframes float { 0% { transform: translate(0px, 0px); } 50% { transform: translate(30vw, 30vh); } 100% { transform: translate(0px, 0px); } }
 
         .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
-        header { position: fixed; top: 0; left: 0; right: 0; background-color: rgba(17, 24, 39, 0.8); backdrop-filter: blur(10px); padding: 1rem 0; z-index: 50; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        header { position: fixed; top: 0; left: 0; right: 0; background-color: rgba(17, 24, 39, 0.8); backdrop-filter: blur(10px); padding: 1rem 0; z-index: 50; border-bottom: 1px solid rgba(255, 255, 255, 0.1); transition: background-color 0.5s, border-color 0.5s; }
         nav { display: flex; justify-content: space-between; align-items: center; }
         .logo-container { display: flex; align-items: center; gap: 0.75rem; }
         .logo-wrapper { position: relative; width: 40px; height: 40px; }
         .logo-wrapper::before { content: ""; position: absolute; inset: -2px; border-radius: 9999px; background: conic-gradient(from var(--angle), #6366f1, #a855f7, #ec4899, #f59e0b, #6366f1); animation: spin 5s linear infinite; filter: blur(5px); }
         @keyframes spin { 0% { --angle: 0deg; } 100% { --angle: 360deg; } }
         .logo { width: 100%; height: 100%; object-fit: cover; border-radius: 9999px; position: relative; z-index: 1; background: #0b0f19; }
-        .logo-text { font-size: 1.25rem; font-weight: 800; color: white; }
+        .logo-text { font-size: 1.25rem; font-weight: 800; color: white; transition: color 0.5s;}
         nav ul { display: none; list-style: none; margin: 0; padding: 0; gap: 1.5rem; }
         @media (min-width: 1024px) { nav ul { display: flex; } }
         nav a { color: #d1d5db; text-decoration: none; font-weight: 600; transition: color 0.3s; }
         nav a:hover { color: #818cf8; }
         
         #home { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: 80px; }
-        .hero-content h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: #d1d5db; }
+        .hero-content h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: #d1d5db; transition: color 0.5s;}
         .animated-text { font-size: 3rem; font-weight: 800; background-image: linear-gradient(90deg, #a855f7, #ec4899, #f59e0b, #a855f7); background-size: 200% auto; color: transparent; -webkit-background-clip: text; background-clip: text; animation: text-animation 5s linear infinite; }
         @keyframes text-animation { to { background-position: 200% center; } }
-        .hero-content p { max-width: 600px; margin: 1.5rem auto; font-size: 1.125rem; color: #9ca3af; }
+        .hero-content p { max-width: 600px; margin: 1.5rem auto; font-size: 1.125rem; color: #9ca3af; transition: color 0.5s;}
         .cta-button { display: inline-block; background-image: linear-gradient(to right, #6366f1, #8b5cf6); color: white; padding: 0.75rem 2rem; border-radius: 0.5rem; text-decoration: none; font-weight: 700; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; border: none;}
         .cta-button:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(139, 92, 246, 0.6); }
         
         section { padding: 6rem 0; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
         section.visible { opacity: 1; transform: translateY(0); }
-        .section-title { text-align: center; font-size: 2.5rem; font-weight: 800; margin-bottom: 3rem; color: #c7d2fe; }
+        .section-title { text-align: center; font-size: 2.5rem; font-weight: 800; margin-bottom: 3rem; color: #c7d2fe; transition: color 0.5s;}
         
+        #featured-tool .container { max-width: 1024px; }
+        .featured-tool-card {
+            background-color: rgba(31, 41, 55, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid #374151;
+            border-radius: 1rem;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: background-color 0.5s, border-color 0.5s;
+        }
+        @media (min-width: 768px) { .featured-tool-card { flex-direction: row; } }
+        .featured-image-container { flex-shrink: 0; width: 100%; }
+        @media (min-width: 768px) { .featured-image-container { width: 45%; } }
+        .featured-image-container img { width: 100%; height: 100%; object-fit: cover; }
+        .featured-content-container { padding: 2rem; display: flex; flex-direction: column; justify-content: center; }
+         @media (min-width: 768px) { .featured-content-container { padding: 3rem; } }
+        .featured-content-container h3 { font-size: 2rem; font-weight: 800; color: white; margin-top: 0; margin-bottom: 1rem; transition: color 0.5s; }
+        .featured-content-container p { font-size: 1.1rem; color: #9ca3af; line-height: 1.6; margin-bottom: 2rem; transition: color 0.5s; }
+        .featured-content-container .cta-button { align-self: flex-start; }
+
         .feature-tags-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-bottom: 2.5rem; }
-        
-        /* UPDATED: Added transition for the glow effect */
         .feature-tag {
             background-color: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -116,11 +137,9 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            transition: background-color 0.3s ease, box-shadow 0.5s ease, border-color 0.5s ease;
+            transition: background-color 0.3s ease, box-shadow 0.5s ease, border-color 0.5s ease, color 0.5s;
         }
         .feature-tag:hover { background-color: rgba(255, 255, 255, 0.1); }
-        
-        /* NEW: Added glowing style for the light effect */
         .feature-tag.glowing {
             border-color: var(--glow-color);
             box-shadow: 0 0 20px 2px var(--glow-color);
@@ -129,7 +148,7 @@
         .search-filter-section { max-width: 800px; margin: 0 auto 3rem auto; }
         .search-bar-wrapper { position: relative; margin-bottom: 1rem; }
         .search-bar-wrapper .fa-search { position: absolute; top: 50%; left: 1.25rem; transform: translateY(-50%); color: #9ca3af; }
-        #searchInput { width: 100%; background-color: rgba(31, 41, 55, 0.5); border: 1px solid #374151; border-radius: 9999px; padding: 0.9rem 1rem 0.9rem 3.5rem; color: #f9fafb; font-size: 1rem; box-sizing: border-box; transition: border-color 0.3s, box-shadow 0.3s; }
+        #searchInput { width: 100%; background-color: rgba(31, 41, 55, 0.5); border: 1px solid #374151; border-radius: 9999px; padding: 0.9rem 1rem 0.9rem 3.5rem; color: #f9fafb; font-size: 1rem; box-sizing: border-box; transition: all 0.5s; }
         #searchInput:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3); }
         .filter-buttons { display: flex; justify-content: center; gap: 0.5rem; }
         .filter-btn { background-color: rgba(31, 41, 55, 0.5); border: 1px solid #374151; color: #d1d5db; padding: 0.5rem 1.25rem; border-radius: 9999px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
@@ -140,22 +159,21 @@
         @media (min-width: 640px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (min-width: 1024px) { .projects-grid { grid-template-columns: repeat(3, 1fr); } }
         
-        .tool-card { background-color: rgba(31, 41, 55, 0.5); backdrop-filter: blur(10px); border: 1px solid #374151; border-radius: 0.75rem; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
+        .tool-card, .service-card, .blog-post-preview { transition: background-color 0.5s, border-color 0.5s; }
+        .tool-card { background-color: rgba(31, 41, 55, 0.5); backdrop-filter: blur(10px); border: 1px solid #374151; border-radius: 0.75rem; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s, background-color 0.5s, border-color 0.5s; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
         .tool-card:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
         .tool-card img { width: 100%; height: 180px; object-fit: cover; }
         .tool-card-content { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
-        .tool-card-content h4 { font-size: 1.25rem; font-weight: 700; color: white; margin: 0 0 0.5rem 0; }
-        .tool-card-content p { color: #9ca3af; margin: 0; flex-grow: 1; }
+        .tool-card-content h4, .service-card h4, .blog-post-preview h4 { font-size: 1.25rem; font-weight: 700; color: white; margin: 0 0 0.5rem 0; transition: color 0.5s;}
+        .tool-card-content p, .service-card p, .blog-post-preview p { color: #9ca3af; margin: 0; flex-grow: 1; transition: color 0.5s;}
         .tool-card.hidden-card { display: none; }
         
         .services-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 2rem; }
         @media (min-width: 768px) { .services-grid { grid-template-columns: repeat(3, 1fr); } }
-        .service-card { background-color: rgba(31, 41, 55, 0.5); backdrop-filter: blur(10px); border: 1px solid #374151; padding: 2rem; border-radius: 0.75rem; text-align: center; transition: transform 0.3s; }
+        .service-card { background-color: rgba(31, 41, 55, 0.5); backdrop-filter: blur(10px); border: 1px solid #374151; padding: 2rem; border-radius: 0.75rem; text-align: center; }
         .service-card:hover { transform: translateY(-8px); }
         .service-icon { background: linear-gradient(135deg, #6366f1, #8b5cf6); width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto; }
         .service-icon svg { width: 32px; height: 32px; color: white; }
-        .service-card h4 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: white; }
-        .service-card p { color: #9ca3af; }
 
         .about-content { display: flex; flex-direction: column; align-items: center; gap: 3rem; }
         @media (min-width: 768px) { .about-content { flex-direction: row; } }
@@ -174,78 +192,34 @@
         #language-options button { display: block; background: none; border: none; color: white; padding: 0.5rem 1rem; width: 100%; text-align: left; cursor: pointer; border-radius: 0.25rem; }
         #language-options button:hover { background-color: #4b5563; }
 
-        #comments-form { max-width: 600px; margin: 0 auto 3rem auto; background-color: rgba(31, 41, 55, 0.5); padding: 2rem; border-radius: 0.75rem; border: 1px solid #374151; }
+        #comments-form { max-width: 600px; margin: 0 auto 3rem auto; background-color: rgba(31, 41, 55, 0.5); padding: 2rem; border-radius: 0.75rem; border: 1px solid #374151; transition: background-color 0.5s, border-color 0.5s;}
         .form-group { margin-bottom: 1.5rem; }
-        .form-group input, .form-group textarea { width: 100%; background-color: #111827; border: 1px solid #4b5563; border-radius: 0.5rem; padding: 0.75rem 1rem; color: #f9fafb; font-size: 1rem; box-sizing: border-box; }
+        .form-group input, .form-group textarea { width: 100%; background-color: #111827; border: 1px solid #4b5563; border-radius: 0.5rem; padding: 0.75rem 1rem; color: #f9fafb; font-size: 1rem; box-sizing: border-box; transition: all 0.5s;}
         .form-group textarea { resize: vertical; min-height: 100px; }
         #submit-comment { width: 100%; }
         #comments-list { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
         @media (min-width: 768px) { #comments-list { grid-template-columns: repeat(2, 1fr); } }
-        .comment-card { background-color: rgba(31, 41, 55, 0.5); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #374151; overflow: hidden; }
-        .comment-card p { margin: 0 0 1rem 0; color: #d1d5db; }
+        .comment-card { background-color: rgba(31, 41, 55, 0.5); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #374151; overflow: hidden; transition: background-color 0.5s, border-color 0.5s;}
+        .comment-card p { margin: 0 0 1rem 0; color: #d1d5db; transition: color 0.5s;}
         .comment-footer { display: flex; justify-content: space-between; align-items: center; }
-        .comment-author { font-weight: 600; color: #9ca3af; }
+        .comment-author { font-weight: 600; color: #9ca3af; transition: color 0.5s;}
         .reactions { display: flex; gap: 0.5rem; }
         .reaction-btn { background-color: #374151; border: none; padding: 0.5rem; border-radius: 50%; cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; }
         .reaction-btn:hover { transform: scale(1.1); }
         .reaction-btn span { margin-left: 0.25rem; font-size: 0.875rem; font-weight: 500; }
         
-        .comment-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 1rem;
-        }
-        .toggle-reply-btn {
-            background: none;
-            border: none;
-            color: #a5b4fc;
-            cursor: pointer;
-            font-weight: 600;
-            padding: 0.25rem 0.5rem;
-        }
-        .toggle-reply-btn:hover {
-            text-decoration: underline;
-        }
-        .reply-form-container {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid #374151;
-        }
-        .reply-form-container input, .reply-form-container textarea {
-            width: 100%;
-            background-color: #111827;
-            border: 1px solid #4b5563;
-            border-radius: 0.5rem;
-            padding: 0.75rem 1rem;
-            color: #f9fafb;
-            font-size: 0.9rem;
-            box-sizing: border-box;
-            margin-bottom: 0.75rem;
-        }
+        .comment-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; }
+        .toggle-reply-btn { background: none; border: none; color: #a5b4fc; cursor: pointer; font-weight: 600; padding: 0.25rem 0.5rem; }
+        .toggle-reply-btn:hover { text-decoration: underline; }
+        .reply-form-container { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #374151; transition: border-color 0.5s; }
+        .reply-form-container input, .reply-form-container textarea { width: 100%; background-color: #111827; border: 1px solid #4b5563; border-radius: 0.5rem; padding: 0.75rem 1rem; color: #f9fafb; font-size: 0.9rem; box-sizing: border-box; margin-bottom: 0.75rem; transition: all 0.5s; }
         .reply-form-container textarea { resize: vertical; }
-        .submit-reply-btn {
-            width: 100%;
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-        }
-        .replies-list {
-            margin-top: 1.5rem;
-            padding-left: 1rem;
-            border-left: 2px solid #374151;
-        }
-        .user-reply-card {
-            background-color: rgba(17, 24, 39, 0.7);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        .user-reply-card p {
-            margin: 0 0 0.75rem 0;
-            font-size: 0.9rem;
-        }
+        .submit-reply-btn { width: 100%; padding: 0.5rem 1rem; font-size: 0.9rem; }
+        .replies-list { margin-top: 1.5rem; padding-left: 1rem; border-left: 2px solid #374151; transition: border-color 0.5s;}
+        .user-reply-card { background-color: rgba(17, 24, 39, 0.7); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; transition: background-color 0.5s;}
+        .user-reply-card p { margin: 0 0 0.75rem 0; font-size: 0.9rem; }
         
-        .comment-reply { background-color: rgba(17, 24, 39, 0.7); border-top: 1px solid #4b5563; padding: 1rem; margin: 1.5rem -1.5rem -1.5rem -1.5rem; }
+        .comment-reply { background-color: rgba(17, 24, 39, 0.7); border-top: 1px solid #4b5563; padding: 1rem; margin: 1.5rem -1.5rem -1.5rem -1.5rem; transition: background-color 0.5s, border-color 0.5s;}
         .reply-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 0.875rem; color: #c7d2fe; }
         .reply-avatar { width: 24px; height: 24px; border-radius: 50%; }
         .comment-reply p { margin: 0; font-size: 0.9rem; color: #d1d5db; }
@@ -254,23 +228,81 @@
         #back-to-top.visible { opacity: 1; visibility: visible; }
         #back-to-top:hover { transform: scale(1.1); }
 
-        footer { background-color: rgba(17, 24, 39, 0.8); padding: 2rem; margin-top: 4rem; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        footer { background-color: rgba(17, 24, 39, 0.8); padding: 2rem; margin-top: 4rem; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.1); transition: background-color 0.5s, border-color 0.5s; }
         .footer-links { margin-bottom: 1rem; }
         .footer-links a { color: #9ca3af; text-decoration: none; margin: 0 1rem; transition: color 0.3s; }
         .footer-links a:hover { color: white; }
         .footer-copyright { color: #6b7280; font-size: 0.875rem; }
 
-        .blog-post-preview { background-color: rgba(31, 41, 55, 0.2); border: 1px solid #374151; border-radius: 0.75rem; padding: 1.5rem; transition: background-color 0.3s; text-decoration: none; display: block; color: inherit; }
+        .blog-post-preview { background-color: rgba(31, 41, 55, 0.2); border: 1px solid #374151; border-radius: 0.75rem; padding: 1.5rem; transition: background-color 0.3s, background-color 0.5s, border-color 0.5s; text-decoration: none; display: block; color: inherit; }
         .blog-post-preview:hover { background-color: rgba(31, 41, 55, 0.5); }
-        .blog-post-preview h4 { margin-top: 0; color: #c7d2fe;}
-        .blog-post-preview p { color: #9ca3af; }
         .text-center { text-align: center; }
         .mt-12 { margin-top: 3rem; }
 
-        #theme-switcher { position: fixed; bottom: 2rem; left: 2rem; display: flex; background-color: rgba(31, 41, 55, 0.5); backdrop-filter: blur(10px); border-radius: 9999px; padding: 0.5rem; border: 1px solid #374151; z-index: 100; gap: 0.5rem; }
-        .theme-btn {  border: 2px solid #4b5563; background: none; padding: 0; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; transition: all 0.3s; background-size: cover; background-position: center; }
+        /* UPDATED: Theme switcher style for new scroll effect */
+        #theme-switcher { 
+            position: fixed; 
+            bottom: 2rem; 
+            left: 2rem; 
+            display: flex; 
+            background-color: rgba(31, 41, 55, 0.5); 
+            backdrop-filter: blur(10px); 
+            border-radius: 9999px; 
+            padding: 0.5rem; 
+            border: 1px solid #374151; 
+            z-index: 100; 
+            gap: 0.5rem; 
+            transition: background-color 0.5s, border-color 0.5s, opacity 0.4s ease-in-out;
+        }
+        #theme-switcher.scrolled {
+            opacity: 0.4;
+        }
+        #theme-switcher.scrolled:hover {
+            opacity: 1;
+        }
+        
+        .theme-btn { border: 2px solid #4b5563; background: none; padding: 0; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; transition: all 0.3s; background-size: cover; background-position: center; }
         .theme-btn:hover { border-color: #6366f1; }
         .theme-btn.active { border-color: #8b5cf6; transform: scale(1.1); box-shadow: 0 0 10px rgba(139, 92, 246, 0.7); }
+        
+        #mode-toggle {
+            background: none;
+            border: none;
+            color: #d1d5db;
+            font-size: 1.25rem;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.5s;
+        }
+
+        body.light-mode { background-color: #f3f4f6; color: #111827; }
+        .light-mode header, .light-mode footer { background-color: rgba(255, 255, 255, 0.8); border-color: rgba(0, 0, 0, 0.1); }
+        .light-mode #preloader { background-color: #f3f4f6; }
+        .light-mode .logo-text, .light-mode .hero-content h1 { color: #1f2937; }
+        .light-mode .hero-content p, .light-mode #contact p, .light-mode .about-text p { color: #4b5563; }
+        .light-mode nav a { color: #4b5563; }
+        .light-mode .section-title { color: #1d4ed8; }
+        .light-mode .featured-tool-card { background-color: rgba(255, 255, 255, 0.7); border-color: #e5e7eb; }
+        .light-mode .featured-content-container h3 { color: #111827; }
+        .light-mode .featured-content-container p { color: #374151; }
+        .light-mode .feature-tag { background-color: rgba(0, 0, 0, 0.03); border-color: rgba(0, 0, 0, 0.1); color: #1f2937; }
+        .light-mode #searchInput { background-color: #e5e7eb; border-color: #d1d5db; color: #111827; }
+        .light-mode .filter-btn { background-color: #e5e7eb; border-color: #d1d5db; color: #374151; }
+        .light-mode .tool-card, .light-mode .service-card, .light-mode .blog-post-preview { background-color: rgba(255, 255, 255, 0.7); border-color: #e5e7eb; }
+        .light-mode .tool-card-content h4, .light-mode .service-card h4, .light-mode .blog-post-preview h4 { color: #1f2937; }
+        .light-mode .tool-card-content p, .light-mode .service-card p, .light-mode .blog-post-preview p { color: #4b5563; }
+        .light-mode #comments-form, .light-mode .comment-card { background-color: #e5e7eb; border-color: #d1d5db; }
+        .light-mode .form-group input, .light-mode .form-group textarea, .light-mode .reply-form-container input, .light-mode .reply-form-container textarea { background-color: #f9fafb; border-color: #d1d5db; color: #111827; }
+        .light-mode .comment-card p, .light-mode .comment-reply p, .light-mode .user-reply-card p { color: #1f2937; }
+        .light-mode .comment-author { color: #4b5563; }
+        .light-mode .replies-list, .light-mode .reply-form-container, .light-mode .comment-reply { border-color: #d1d5db; }
+        .light-mode .user-reply-card, .light-mode .comment-reply { background-color: #f9fafb; }
+        .light-mode #theme-switcher { background-color: rgba(255, 255, 255, 0.5); border-color: #d1d5db; }
+        .light-mode #mode-toggle { color: #1f2937; }
     </style>
 </head>
 <body>
@@ -322,6 +354,22 @@
             </div>
         </section>
 
+        <section id="featured-tool">
+            <div class="container">
+                <h2 class="section-title" data-key="featuredTitle">Featured Tool</h2>
+                <div class="featured-tool-card">
+                    <div class="featured-image-container">
+                        <img src="tool-resumebuilder.jpg" alt="Resume Builder Tool in action">
+                    </div>
+                    <div class="featured-content-container">
+                        <h3 data-key="featuredToolName">Resume Builder</h3>
+                        <p data-key="featuredToolDesc">Create a professional, modern resume in minutes. Our new tool guides you step-by-step, with beautiful templates and complete privacy. Your data never leaves your browser.</p>
+                        <a href="resume-builder.html" class="cta-button" data-key="featuredToolButton">Try it Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="projects">
             <div class="container">
                 <h2 class="section-title" data-key="projectsTitle">Our Projects</h2>
@@ -369,17 +417,14 @@
             </div>
         </section>
         
-        <!-- === UPDATED BLOG SECTION === -->
         <section id="blog">
              <div class="container">
                  <h2 class="section-title" data-key="blogTitle">Recent Updates</h2>
                  <div class="projects-grid">
-                         <!-- Newest Post Preview -->
                          <a href="blog.html#post-ai-game-changer" class="blog-post-preview">
                              <h4 data-key="blogNewestTitle">Why AI is a Game-Changer for Everyday Productivity</h4>
                              <p data-key="blogNewestDesc">Artificial Intelligence is no longer just a buzzword; it's a practical tool that can significantly enhance our daily productivity...</p>
                          </a>
-                         <!-- Second Newest Post Preview -->
                          <a href="blog.html#post-resume-builder" class="blog-post-preview">
                              <h4 data-key="blogSecondNewestTitle">Announcing Our Newest Tool: The Resume Builder!</h4>
                              <p data-key="blogSecondNewestDesc">We are thrilled to announce the latest addition to the Malith Studio® family of tools: the Resume Builder! Create a polished, effective CV in minutes.</p>
@@ -390,7 +435,6 @@
                  </div>
             </div>
         </section>
-        <!-- ========================== -->
 
         <section id="about">
             <div class="container">
@@ -449,7 +493,9 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/></svg>
     </a>
     
+    <!-- UPDATED: Theme switcher with Light/Dark toggle -->
     <div id="theme-switcher">
+        <button id="mode-toggle" title="Toggle light/dark mode"><i class="fas fa-sun"></i></button>
         <button class="theme-btn active" data-theme="default"></button>
         <button class="theme-btn" data-theme="theme1.jpg"></button>
         <button class="theme-btn" data-theme="theme2.jpg"></button>
@@ -460,7 +506,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, increment, query, orderBy, arrayUnion, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, increment, query, orderBy, arrayUnion, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
@@ -484,6 +530,7 @@
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 const docRef = doc(db, "artifacts", appId, "public", "data", "testimonials", "all-comments");
+                setDoc(docRef, {}, { merge: true });
                 fetchAndDisplayComments(docRef);
             }
         });
@@ -660,6 +707,12 @@
             heroWelcome: { en: 'Welcome to', si: 'සාදරයෙන් පිළිගනිමු', ta: 'வரவேற்கிறோம்' },
             heroSubtitle: { en: 'We build innovative tools that simplify your digital life. Saving your time is our priority.', si: 'ඔබේ ඩිජිටල් ජීවිතය සරල කරන නව්‍ය මෙවලම් අපි නිර්මාණය කරමු. ඔබේ කාලය ඉතිරි කිරීම අපගේ ප්‍රමුඛතාවයයි.', ta: 'உங்கள் டிஜிட்டல் வாழ்க்கையை எளிதாக்கும் புதுமையான கருவிகளை நாங்கள் உருவாக்குகிறோம். உங்கள் நேரத்தை சேமிப்பது எங்கள் முன்னுரிமை.' },
             heroButton: { en: 'Go to Projects', si: 'නිර්මාණ වෙත යන්න', ta: 'திட்டங்களுக்குச் செல்லவும்' },
+            
+            featuredTitle: { en: 'Featured Tool', si: 'විශේෂාංග මෙවලම', ta: 'சிறப்பு கருவி' },
+            featuredToolName: { en: 'Resume Builder', si: 'Resume සාදන්නා', ta: 'ரெஸ்யூம் பில்டர்' },
+            featuredToolDesc: { en: 'Create a professional, modern resume in minutes. Our new tool guides you step-by-step, with beautiful templates and complete privacy. Your data never leaves your browser.', si: 'විනාඩි කිහිපයකින් වෘත්තීය, නවීන resume පත්‍රිකාවක් සාදාගන්න. අපගේ නවතම මෙවලම, අලංකාර සැකිලි සහ සම්පූර්ණ පෞද්ගලිකත්වය සමඟින්, ඔබට පියවරෙන් පියවර මග පෙන්වයි. ඔබගේ දත්ත ඔබගේ බ්‍රව්සරයෙන් පිටතට යන්නේ නැත.', ta: 'நிமிடங்களில் ஒரு தொழில்முறை, நவீன ரெஸ்யூமை உருவாக்கவும். எங்கள் புதிய கருவி, அழகான வார்ப்புருக்கள் மற்றும் முழுமையான தனியுரிமையுடன், படிப்படியாக உங்களுக்கு வழிகாட்டுகிறது. உங்கள் தரவு உங்கள் உலாவியை விட்டு வெளியேறாது.' },
+            featuredToolButton: { en: 'Try it Now', si: 'දැන් උත්සාහ කරන්න', ta: 'இப்போதே முயற்சிக்கவும்' },
+
             projectsTitle: { en: 'Our Projects', si: 'අපගේ නිර්මාණ', ta: 'எங்கள் திட்டங்கள்' },
             servicesTitle: { en: 'Our Services', si: 'අපගේ සේවාවන්', ta: 'எங்கள் சேவைகள்' },
             blogTitle: { en: 'Recent Updates', si: 'නවතම ලිපි', ta: 'சமீபத்திய புதுப்பிப்புகள்' },
@@ -863,7 +916,42 @@
                      if(backToTopButton) backToTopButton.classList.remove('visible');
                  }
              });
-            
+             
+             const modeToggle = document.getElementById('mode-toggle');
+             const body = document.body;
+             const modeIcon = modeToggle.querySelector('i');
+
+             const applyTheme = (theme) => {
+                 if (theme === 'light') {
+                     body.classList.add('light-mode');
+                     modeIcon.classList.remove('fa-sun');
+                     modeIcon.classList.add('fa-moon');
+                 } else {
+                     body.classList.remove('light-mode');
+                     modeIcon.classList.remove('fa-moon');
+                     modeIcon.classList.add('fa-sun');
+                 }
+             };
+
+             modeToggle.addEventListener('click', () => {
+                 const currentTheme = body.classList.contains('light-mode') ? 'dark' : 'light';
+                 applyTheme(currentTheme);
+                 localStorage.setItem('malith-studio-theme', currentTheme);
+             });
+
+             const savedTheme = localStorage.getItem('malith-studio-theme') || 'dark';
+             applyTheme(savedTheme);
+
+             // --- THEME SWITCHER SCROLL EFFECT ---
+            if (themeSwitcher) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 100) {
+                        themeSwitcher.classList.add('scrolled');
+                    } else {
+                        themeSwitcher.classList.remove('scrolled');
+                    }
+                });
+            }
          });
 
          setLanguage(currentLang);
@@ -940,22 +1028,20 @@
                  });
              });
 
-            // --- NEW GLOWING TAGS EFFECT ---
             const featureTagsContainer = document.querySelector('.feature-tags-container');
             if (featureTagsContainer) {
                 const tags = featureTagsContainer.querySelectorAll('.feature-tag');
                 const glowColors = [
-                    'hsl(231, 79%, 68%)', // Light Blue
-                    'hsl(280, 80%, 70%)', // Light Purple
-                    'hsl(330, 85%, 65%)', // Light Pink
-                    'hsl(160, 80%, 55%)', // Light Teal
-                    'hsl(45, 90%, 65%)',  // Light Gold
-                    'hsl(190, 80%, 60%)'  // Cyan
+                    'hsl(231, 79%, 68%)', 
+                    'hsl(280, 80%, 70%)',
+                    'hsl(330, 85%, 65%)', 
+                    'hsl(160, 80%, 55%)', 
+                    'hsl(45, 90%, 65%)',  
+                    'hsl(190, 80%, 60%)'
                 ];
                 let currentTagIndex = -1;
 
                 const startGlowEffect = () => {
-                    // Immediately light up the first one
                     let firstTagIndex = Math.floor(Math.random() * tags.length);
                     currentTagIndex = firstTagIndex;
                     const firstTag = tags[firstTagIndex];
@@ -965,7 +1051,6 @@
                         firstTag.classList.add('glowing');
                     }
 
-                    // Then start the interval to change it
                     setInterval(() => {
                         if (currentTagIndex !== -1 && tags[currentTagIndex]) {
                             tags[currentTagIndex].classList.remove('glowing');
@@ -984,11 +1069,10 @@
                             newTag.style.setProperty('--glow-color', randomColor);
                             newTag.classList.add('glowing');
                         }
-                    }, 5000); // Change every 5 seconds
+                    }, 5000);
                 };
                 startGlowEffect();
             }
-            // --- END GLOWING TAGS EFFECT ---
         });
     </script>
 </body>
